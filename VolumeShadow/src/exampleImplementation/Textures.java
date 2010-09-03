@@ -3,7 +3,7 @@
  * to use it in any way, except you have a written 
  * allowance by the owner.
  */
-package volumeshadow;
+package exampleImplementation;
 
 import com.sun.opengl.util.texture.Texture;
 import com.sun.opengl.util.texture.TextureCoords;

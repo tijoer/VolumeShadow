@@ -1,4 +1,4 @@
-package volumeshadow;
+package exampleImplementation.math;
 
 import java.util.ArrayList;
 
@@ -151,7 +151,7 @@ public class Vector3f {
     }
     static Vector3f v2v1 = new Vector3f(),  v3v1 = new Vector3f();
 
-    static void FindInvTBN(Vector3f v0, Vector3f v1, Vector3f v2,
+    public static void FindInvTBN(Vector3f v0, Vector3f v1, Vector3f v2,
             float v0TexCoordx, float v0TexCoordy,
             float v1TexCoordx, float v1TexCoordy,
             float v2TexCoordx, float v2TexCoordy,

@@ -1,4 +1,4 @@
-package volumeshadow;
+package exampleImplementation;
 
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
@@ -13,6 +13,8 @@ import javax.media.opengl.glu.GLU;
 
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.GLUT;
+
+import exampleImplementation.math.Vector3f;
 import volumeshadow.Shadow.ShadowProcessor;
 
 public class Main implements GLEventListener {

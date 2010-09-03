@@ -1,6 +1,6 @@
 package volumeshadow.Shadow;
 
-import volumeshadow.Vector3f;
+import exampleImplementation.math.Vector3f;
 
 /**
  * This class represents an edge between two vertices. It has a hash code and

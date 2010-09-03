@@ -1,7 +1,9 @@
-package volumeshadow;
+package exampleImplementation;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
+
+import exampleImplementation.math.Vector3f;
 
 /**
  * <h2> The Camera Class</h2>

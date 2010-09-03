@@ -1,8 +1,11 @@
-package volumeshadow;
+package exampleImplementation;
 
 import javax.media.opengl.GL;
 import java.nio.FloatBuffer;
 import com.sun.opengl.util.BufferUtil;
+
+import exampleImplementation.math.Vector3f;
+
 import java.util.ArrayList;
 import volumeshadow.Shadow.Triangle;
 

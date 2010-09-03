@@ -5,7 +5,7 @@
  */
 package volumeshadow.Shadow;
 
-import volumeshadow.Vector3f;
+import exampleImplementation.math.Vector3f;
 
 
 /**

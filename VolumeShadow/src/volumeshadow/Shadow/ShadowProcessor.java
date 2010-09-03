@@ -3,7 +3,8 @@ package volumeshadow.Shadow;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.media.opengl.GL;
-import volumeshadow.Vector3f;
+
+import exampleImplementation.math.Vector3f;
 
 /**
  * This class does all the calculations that are needed for a shadow volume 

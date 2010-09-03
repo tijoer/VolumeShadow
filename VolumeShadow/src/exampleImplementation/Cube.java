@@ -2,10 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package volumeshadow;
+package exampleImplementation;
 
 import java.util.ArrayList;
 import javax.media.opengl.GL;
+
+import exampleImplementation.math.Vector3f;
 import volumeshadow.Shadow.Triangle;
 
 /**

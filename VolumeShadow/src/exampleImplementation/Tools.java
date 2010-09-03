@@ -1,4 +1,4 @@
-package volumeshadow;
+package exampleImplementation;
 
 import javax.media.opengl.GL;
 
