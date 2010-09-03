@@ -1,9 +1,9 @@
-package com.TimJoergen.Shadow;
+package volumeshadow.Shadow;
 
-import com.TimJoergen.Vector3f;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.media.opengl.GL;
+import volumeshadow.Vector3f;
 
 /**
  * This class does all the calculations that are needed for a shadow volume 
@@ -19,7 +19,7 @@ import javax.media.opengl.GL;
  *      the z-fail methode is used the shadow will probably have some errors,
  *      if z-pass is used it can still work, but most likly won't either.</p>
  * 
- * @author Tim Jörgen
+ * @author Tim Jï¿½rgen
  */
 public class ShadowProcessor {
 

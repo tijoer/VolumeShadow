@@ -1,6 +1,6 @@
-package com.TimJoergen.Shadow;
+package volumeshadow.Shadow;
 
-import com.TimJoergen.Vector3f;
+import volumeshadow.Vector3f;
 
 /**
  * This class represents an edge between two vertices. It has a hash code and
@@ -9,7 +9,7 @@ import com.TimJoergen.Vector3f;
  * edge.v0 == edge0.v0 OR edge.v0 == edge0.v1
  * (same for edge0.v1)
  * 
- * @author Tim Jörgen
+ * @author Tim Jï¿½rgen
  */
 public class Edge {
 

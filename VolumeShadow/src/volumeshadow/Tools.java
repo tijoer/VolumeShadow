@@ -1,4 +1,4 @@
-package com.TimJoergen;
+package volumeshadow;
 
 import javax.media.opengl.GL;
 

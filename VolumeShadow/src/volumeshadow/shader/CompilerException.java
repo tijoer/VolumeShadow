@@ -1,4 +1,4 @@
-package com.TimJoergen.shader;
+package volumeshadow.shader;
 
 public class CompilerException extends Exception {
     byte[] infolog;

@@ -1,4 +1,4 @@
-package com.TimJoergen.shader;
+package volumeshadow.shader;
 
 public class LinkerException extends Exception{
     byte[] infolog;

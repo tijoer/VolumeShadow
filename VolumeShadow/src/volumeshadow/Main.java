@@ -38,7 +38,7 @@ public class Main implements GLEventListener {
 		GLCanvas canvas = new GLCanvas(capabilities);
 		// GLCanvas canvas = new GLCanvas();
 
-		canvas.addGLEventListener(new EPParalax());
+		canvas.addGLEventListener(new Main());
 		frame.add(canvas);
 		frame.setSize(1024, 768);
 		final Animator animator = new Animator(canvas);

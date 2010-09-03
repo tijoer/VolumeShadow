@@ -2,15 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.TimJoergen;
+package volumeshadow;
 
 import java.util.ArrayList;
-import com.TimJoergen.Shadow.Triangle;
 import javax.media.opengl.GL;
+import volumeshadow.Shadow.Triangle;
 
 /**
  *
- * @author Tim Jörgen
+ * @author Tim Jï¿½rgen
  */
 public class Cube {
     

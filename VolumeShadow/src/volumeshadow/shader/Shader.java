@@ -1,4 +1,4 @@
-package com.TimJoergen.shader;
+package volumeshadow.shader;
 
 import javax.media.opengl.GL;
 
@@ -26,7 +26,7 @@ import javax.media.opengl.GL;
  * spotlightShader.deactivate();
  * 
  * </code>
- * @author Christoph Peuser, Tim Jörgen
+ * @author Christoph Peuser, Tim Jï¿½rgen
  */
 public class Shader {
 

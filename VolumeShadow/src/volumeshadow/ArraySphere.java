@@ -1,10 +1,10 @@
-package com.TimJoergen;
+package volumeshadow;
 
-import com.TimJoergen.Shadow.Triangle;
 import javax.media.opengl.GL;
 import java.nio.FloatBuffer;
 import com.sun.opengl.util.BufferUtil;
 import java.util.ArrayList;
+import volumeshadow.Shadow.Triangle;
 
 public class ArraySphere {
 

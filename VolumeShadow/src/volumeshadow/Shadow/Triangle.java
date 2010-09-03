@@ -3,12 +3,13 @@
  * to use it in any way, except you have a written 
  * allowance by the owner.
  */
-package com.TimJoergen.Shadow;
+package volumeshadow.Shadow;
 
-import com.TimJoergen.*;
+import volumeshadow.Vector3f;
+
 
 /**
- * @author Tim Jörgen
+ * @author Tim Jï¿½rgen
  */
 public class Triangle {
 

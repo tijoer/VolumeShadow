@@ -1,4 +1,4 @@
-package com.TimJoergen;
+package volumeshadow;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.glu.GLU;
@@ -13,7 +13,7 @@ import javax.media.opengl.glu.GLU;
  * 
  * To change the speed of the camera change the var called speed.
  * 
- * @author Tim Jörgen
+ * @author Tim Jï¿½rgen
  */
 public final class Camera {
 
