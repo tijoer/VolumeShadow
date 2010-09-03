@@ -73,6 +73,8 @@ public class Cube {
         gl.glBegin(GL.GL_TRIANGLES);
         for (int i = 0; i < triangleList.size(); i++) {
             tri = triangleList.get(i);
+            tri.calcNormal();
+            gl.glNormal3fv(tri.triangleNormale.asFloatArray(), 0);
             gl.glVertex3fv(tri.v0.asFloatArray(), 0);
             gl.glVertex3fv(tri.v1.asFloatArray(), 0);
             gl.glVertex3fv(tri.v2.asFloatArray(), 0);

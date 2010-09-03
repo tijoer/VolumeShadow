@@ -22,7 +22,7 @@ public class Main implements GLEventListener {
 	GL gl;
 	GLU glu = new GLU();
 	GLUT glut = new GLUT();
-	float rot = 0.0f;
+	public static float rot = 0.0f;
 
 	Textures textures;
 	Camera camera;
@@ -32,6 +32,7 @@ public class Main implements GLEventListener {
 
 	ArraySphere sphere;
 	Vector3f shadowLightPos;
+	Cube cube;
 
 	public static void main(String[] args) {
 		Frame frame = new Frame("Volume Shadow");
@@ -92,7 +93,7 @@ public class Main implements GLEventListener {
 		gl.glCullFace(GL.GL_BACK);
 		gl.glFrontFace(GL.GL_CCW);
 		gl.glShadeModel(GL.GL_SMOOTH);
-		gl.glClearColor(0.3f, 0.3f, 0.5f, 1.0f);
+		gl.glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
 		gl.glClearDepth(1.0f);
 		gl.glEnable(GL.GL_DEPTH_TEST);
 		gl.glDepthFunc(GL.GL_LEQUAL);
@@ -105,7 +106,7 @@ public class Main implements GLEventListener {
 		textures.load("base_tex", "data/textures/rockwall_colormap.jpg");
 
 		this.camera = Camera.getInstance(gl, glu, new Vector3f(0.0f, 90.0f,
-				1200.0f), new Vector3f(-1.0f, 0.0f, 0.0f));
+				1500.0f), new Vector3f(-1.0f, 0.0f, 0.0f));
 		Camera.xyAngle = 0.0f;
 		Camera.xzAngle = 0.0f;
 
@@ -118,6 +119,8 @@ public class Main implements GLEventListener {
 		this.tools = new Tools(gl);
 		sphere = new ArraySphere(gl, 100.0f, 3);
 		sphere.translocate(0.0f, 200.0f, 500.0f);
+		
+		cube = new Cube(70.0f);
 	}
 
 	private void drawQuad(float size) {
@@ -132,11 +135,6 @@ public class Main implements GLEventListener {
 
 		Vector3f.FindInvTBN(v0, v1, v2, 0.0f, 0f, 1f, 0f, 1f, 1f, normale,
 				binormal, tangent);
-
-		float[] mat_specular = { 1.0f, 1.0f, 1.0f, 1.0f };
-		gl.glMaterialfv(GL.GL_FRONT, GL.GL_SPECULAR, mat_specular, 0);
-		gl.glMaterialf(GL.GL_FRONT, GL.GL_SHININESS, 20.0f);
-
 		
 		gl.glBegin(GL.GL_QUADS);
 		gl.glNormal3f(normale.x, normale.y, normale.z);
@@ -152,54 +150,42 @@ public class Main implements GLEventListener {
 	}
 
 	public void renderOcclouder(float lightFactor) {
-		// kamera
 		camera.rotateAccordingToCameraPosition();
 		camera.translateAccordingToCameraPosition();
 
 		// shadow object
 		gl.glDisable(GL.GL_TEXTURE_2D);
-		gl.glEnable(GL.GL_LIGHTING);
-		gl.glEnable(GL.GL_LIGHT0);
 
-		// findSilhouette.drawShadowVolume(gl);
-		// gl.glTranslatef(0.0f, 0.0f, 1.0f);
 		gl.glCullFace(GL.GL_BACK);
 		gl.glFrontFace(GL.GL_CCW);
 		gl.glEnable(GL.GL_CULL_FACE);
-		gl.glDisable(GL.GL_LIGHT3);
-		sphere.draw();
-		gl.glEnable(GL.GL_LIGHT3);
+		
+		cube.draw(gl);
 	}
 
 	public void renderScene(float lightFactor) {
-		// kamera
 		camera.rotateAccordingToCameraPosition();
 		camera.translateAccordingToCameraPosition();
 
 		gl.glPushMatrix();
-		shadowLightPos = new Vector3f((float) Math.sin(rot * 0.1f) * 100.2f,
-				(float) -Math.sin(rot * 0.15f) * 100.2f, 1000.0f);
+		shadowLightPos = new Vector3f((float) Math.sin(rot * 0.1f) * 100.2f, (float) -Math.sin(rot * 0.15f) * 100.2f, 1000.0f);
 		gl.glTranslatef(shadowLightPos.x, shadowLightPos.y, shadowLightPos.z);
-		float[] shadowLight_diffuse = { 0.5f * lightFactor, 1.0f * lightFactor,
-				1.0f * lightFactor, 1.0f };
-		float[] shadowLight_ambient = { 0.2f * lightFactor, 0.2f * lightFactor,
-				0.1f * lightFactor, 1.0f };
-		float[] shadowLight_specular = { 0.3f * lightFactor,
-				0.3f * lightFactor, 0.3f * lightFactor, 1.0f };
-		gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION,
-				shadowLightPos.asFloatArray(), 0);
+		float[] shadowLight_diffuse = {1.0f * lightFactor, 0.0f * lightFactor, 0.0f * lightFactor, 1.0f};
+		float[] shadowLight_ambient = {0.0f * lightFactor, 0.0f * lightFactor,	0.0f * lightFactor, 1.0f};
+		gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, shadowLightPos.asFloatArray(), 0);
 		gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, shadowLight_diffuse, 0);
 		gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, shadowLight_ambient, 0);
-		gl.glLightfv(GL.GL_LIGHT0, GL.GL_SPECULAR, shadowLight_specular, 0);
-		// sphere at light position
+		 
+		//sphere at light position
 		gl.glDisable(GL.GL_TEXTURE_2D);
-		gl.glColor3f(shadowLight_diffuse[0], shadowLight_diffuse[1],
-				shadowLight_diffuse[2]);
+		//gl.glDisable(GL.GL_LIGHTING);
+		gl.glColor3f(shadowLight_diffuse[0], shadowLight_diffuse[1], shadowLight_diffuse[2]);
 		glut.glutSolidSphere(4.5f, 10, 10);
 		gl.glEnable(GL.GL_TEXTURE_2D);
 		gl.glPopMatrix();
 
 		gl.glActiveTexture(GL.GL_TEXTURE0);
+		//gl.glEnable(GL.GL_LIGHTING);
 		textures.select("base_tex");
 		drawQuad(700.0f);
 		gl.glLoadIdentity();
@@ -214,10 +200,9 @@ public class Main implements GLEventListener {
 
 		renderScene(1.0f);
 		gl.glLoadIdentity();
-		gl.glEnable(GL.GL_LIGHTING);
 		renderOcclouder(1.0f);
 		findSilhouette = new ShadowProcessor(shadowLightPos,
-				sphere.trianglesList);
+				cube.triangleList);
 
 		gl.glClearStencil(0);
 
@@ -228,7 +213,6 @@ public class Main implements GLEventListener {
 		gl.glDisable(GL.GL_CULL_FACE);
 		if (Presentation.drawSilhouette)
 			findSilhouette.drawShadowLines(gl);
-		rot += 0.1f;
 
 		gl.glColorMask(false, false, false, false);
 		gl.glDepthMask(false);

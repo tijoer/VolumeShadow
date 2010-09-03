@@ -8,19 +8,19 @@ import exampleImplementation.math.Vector3f;
 
 /**
  * This class does all the calculations that are needed for a shadow volume 
- * based shadow. Note that the shadow volume ist _closed_, so it can be used
+ * based shadow. Note that the shadow volume is _closed_, so it can be used
  * either for z-pass or z-fail (or anything else).
  *
  * <h3>Contract for the model data </h3>
  *   <ul>
- *      <li>evey triangle shall only be inserted once</li>
+ *      <li>every triangle shall only be inserted once</li>
  *      <li>two vertices do not share the same position</li>
  *  </ul>
  *  <p>If two vertices share the same position the result is undefined. If
- *      the z-fail methode is used the shadow will probably have some errors,
- *      if z-pass is used it can still work, but most likly won't either.</p>
+ *      the z-fail method is used the shadow will probably have some errors,
+ *      if z-pass is used it can still work, but most likely won't either.</p>
  * 
- * @author Tim J�rgen
+ * @author Tim Jörgen
  */
 public class ShadowProcessor {
 
@@ -42,15 +42,15 @@ public class ShadowProcessor {
         Triangle triangle;
 
         // Each edge is inserted into a hash Map. When the edge is found again
-        // it is removed. So only the sillhoute edges will be in the hash map
+        // it is removed. So only the silhouette edges will be in the hash map
         // when this algorithm is finished.
-        int numOfEdges=0;
-        int removedEdges=0;
+        int numOfEdges = 0;
+        int removedEdges = 0;
         for (int i = 0; i < model.size(); i++) {
             triangle = model.get(i);
             triangle.calcNormal();
             if (lightSource.dotProduct(triangle.triangleNormale) > 0) {
-                numOfEdges+=3;
+                numOfEdges += 3;
                 frontCap.add(triangle);
                 if (edgeMap.containsKey(triangle.edge0)) {
                     edgeMap.remove(triangle.edge0);
@@ -74,14 +74,12 @@ public class ShadowProcessor {
                 }
             }
         }
-//        System.out.println("numOfEdges "+numOfEdges);
-//        System.out.println("removedEdges "+removedEdges);
-//        System.out.println("resulting in  "+(numOfEdges-removedEdges));
     }
 
     /**
-     * Draws lines from the light Source to the sillhouete of the object.
-     * This is very usefull for debug purpuses.
+     * Draws lines from the light Source to the silhouette of the object.
+     * This is very useful for debug purposes.
+     * 
      * @param gl
      */
     public void drawLightToSilhouetteLines(GL gl) {
@@ -102,6 +100,7 @@ public class ShadowProcessor {
 
     /**
      * Draw not the shadow volume, but a wireframe of it
+     * 
      * @param gl the gl context
      */
     public void drawShadowLines(GL gl) {
@@ -114,6 +113,7 @@ public class ShadowProcessor {
 
     /**
      * Draw the solid shadow Volume.
+     * 
      * @param gl the gl context
      */
     public void drawShadowVolume(GL gl) {
@@ -123,6 +123,7 @@ public class ShadowProcessor {
 
     /**
      * Draws the volume in the given drawing mode.
+     * 
      * @param gl the gl context
      * @param drawingMode The OpenGl drawing Mode. Like GL_LINES or GL_QUADS...
      */
@@ -149,7 +150,7 @@ public class ShadowProcessor {
         gl.glEnd();
 
         //as the shadow volume is currently not closed, we draw the front cap
-        //the part of the model, that is faced torwards the light, extrude it to
+        //the part of the model, that is faced towards the light, extrude it to
         //infinity and draw it again
         gl.glBegin(GL.GL_TRIANGLES);
         for (int i = 0; i < frontCap.size(); i++) {

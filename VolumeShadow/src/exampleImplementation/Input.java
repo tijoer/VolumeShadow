@@ -97,8 +97,8 @@ public final class Input implements KeyListener, MouseListener, MouseMotionListe
         if (keyCode == KeyEvent.VK_CONTROL) {
             this.keyDown = true;
         }
-        if (keyCode == KeyEvent.VK_R) {
-            //
+        if (keyCode == KeyEvent.VK_Q) {
+            Main.rot++;
         }
         
         //presentation
