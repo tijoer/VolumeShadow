@@ -1,4 +1,4 @@
-package com.TimJoergen;
+package volumeshadow;
 
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
@@ -11,11 +11,11 @@ import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 
-import com.TimJoergen.Shadow.ShadowProcessor;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.GLUT;
+import volumeshadow.Shadow.ShadowProcessor;
 
-public class EPParalax implements GLEventListener {
+public class Main implements GLEventListener {
 
 	GL gl;
 	GLU glu = new GLU();
@@ -103,9 +103,9 @@ public class EPParalax implements GLEventListener {
 		textures.load("base_tex", "data/textures/rockwall_colormap.jpg");
 
 		this.camera = Camera.getInstance(gl, glu, new Vector3f(0.0f, 90.0f,
-				1200.0f), new Vector3f(0.0f, 0.0f, 1.0f));
+				1200.0f), new Vector3f(-1.0f, 0.0f, 0.0f));
 		Camera.xyAngle = 0.0f;
-		Camera.xzAngle = 180.0f;
+		Camera.xzAngle = 0.0f;
 
 		this.input = new Input();
 		gLAutoDrawable.addKeyListener(input);
