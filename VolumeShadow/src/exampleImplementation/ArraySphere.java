@@ -1,13 +1,15 @@
 package exampleImplementation;
 
-import javax.media.opengl.GL;
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
+
+import javax.media.opengl.GL;
+
 import com.sun.opengl.util.BufferUtil;
 
-import exampleImplementation.math.Vector3f;
-
-import java.util.ArrayList;
 import volumeshadow.Shadow.Triangle;
+
+import exampleImplementation.math.Vector3f;
 
 public class ArraySphere {
 
@@ -112,7 +114,7 @@ public class ArraySphere {
         verticesArray = null;
     }
 
-    public void draw() {
+    public void render() {
 //        gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
 //        gl.glEnableClientState(GL.GL_NORMAL_ARRAY);
 //        gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY);
@@ -127,6 +129,7 @@ public class ArraySphere {
 //        gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
 //        gl.glDisableClientState(GL.GL_NORMAL_ARRAY);
 //        gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY);
+		gl.glDisable(GL.GL_TEXTURE_2D);
         gl.glBegin(GL.GL_TRIANGLES);
         for(int i=0; i<trianglesList.size(); i++) {
             trianglesList.get(i).calcNormal();
@@ -255,26 +258,5 @@ public class ArraySphere {
     private float longitude(float x, float z) {
         //return (float)(Math.atan2(z, -x));
         return (float) (Math.atan2(z, -x) / (2 * Math.PI)) + 0.5f;
-    }
-    
-    /**
-     * This permanently translocates the scene. The vertexData will be changed.
-     */
-    public void translocate(float x, float y, float z) {
-        Triangle triangle;
-        for (int i = 0; i < this.trianglesList.size(); i++) {
-            triangle = this.trianglesList.get(i);
-            triangle.v0.x += x;
-            triangle.v0.y += y;
-            triangle.v0.z += z;
-
-            triangle.v1.x += x;
-            triangle.v1.y += y;
-            triangle.v1.z += z;
-
-            triangle.v2.x += x;
-            triangle.v2.y += y;
-            triangle.v2.z += z;
-        }
     }
 }
