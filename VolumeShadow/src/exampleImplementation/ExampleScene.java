@@ -2,6 +2,8 @@ package exampleImplementation;
 
 import javax.media.opengl.GL;
 
+import volumeshadow.Shadow.VolumeShadowCreator;
+
 import com.sun.opengl.util.GLUT;
 
 import exampleImplementation.math.Vector3f;
@@ -11,6 +13,7 @@ public class ExampleScene {
 	private GL gl;
 	private GLUT glut = new GLUT();
 	private Camera camera;
+	private VolumeShadowCreator volumeShadowCreator;
 
 	/**
 	 * This is the environment. For example this could be a map created with a
@@ -38,31 +41,40 @@ public class ExampleScene {
 		camera.rotateAccordingToCameraPosition();
 		camera.translateAccordingToCameraPosition();
 
-		float[] lightAmbient = { 0.15f, 0.15f, 0.15f, 1.0f };
-		float[] lightDiffuse = { 1.0f, 0.0f, 0.0f, 1.0f };
-		float[] lightPosition = { 0.7f, 0.7f, 9.0f };
+		Vector3f lightAmbient = new Vector3f(0.15f, 0.15f, 0.15f);
+		Vector3f lightDiffuse = new Vector3f(1.0f, 1.0f, 1.0f);
+		Vector3f lightPosition = new Vector3f(0.7f, 0.7f, 9.0f);
 
-		gl.glLightfv(GL.GL_LIGHT1, GL.GL_AMBIENT, lightAmbient, 0);
-		gl.glLightfv(GL.GL_LIGHT1, GL.GL_DIFFUSE, lightDiffuse, 0);
-		gl.glLightfv(GL.GL_LIGHT1, GL.GL_POSITION, lightPosition, 0);
-		gl.glEnable(GL.GL_LIGHT1);
+		gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, lightAmbient.asFloatArray(),
+				0);
+		gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, lightDiffuse.asFloatArray(),
+				0);
+		gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION,
+				lightPosition.asFloatArray(), 0);
+		gl.glEnable(GL.GL_LIGHT0);
 
 		gl.glPushMatrix();
 		gl.glDisable(GL.GL_TEXTURE_2D);
 		gl.glDisable(GL.GL_LIGHTING);
-		gl.glColor3f(lightDiffuse[0], lightDiffuse[1], lightDiffuse[2]);
-		gl.glTranslatef(lightPosition[0], lightPosition[1], lightPosition[2]);
+		gl.glColor3f(lightDiffuse.x, lightDiffuse.y, lightDiffuse.z);
+		gl.glTranslatef(lightPosition.x, lightPosition.y, lightPosition.z);
 		glut.glutSolidSphere(0.03f, 10, 10);
 		gl.glPopMatrix();
 
 		world.render();
-		
+
 		final Vector3f occluderPosition = new Vector3f(0.0f, 0.0f, 3.0f);
 		gl.glPushMatrix();
-		gl.glTranslatef(occluderPosition.x, occluderPosition.y, occluderPosition.z);
+		volumeShadowCreator = new VolumeShadowCreator(lightPosition,
+				occluder.trianglesList, occluderPosition);
+		volumeShadowCreator.drawLightToSilhouetteLines(gl);
+		volumeShadowCreator.drawShadowVolume(gl);
+
+		gl.glTranslatef(occluderPosition.x, occluderPosition.y,
+				occluderPosition.z);
 		occluder.render();
 		gl.glPopMatrix();
-		}
+	}
 }
 
 // public void renderOcclouder(float lightFactor) {

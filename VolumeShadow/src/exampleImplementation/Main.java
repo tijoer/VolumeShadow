@@ -15,7 +15,7 @@ import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.GLUT;
 
 import exampleImplementation.math.Vector3f;
-import volumeshadow.Shadow.ShadowProcessor;
+import volumeshadow.Shadow.VolumeShadowCreator;
 
 public class Main implements GLEventListener {
 

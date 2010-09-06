@@ -11,6 +11,11 @@ import volumeshadow.Shadow.Triangle;
 
 import exampleImplementation.math.Vector3f;
 
+/**
+ * This is just a basic sphere.
+ * 
+ * @author Tim Jörgen
+ */
 public class ArraySphere {
 
     private GL gl;
