@@ -1,233 +1,1003 @@
+/*
+ * Copyright (c) 2003-2009 jMonkeyEngine
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * * Redistributions of source code must retain the above copyright
+ *   notice, this list of conditions and the following disclaimer.
+ *
+ * * Redistributions in binary form must reproduce the above copyright
+ *   notice, this list of conditions and the following disclaimer in the
+ *   documentation and/or other materials provided with the distribution.
+ *
+ * * Neither the name of 'jMonkeyEngine' nor the names of its contributors 
+ *   may be used to endorse or promote products derived from this software 
+ *   without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package exampleImplementation.math;
 
-import java.util.ArrayList;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.logging.Logger;
 
-public class Vector3f {
+/**
+ * <code>Vector3f</code> defines a Vector for a three float value tuple.
+ * <code>Vector3f</code> can represent any three dimensional value, such as a
+ * vertex, a normal, etc. Utility methods are also included to aid in
+ * mathematical calculations.
+ *
+ * @author Mark Powell
+ * @author Joshua Slack
+ */
+public class Vector3f implements Externalizable, Cloneable {
+    private static final Logger logger = Logger.getLogger(Vector3f.class.getName());
 
+    private static final long serialVersionUID = 1L;
+
+	public final static Vector3f ZERO = new Vector3f(0, 0, 0);
+
+	public final static Vector3f UNIT_X = new Vector3f(1, 0, 0);
+	public final static Vector3f UNIT_Y = new Vector3f(0, 1, 0);
+    public final static Vector3f UNIT_Z = new Vector3f(0, 0, 1);
+    public final static Vector3f UNIT_XYZ = new Vector3f(1, 1, 1);
+    
+	/**
+     * the x value of the vector.
+     */
     public float x;
-    public float y;
-    public float z;
-    private int index;
-    //private boolean indexSet=false;
-    public ArrayList<Integer> usedBy;
-    public static final float PIOVER180 = 0.0174532925f;
 
-    public Vector3f(Vector3f v) {
-        this.x = v.x;
-        this.y = v.y;
-        this.z = v.z;
-        this.index = v.index;
-        usedBy = new ArrayList<Integer>();
+    /**
+     * the y value of the vector.
+     */
+    public float y;
+
+    /**
+     * the z value of the vector.
+     */
+    public float z;
+
+    /**
+     * Constructor instantiates a new <code>Vector3f</code> with default
+     * values of (0,0,0).
+     *
+     */
+    public Vector3f() {
+        x = y = z = 0;
     }
 
+    /**
+     * Constructor instantiates a new <code>Vector3f</code> with provides
+     * values.
+     *
+     * @param x
+     *            the x value of the vector.
+     * @param y
+     *            the y value of the vector.
+     * @param z
+     *            the z value of the vector.
+     */
     public Vector3f(float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
-        usedBy = new ArrayList<Integer>();
-    }
-
-    public Vector3f() {
-        usedBy = new ArrayList<Integer>();
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
-    //if(indexSet==true)
-    //    System.out.println("overwritten");
-    //indexSet=true;
-    }
-
-    public Vector3f add(Vector3f v1) {
-        this.x += v1.x;
-        this.y += v1.y;
-        this.z += v1.z;
-
-        return this;
-    }
-
-    public Vector3f add(float s) {
-        this.x += s;
-        this.y += s;
-        this.z += s;
-
-        return this;
-    }
-
-    public Vector3f sub(Vector3f v0) {
-        this.x -= v0.x;
-        this.y -= v0.y;
-        this.z -= v0.z;
-
-        return this;
-    }
-
-    public static Vector3f sub(Vector3f v0, Vector3f v1) {
-        return new Vector3f(v0.x - v1.x, v0.y - v1.y, v0.z - v1.z);
-    }
-
-    public Vector3f scale(float scalar) {
-        this.x = this.x * scalar;
-        this.y = this.y * scalar;
-        this.z = this.z * scalar;
-
-        return this;
-    }
-
-    public static Vector3f scale(Vector3f v0, float scalar) {
-        return new Vector3f(v0.x * scalar, v0.y * scalar, v0.z * scalar);
-    }
-
-    public float dotProduct(Vector3f v1) {
-        return (this.x * v1.x + this.y * v1.y + this.z * v1.z);
-    }
-
-    public Vector3f vectorProduct(Vector3f v1) {
-        Vector3f ret = new Vector3f();
-
-        ret.x = v1.y * this.z - v1.z * this.y;
-        ret.y = v1.z * this.x - v1.x * this.z;
-        ret.z = v1.x * this.y - v1.y * this.x;
-
-        return ret;
-    }
-
-    public static Vector3f normalize(Vector3f v1) {
-        float length = (float) Math.sqrt((v1.x * v1.x) +
-                (v1.y * v1.y) +
-                (v1.z * v1.z));
-
-        //Prevent division by zero
-        if (length <= 0.0001f && length >= 0.0001f) {
-            length = 1.0f;
-        }
-        v1.x /= length;
-        v1.y /= length;
-        v1.z /= length;
-
-        return v1;
-    }
-
-    public Vector3f normalize() {
-        float length = (float) Math.sqrt((this.x * this.x) +
-                (this.y * this.y) +
-                (this.z * this.z));
-
-        //Prevent division by zero
-        if (length <= 0.0001f && length >= 0.0001f) {
-            length = 1.0f;
-        }
-        this.x /= length;
-        this.y /= length;
-        this.z /= length;
-
-        return this;
-    }
-
-    public float length() {
-        return (float) Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z);
-    }
-
-    public float angle(Vector3f v1) {
-        return (float) Math.acos((this.x * v1.x + this.y * v1.y + this.z * v1.z) / (this.length() * v1.length()));
     }
 
     /**
-     * Checks if this Vector equals another one.
-     * 
-     * @param v1 The vector to compare to
-     * @return true if equal, false either
+     * Constructor instantiates a new <code>Vector3f</code> that is a copy
+     * of the provided vector
+     * @param copy The Vector3f to copy
      */
-    public boolean equals(Vector3f v1) {
-        return (this.x == v1.x && this.y == v1.y && this.z == v1.z);
+    public Vector3f(Vector3f copy) {
+        this.set(copy);
     }
 
-    public static Vector3f returnScaledVector(Vector3f v, float factor) {
-        return new Vector3f(v.x * factor, v.y * factor, v.z * factor);
+    /**
+     * <code>set</code> sets the x,y,z values of the vector based on passed
+     * parameters.
+     *
+     * @param x
+     *            the x value of the vector.
+     * @param y
+     *            the y value of the vector.
+     * @param z
+     *            the z value of the vector.
+     * @return this vector
+     */
+    public Vector3f set(float x, float y, float z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        return this;
     }
-    static Vector3f v2v1 = new Vector3f(),  v3v1 = new Vector3f();
 
-    public static void FindInvTBN(Vector3f v0, Vector3f v1, Vector3f v2,
-            float v0TexCoordx, float v0TexCoordy,
-            float v1TexCoordx, float v1TexCoordy,
-            float v2TexCoordx, float v2TexCoordy,
-            Vector3f InvNormal, Vector3f InvBinormal, Vector3f InvTangent) {
-        //Calculate the vectors from the current vertex
-        //to the two other vertices in the triangle
-        v2v1.x = v0.x - v2.x;
-        v2v1.y = v0.y - v2.y;
-        v2v1.z = v0.z - v2.z;
+    /**
+     * <code>set</code> sets the x,y,z values of the vector by copying the
+     * supplied vector.
+     *
+     * @param vect
+     *            the vector to copy.
+     * @return this vector
+     */
+    public Vector3f set(Vector3f vect) {
+        this.x = vect.x;
+        this.y = vect.y;
+        this.z = vect.z;
+        return this;
+    }
 
-        v3v1.x = v1.x - v2.x;
-        v3v1.y = v1.y - v2.y;
-        v3v1.z = v1.z - v2.z;
+    /**
+     *
+     * <code>add</code> adds a provided vector to this vector creating a
+     * resultant vector which is returned. If the provided vector is null, null
+     * is returned.
+     *
+     * Neither 'this' nor 'vec' are modified.
+     *
+     * @param vec the vector to add to this.
+     * @return the resultant vector.
+     */
+    public Vector3f add(Vector3f vec) {
+        if (null == vec) {
+            logger.warning("Provided vector is null, null returned.");
+            return null;
+        }
+        return new Vector3f(x + vec.x, y + vec.y, z + vec.z);
+    }
 
-        //Calculate the direction of the triangle based on texture coordinates.
-        // Calculate c2c1_T and c2c1_B
-        float c2c1_T = v0TexCoordx - v2TexCoordx;
-        float c2c1_B = v0TexCoordy - v2TexCoordy;
+    /**
+     *
+     * <code>add</code> adds the values of a provided vector storing the
+     * values in the supplied vector.
+     *
+     * @param vec
+     *            the vector to add to this
+     * @param result
+     *            the vector to store the result in
+     * @return result returns the supplied result vector.
+     */
+    public Vector3f add(Vector3f vec, Vector3f result) {
+        result.x = x + vec.x;
+        result.y = y + vec.y;
+        result.z = z + vec.z;
+        return result;
+    }
 
-        // Calculate c3c1_T and c3c1_B
-        float c3c1_T = v1TexCoordx - v2TexCoordx;
-        float c3c1_B = v1TexCoordy - v2TexCoordy;
+    /**
+     * <code>addLocal</code> adds a provided vector to this vector internally,
+     * and returns a handle to this vector for easy chaining of calls. If the
+     * provided vector is null, null is returned.
+     *
+     * @param vec
+     *            the vector to add to this vector.
+     * @return this
+     */
+    public Vector3f addLocal(Vector3f vec) {
+        if (null == vec) {
+            logger.warning("Provided vector is null, null returned.");
+            return null;
+        }
+        x += vec.x;
+        y += vec.y;
+        z += vec.z;
+        return this;
+    }
 
-        //Look at the references for more explanation for this one.
-        float fDenominator = c2c1_T * c3c1_B - c3c1_T * c2c1_B;
-        /*ROUNDOFF here is a macro that sets a value to 0.0f if the value is a very small
-        value, such as > -0.001f and < 0.001. */
+    /**
+     *
+     * <code>add</code> adds the provided values to this vector, creating a
+     * new vector that is then returned.
+     *
+     * @param addX
+     *            the x value to add.
+     * @param addY
+     *            the y value to add.
+     * @param addZ
+     *            the z value to add.
+     * @return the result vector.
+     */
+    public Vector3f add(float addX, float addY, float addZ) {
+        return new Vector3f(x + addX, y + addY, z + addZ);
+    }
 
-        if (fDenominator < 0.0001f && fDenominator > -0.0001f) {
-            //e won't risk a divide by zero, so set the tangent matrix to the
-            //identity matrix
-            InvTangent = new Vector3f(1.0f, 0.0f, 0.0f);
-            InvBinormal = new Vector3f(0.0f, 1.0f, 0.0f);
-            InvNormal = new Vector3f(0.0f, 0.0f, 1.0f);
+    /**
+     * <code>addLocal</code> adds the provided values to this vector
+     * internally, and returns a handle to this vector for easy chaining of
+     * calls.
+     *
+     * @param addX
+     *            value to add to x
+     * @param addY
+     *            value to add to y
+     * @param addZ
+     *            value to add to z
+     * @return this
+     */
+    public Vector3f addLocal(float addX, float addY, float addZ) {
+        x += addX;
+        y += addY;
+        z += addZ;
+        return this;
+    }
+
+    /**
+     *
+     * <code>scaleAdd</code> multiplies this vector by a scalar then adds the
+     * given Vector3f.
+     *
+     * @param scalar
+     *            the value to multiply this vector by.
+     * @param add
+     *            the value to add
+     */
+    public void scaleAdd(float scalar, Vector3f add) {
+        x = x * scalar + add.x;
+        y = y * scalar + add.y;
+        z = z * scalar + add.z;
+    }
+
+    /**
+     *
+     * <code>scaleAdd</code> multiplies the given vector by a scalar then adds
+     * the given vector.
+     *
+     * @param scalar
+     *            the value to multiply this vector by.
+     * @param mult
+     *            the value to multiply the scalar by
+     * @param add
+     *            the value to add
+     */
+    public void scaleAdd(float scalar, Vector3f mult, Vector3f add) {
+        this.x = mult.x * scalar + add.x;
+        this.y = mult.y * scalar + add.y;
+        this.z = mult.z * scalar + add.z;
+    }
+
+    /**
+     *
+     * <code>dot</code> calculates the dot product of this vector with a
+     * provided vector. If the provided vector is null, 0 is returned.
+     *
+     * @param vec
+     *            the vector to dot with this vector.
+     * @return the resultant dot product of this vector and a given vector.
+     */
+    public float dot(Vector3f vec) {
+        if (null == vec) {
+            logger.warning("Provided vector is null, 0 returned.");
+            return 0;
+        }
+        return x * vec.x + y * vec.y + z * vec.z;
+    }
+
+    /**
+     * Returns a new vector which is the cross product of this vector with
+     * the specified vector.
+     * <P>
+     * Neither 'this' nor v are modified.  The starting value of 'result'
+     * </P>
+     *
+     * @param v the vector to take the cross product of with this.
+     * @return the cross product vector.
+     */
+    public Vector3f cross(Vector3f v) {
+        return cross(v, null);
+    }
+
+    /**
+     * <code>cross</code> calculates the cross product of this vector with a
+     * parameter vector v.  The result is stored in <code>result</code>
+     * <P>
+     * Neither 'this' nor v are modified.  The starting value of 'result'
+     * (if any) is ignored.
+     * </P>
+     *
+     * @param v the vector to take the cross product of with this.
+     * @param result the vector to store the cross product result.
+     * @return result, after recieving the cross product vector.
+     */
+    public Vector3f cross(Vector3f v,Vector3f result) {
+        return cross(v.x, v.y, v.z, result);
+    }
+
+    /**
+     * <code>cross</code> calculates the cross product of this vector with a
+     * Vector comprised of the specified other* elements.
+     * The result is stored in <code>result</code>, without modifying either
+     * 'this' or the 'other*' values.
+     *
+     * @param otherX
+     *            x component of the vector to take the cross product of with this.
+     * @param otherY
+     *            y component of the vector to take the cross product of with this.
+     * @param otherZ
+     *            z component of the vector to take the cross product of with this.
+     * @param result the vector to store the cross product result.
+     * @return result, after recieving the cross product vector.
+     */
+    public Vector3f cross(float otherX, float otherY, float otherZ, Vector3f result) {
+        if (result == null) result = new Vector3f();
+        float resX = ((y * otherZ) - (z * otherY)); 
+        float resY = ((z * otherX) - (x * otherZ));
+        float resZ = ((x * otherY) - (y * otherX));
+        result.set(resX, resY, resZ);
+        return result;
+    }
+
+    /**
+     * <code>crossLocal</code> calculates the cross product of this vector
+     * with a parameter vector v.
+     *
+     * @param v
+     *            the vector to take the cross product of with this.
+     * @return this.
+     */
+    public Vector3f crossLocal(Vector3f v) {
+        return crossLocal(v.x, v.y, v.z);
+    }
+
+    /**
+     * <code>crossLocal</code> calculates the cross product of this vector
+     * with a parameter vector v.
+     *
+     * @param otherX
+     *            x component of the vector to take the cross product of with this.
+     * @param otherY
+     *            y component of the vector to take the cross product of with this.
+     * @param otherZ
+     *            z component of the vector to take the cross product of with this.
+     * @return this.
+     */
+    public Vector3f crossLocal(float otherX, float otherY, float otherZ) {
+        float tempx = ( y * otherZ ) - ( z * otherY );
+        float tempy = ( z * otherX ) - ( x * otherZ );
+        z = (x * otherY) - (y * otherX);
+        x = tempx;
+        y = tempy;
+        return this;
+    }
+
+    /**
+     * <code>length</code> calculates the magnitude of this vector.
+     *
+     * @return the length or magnitude of the vector.
+     */
+    public float length() {
+        return FastMath.sqrt(lengthSquared());
+    }
+
+    /**
+     * <code>lengthSquared</code> calculates the squared value of the
+     * magnitude of the vector.
+     *
+     * @return the magnitude squared of the vector.
+     */
+    public float lengthSquared() {
+        return x * x + y * y + z * z;
+    }
+
+    /**
+     * <code>distanceSquared</code> calculates the distance squared between
+     * this vector and vector v.
+     *
+     * @param v the second vector to determine the distance squared.
+     * @return the distance squared between the two vectors.
+     */
+    public float distanceSquared(Vector3f v) {
+        double dx = x - v.x;
+        double dy = y - v.y;
+        double dz = z - v.z;
+        return (float) (dx * dx + dy * dy + dz * dz);
+    }
+
+    /**
+     * <code>distance</code> calculates the distance between this vector and
+     * vector v.
+     *
+     * @param v the second vector to determine the distance.
+     * @return the distance between the two vectors.
+     */
+    public float distance(Vector3f v) {
+        return FastMath.sqrt(distanceSquared(v));
+    }
+
+    /**
+     * <code>mult</code> multiplies this vector by a scalar. The resultant
+     * vector is returned.
+     * "this" is not modified.
+     *
+     * @param scalar the value to multiply this vector by.
+     * @return the new vector.
+     */
+    public Vector3f mult(float scalar) {
+        return new Vector3f(x * scalar, y * scalar, z * scalar);
+    }
+
+    /**
+     *
+     * <code>mult</code> multiplies this vector by a scalar. The resultant
+     * vector is supplied as the second parameter and returned.
+     * "this" is not modified.
+     *
+     * @param scalar the scalar to multiply this vector by.
+     * @param product the product to store the result in.
+     * @return product
+     */
+    public Vector3f mult(float scalar, Vector3f product) {
+        if (null == product) {
+            product = new Vector3f();
+        }
+
+        product.x = x * scalar;
+        product.y = y * scalar;
+        product.z = z * scalar;
+        return product;
+    }
+
+    /**
+     * <code>multLocal</code> multiplies this vector by a scalar internally,
+     * and returns a handle to this vector for easy chaining of calls.
+     *
+     * @param scalar
+     *            the value to multiply this vector by.
+     * @return this
+     */
+    public Vector3f multLocal(float scalar) {
+        x *= scalar;
+        y *= scalar;
+        z *= scalar;
+        return this;
+    }
+
+    /**
+     * <code>multLocal</code> multiplies a provided vector to this vector
+     * internally, and returns a handle to this vector for easy chaining of
+     * calls. If the provided vector is null, null is returned.
+     * The provided 'vec' is not modified.
+     *
+     * @param vec the vector to mult to this vector.
+     * @return this
+     */
+    public Vector3f multLocal(Vector3f vec) {
+        if (null == vec) {
+            logger.warning("Provided vector is null, null returned.");
+            return null;
+        }
+        x *= vec.x;
+        y *= vec.y;
+        z *= vec.z;
+        return this;
+    }
+
+
+    /**
+     * Returns a new Vector instance comprised of elements which are the
+     * product of the corresponding vector elements.
+     * (N.b. this is not a cross product).
+     * <P>
+     * Neither 'this' nor 'vec' are modified.
+     * </P>
+     *
+     * @param vec the vector to mult to this vector.
+     */
+    public Vector3f mult(Vector3f vec) {
+        if (null == vec) {
+            logger.warning("Provided vector is null, null returned.");
+            return null;
+        }
+        return mult(vec, null);
+    }
+
+    /**
+     * Multiplies a provided 'vec' vector with this vector.
+     * If the specified 'store' is null, then a new Vector instance is returned.
+     * Otherwise, 'store' with replaced values will be returned, to facilitate
+     * chaining.
+     * </P> <P>
+     * 'This' is not modified; and the starting value of 'store' (if any) is
+     * ignored (and over-written).
+     * <P>
+     * The resultant Vector is comprised of elements which are the
+     * product of the corresponding vector elements.
+     * (N.b. this is not a cross product).
+     * </P>
+     *
+     * @param vec the vector to mult to this vector.
+     * @param store result vector (null to create a new vector)
+     * @return 'store', or a new Vector3f
+     */
+    public Vector3f mult(Vector3f vec, Vector3f store) {
+        if (null == vec) {
+            logger.warning("Provided vector is null, null returned.");
+            return null;
+        }
+        if (store == null) store = new Vector3f();
+        return store.set(x * vec.x, y * vec.y, z * vec.z);
+    }
+
+
+    /**
+     * <code>divide</code> divides the values of this vector by a scalar and
+     * returns the result. The values of this vector remain untouched.
+     *
+     * @param scalar the value to divide this vectors attributes by.
+     * @return the result <code>Vector</code>.
+     */
+    public Vector3f divide(float scalar) {
+        scalar = 1f/scalar;
+        return new Vector3f(x * scalar, y * scalar, z * scalar);
+    }
+
+    /**
+     * <code>divideLocal</code> divides this vector by a scalar internally,
+     * and returns a handle to this vector for easy chaining of calls. Dividing
+     * by zero will result in an exception.
+     *
+     * @param scalar
+     *            the value to divides this vector by.
+     * @return this
+     */
+    public Vector3f divideLocal(float scalar) {
+        scalar = 1f/scalar;
+        x *= scalar;
+        y *= scalar;
+        z *= scalar;
+        return this;
+    }
+
+
+    /**
+     * <code>divide</code> divides the values of this vector by a scalar and
+     * returns the result. The values of this vector remain untouched.
+     *
+     * @param scalar
+     *            the value to divide this vectors attributes by.
+     * @return the result <code>Vector</code>.
+     */
+    public Vector3f divide(Vector3f scalar) {
+        return new Vector3f(x / scalar.x, y / scalar.y, z / scalar.z);
+    }
+
+    /**
+     * <code>divideLocal</code> divides this vector by a scalar internally,
+     * and returns a handle to this vector for easy chaining of calls. Dividing
+     * by zero will result in an exception.
+     *
+     * @param scalar
+     *            the value to divides this vector by.
+     * @return this
+     */
+    public Vector3f divideLocal(Vector3f scalar) {
+        x /= scalar.x;
+        y /= scalar.y;
+        z /= scalar.z;
+        return this;
+    }
+
+    /**
+     *
+     * <code>negate</code> returns the negative of this vector. All values are
+     * negated and set to a new vector.
+     *
+     * @return the negated vector.
+     */
+    public Vector3f negate() {
+        return new Vector3f(-x, -y, -z);
+    }
+
+    /**
+     *
+     * <code>negateLocal</code> negates the internal values of this vector.
+     *
+     * @return this.
+     */
+    public Vector3f negateLocal() {
+        x = -x;
+        y = -y;
+        z = -z;
+        return this;
+    }
+
+    /**
+     *
+     * <code>subtract</code> subtracts the values of a given vector from those
+     * of this vector creating a new vector object. If the provided vector is
+     * null, null is returned.
+     *
+     * @param vec
+     *            the vector to subtract from this vector.
+     * @return the result vector.
+     */
+    public Vector3f subtract(Vector3f vec) {
+        return new Vector3f(x - vec.x, y - vec.y, z - vec.z);
+    }
+
+    /**
+     * <code>subtractLocal</code> subtracts a provided vector to this vector
+     * internally, and returns a handle to this vector for easy chaining of
+     * calls. If the provided vector is null, null is returned.
+     *
+     * @param vec
+     *            the vector to subtract
+     * @return this
+     */
+    public Vector3f subtractLocal(Vector3f vec) {
+        if (null == vec) {
+            logger.warning("Provided vector is null, null returned.");
+            return null;
+        }
+        x -= vec.x;
+        y -= vec.y;
+        z -= vec.z;
+        return this;
+    }
+
+    /**
+     *
+     * <code>subtract</code>
+     *
+     * @param vec
+     *            the vector to subtract from this
+     * @param result
+     *            the vector to store the result in
+     * @return result
+     */
+    public Vector3f subtract(Vector3f vec, Vector3f result) {
+        if(result == null) {
+            result = new Vector3f();
+        }
+        result.x = x - vec.x;
+        result.y = y - vec.y;
+        result.z = z - vec.z;
+        return result;
+    }
+
+    /**
+     *
+     * <code>subtract</code> subtracts the provided values from this vector,
+     * creating a new vector that is then returned.
+     *
+     * @param subtractX
+     *            the x value to subtract.
+     * @param subtractY
+     *            the y value to subtract.
+     * @param subtractZ
+     *            the z value to subtract.
+     * @return the result vector.
+     */
+    public Vector3f subtract(float subtractX, float subtractY, float subtractZ) {
+        return new Vector3f(x - subtractX, y - subtractY, z - subtractZ);
+    }
+
+    /**
+     * <code>subtractLocal</code> subtracts the provided values from this vector
+     * internally, and returns a handle to this vector for easy chaining of
+     * calls.
+     *
+     * @param subtractX
+     *            the x value to subtract.
+     * @param subtractY
+     *            the y value to subtract.
+     * @param subtractZ
+     *            the z value to subtract.
+     * @return this
+     */
+    public Vector3f subtractLocal(float subtractX, float subtractY, float subtractZ) {
+        x -= subtractX;
+        y -= subtractY;
+        z -= subtractZ;
+        return this;
+    }
+
+    /**
+     * <code>normalize</code> returns the unit vector of this vector.
+     *
+     * @return unit vector of this vector.
+     */
+    public Vector3f normalize() {
+        float length = length();
+        if (length != 0) {
+            return divide(length);
+        }
+        
+        return divide(1);        
+    }
+
+    /**
+     * <code>normalizeLocal</code> makes this vector into a unit vector of
+     * itself.
+     *
+     * @return this.
+     */
+    public Vector3f normalizeLocal() {
+        float length = length();
+        if (length != 0) {
+            return divideLocal(length);
+        }
+        
+        return this;        
+    }
+
+    /**
+     * <code>zero</code> resets this vector's data to zero internally.
+     */
+    public void zero() {
+        x = y = z = 0;
+    }
+
+    /**
+     * <code>angleBetween</code> returns (in radians) the angle between two vectors.
+     * It is assumed that both this vector and the given vector are unit vectors (iow, normalized).
+     * 
+     * @param otherVector a unit vector to find the angle against
+     * @return the angle in radians.
+     */
+    public float angleBetween(Vector3f otherVector) {
+        float dotProduct = dot(otherVector);
+        float angle = FastMath.acos(dotProduct);
+        return angle;
+    }
+    
+    /**
+     * Sets this vector to the interpolation by changeAmnt from this to the finalVec
+     * this=(1-changeAmnt)*this + changeAmnt * finalVec
+     * @param finalVec The final vector to interpolate towards
+     * @param changeAmnt An amount between 0.0 - 1.0 representing a precentage
+     *  change from this towards finalVec
+     */
+    public void interpolate(Vector3f finalVec, float changeAmnt) {
+        this.x=(1-changeAmnt)*this.x + changeAmnt*finalVec.x;
+        this.y=(1-changeAmnt)*this.y + changeAmnt*finalVec.y;
+        this.z=(1-changeAmnt)*this.z + changeAmnt*finalVec.z;
+    }
+
+    /**
+     * Sets this vector to the interpolation by changeAmnt from beginVec to finalVec
+     * this=(1-changeAmnt)*beginVec + changeAmnt * finalVec
+     * @param beginVec the beging vector (changeAmnt=0)
+     * @param finalVec The final vector to interpolate towards
+     * @param changeAmnt An amount between 0.0 - 1.0 representing a precentage
+     *  change from beginVec towards finalVec
+     */
+    public void interpolate(Vector3f beginVec,Vector3f finalVec, float changeAmnt) {
+        this.x=(1-changeAmnt)*beginVec.x + changeAmnt*finalVec.x;
+        this.y=(1-changeAmnt)*beginVec.y + changeAmnt*finalVec.y;
+        this.z=(1-changeAmnt)*beginVec.z + changeAmnt*finalVec.z;
+    }
+
+    /**
+     * Check a vector... if it is null or its floats are NaN or infinite,
+     * return false.  Else return true.
+     * @param vector the vector to check
+     * @return true or false as stated above.
+     */
+    public static boolean isValidVector(Vector3f vector) {
+      if (vector == null) return false;
+      if (Float.isNaN(vector.x) ||
+          Float.isNaN(vector.y) ||
+          Float.isNaN(vector.z)) return false;
+      if (Float.isInfinite(vector.x) ||
+          Float.isInfinite(vector.y) ||
+          Float.isInfinite(vector.z)) return false;
+      return true;
+    }
+
+    public static void generateOrthonormalBasis(Vector3f u, Vector3f v, Vector3f w) {
+        w.normalizeLocal();
+        generateComplementBasis(u, v, w);
+    }
+
+    public static void generateComplementBasis(Vector3f u, Vector3f v,
+            Vector3f w) {
+        float fInvLength;
+
+        if (FastMath.abs(w.x) >= FastMath.abs(w.y)) {
+            // w.x or w.z is the largest magnitude component, swap them
+            fInvLength = FastMath.invSqrt(w.x * w.x + w.z * w.z);
+            u.x = -w.z * fInvLength;
+            u.y = 0.0f;
+            u.z = +w.x * fInvLength;
+            v.x = w.y * u.z;
+            v.y = w.z * u.x - w.x * u.z;
+            v.z = -w.y * u.x;
         } else {
-            // Calculate the reciprocal value once and for all (to achieve speed)
-            float fScale1 = 1.0f / fDenominator;
-
-            /* Time to calculate the tangent, binormal, and normal.
-            Look at S�ren�s article for more information. */
-            Vector3f T, B, N;
-            T = new Vector3f((c3c1_B * v2v1.x - c2c1_B * v3v1.x) * fScale1,
-                    (c3c1_B * v2v1.y - c2c1_B * v3v1.y) * fScale1,
-                    (c3c1_B * v2v1.z - c2c1_B * v3v1.z) * fScale1);
-
-            B = new Vector3f((-c3c1_T * v2v1.x + c2c1_T * v3v1.x) * fScale1,
-                    (-c3c1_T * v2v1.y + c2c1_T * v3v1.y) * fScale1,
-                    (-c3c1_T * v2v1.z + c2c1_T * v3v1.z) * fScale1);
-
-            N = T.vectorProduct(B); //T%B; //Cross product!
-            //This is where programmers should break up the function to smooth the tangent, binormal and
-            //normal values.
-
-            //Look at "Derivation of the Tangent Space Matrix" for more information.
-            float fScale2 = 1.0f / ((T.x * B.y * N.z - T.z * B.y * N.x) +
-                    (B.x * N.y * T.z - B.z * N.y * T.x) +
-                    (N.x * T.y * B.z - N.z * T.y * B.x));
-            InvTangent.x = B.vectorProduct(N).x * fScale2;
-            InvTangent.y = returnScaledVector(N, -1.0f).vectorProduct(T).x * fScale2;
-            InvTangent.z = T.vectorProduct(B).x * fScale2;
-            InvTangent.normalize();
-
-            InvBinormal.x = returnScaledVector(B, -1.0f).vectorProduct(N).y * fScale2;
-            InvBinormal.y = N.vectorProduct(T).y * fScale2;
-            InvBinormal.z = returnScaledVector(T, -1.0f).vectorProduct(B).y * fScale2;
-            InvBinormal.normalize();
-
-            InvNormal.x = B.vectorProduct(N).z * fScale2;
-            InvNormal.y = returnScaledVector(N, -1.0f).vectorProduct(T).z * fScale2;
-            InvNormal.z = T.vectorProduct(B).z * fScale2;
-            InvNormal.normalize();
+            // w.y or w.z is the largest magnitude component, swap them
+            fInvLength = FastMath.invSqrt(w.y * w.y + w.z * w.z);
+            u.x = 0.0f;
+            u.y = +w.z * fInvLength;
+            u.z = -w.y * fInvLength;
+            v.x = w.y * u.z - w.z * u.y;
+            v.y = -w.x * u.z;
+            v.z = w.x * u.y;
         }
     }
 
-    public float[] asFloatArray() {
-        float[] array = {this.x, this.y, this.z};
-        return array;
+    @Override
+    public Vector3f clone() {
+        try {
+            return (Vector3f) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError(); // can not happen
+        }
+    }
+
+    /**
+     * Saves this Vector3f into the given float[] object.
+     * 
+     * @param floats
+     *            The float[] to take this Vector3f. If null, a new float[3] is
+     *            created.
+     * @return The array, with X, Y, Z float values in that order
+     */
+    public float[] toArray(float[] floats) {
+        if (floats == null) {
+            floats = new float[3];
+        }
+        floats[0] = x;
+        floats[1] = y;
+        floats[2] = z;
+        return floats;
+    }
+
+    /**
+     * are these two vectors the same? they are is they both have the same x,y,
+     * and z values.
+     *
+     * @param o
+     *            the object to compare for equality
+     * @return true if they are equal
+     */
+    public boolean equals(Object o) {
+        if (!(o instanceof Vector3f)) { return false; }
+
+        if (this == o) { return true; }
+
+        Vector3f comp = (Vector3f) o;
+        if (Float.compare(x,comp.x) != 0) return false;
+        if (Float.compare(y,comp.y) != 0) return false;
+        if (Float.compare(z,comp.z) != 0) return false;
+        return true;
+    }
+
+    /**
+     * <code>hashCode</code> returns a unique code for this vector object based
+     * on it's values. If two vectors are logically equivalent, they will return
+     * the same hash code value.
+     * @return the hash code value of this vector.
+     */
+    public int hashCode() {
+        int hash = 37;
+        hash += 37 * hash + Float.floatToIntBits(x);
+        hash += 37 * hash + Float.floatToIntBits(y);
+        hash += 37 * hash + Float.floatToIntBits(z);
+        return hash;
+    }
+
+    /**
+     * <code>toString</code> returns the string representation of this vector.
+     * The format is: <code>(xx.x..., yy.y..., zz.z...)</code>
+     * <p>
+     * If you want to display a class name, then use
+     * Vector3f.class.getName() or getClass().getName().
+     * </p>
+     *
+     * @return the string representation of this vector.
+     */
+    public String toString() {
+        return "(" + x + ", " + y + ", " + z + ')';
+    }
+
+
+    /**
+     * Used with serialization.  Not to be called manually.
+     * @param in input
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @see java.io.Externalizable
+     */
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        x=in.readFloat();
+        y=in.readFloat();
+        z=in.readFloat();
+    }
+
+    /**
+     * Used with serialization.  Not to be called manually.
+     * @param out output
+     * @throws IOException
+     * @see java.io.Externalizable
+     */
+    public void writeExternal(ObjectOutput out) throws IOException {
+        out.writeFloat(x);
+        out.writeFloat(y);
+        out.writeFloat(z);
+    }
+
+    public Class<? extends Vector3f> getClassTag() {
+        return this.getClass();
+    }
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public float getZ() {
+        return z;
+    }
+
+    public void setZ(float z) {
+        this.z = z;
+    }
+    
+    /**
+     * @param index
+     * @return x value if index == 0, y value if index == 1 or z value if index ==
+     *         2
+     * @throws IllegalArgumentException
+     *             if index is not one of 0, 1, 2.
+     */
+    public float get(int index) {
+        switch (index) {
+            case 0:
+                return x;
+            case 1:
+                return y;
+            case 2:
+                return z;
+        }
+        throw new IllegalArgumentException("index must be either 0, 1 or 2");
+    }
+    
+    /**
+     * @param index
+     *            which field index in this vector to set.
+     * @param value
+     *            to set to one of x, y or z.
+     * @throws IllegalArgumentException
+     *             if index is not one of 0, 1, 2.
+     */
+    public void set(int index, float value) {
+        switch (index) {
+            case 0:
+                x = value;
+                return;
+            case 1:
+                y = value;
+                return;
+            case 2:
+                z = value;
+                return;
+        }
+        throw new IllegalArgumentException("index must be either 0, 1 or 2");
     }
 }
