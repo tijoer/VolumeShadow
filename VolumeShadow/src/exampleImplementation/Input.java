@@ -8,8 +8,6 @@ import java.awt.event.MouseMotionListener;
 
 import javax.media.opengl.GLAutoDrawable;
 
-import exampleImplementation.math.Vector3f;
-
 public final class Input implements KeyListener, MouseListener,
 		MouseMotionListener, Runnable {
 

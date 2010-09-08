@@ -14,9 +14,6 @@ import javax.media.opengl.glu.GLU;
 import com.sun.opengl.util.Animator;
 import com.sun.opengl.util.GLUT;
 
-import exampleImplementation.math.Vector3f;
-import volumeshadow.Shadow.VolumeShadowCreator;
-
 public class Main implements GLEventListener {
 
 	GL gl;
@@ -24,7 +21,6 @@ public class Main implements GLEventListener {
 	GLUT glut = new GLUT();
 
 	Input input;
-	Vector3f shadowLightPos;
 	ExampleScene exampleScene;
 	public static float rot = 0.0f;
 	public static float xrot = 0.0f;

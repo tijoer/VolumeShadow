@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import javax.media.opengl.GL;
 
+import exampleImplementation.math.Triangle;
 import exampleImplementation.math.Vector3f;
 
 /**
@@ -45,9 +46,7 @@ public class VolumeShadowCreator {
 			Vector3f occluderPosition) {
 		this.lightSource = lightSource;
 		this.occluderPosition = occluderPosition;
-		edgeMap = new HashMap<Edge, Edge>(model.size() / 3); // model.size()/4
-																// is a
-		// heuristic value based on guess
+		edgeMap = new HashMap<Edge, Edge>(model.size() / 3); // model.size()/4 is a heuristic value based on guess
 		Triangle triangle;
 
 		// Each edge is inserted into a hash Map. When the edge is found again
@@ -55,31 +54,37 @@ public class VolumeShadowCreator {
 		// when this algorithm is finished.
 		int numOfEdges = 0;
 		int removedEdges = 0;
+		Edge edge0, edge1, edge2;
 		for (int i = 0; i < model.size(); i++) {
 			triangle = model.get(i);
-			triangle.calcNormal();
-			if (lightSource.dotProduct(triangle.triangleNormale) > 0) {
+			triangle.calculateNormal();
+			edge0 = new Edge(triangle.get(0), triangle.get(1));
+			edge1 = new Edge(triangle.get(0), triangle.get(2));
+			edge2 = new Edge(triangle.get(1), triangle.get(2));
+			
+			
+			if (lightSource.dot(triangle.getNormal()) > 0) {
 				numOfEdges += 3;
 				frontCap.add(triangle);
-				if (edgeMap.containsKey(triangle.edge0)) {
-					edgeMap.remove(triangle.edge0);
+				if (edgeMap.containsKey(edge0)) {
+					edgeMap.remove(edge0);
 					removedEdges++;
 				} else {
-					edgeMap.put(triangle.edge0, triangle.edge0);
+					edgeMap.put(edge0, edge0);
 				}
 
-				if (edgeMap.containsKey(triangle.edge1)) {
-					edgeMap.remove(triangle.edge1);
+				if (edgeMap.containsKey(edge1)) {
+					edgeMap.remove(edge1);
 					removedEdges++;
 				} else {
-					edgeMap.put(triangle.edge1, triangle.edge1);
+					edgeMap.put(edge1, edge1);
 				}
 
-				if (edgeMap.containsKey(triangle.edge2)) {
-					edgeMap.remove(triangle.edge2);
+				if (edgeMap.containsKey(edge2)) {
+					edgeMap.remove(edge2);
 					removedEdges++;
 				} else {
-					edgeMap.put(triangle.edge2, triangle.edge2);
+					edgeMap.put(edge2, edge2);
 				}
 			}
 		}
@@ -100,11 +105,11 @@ public class VolumeShadowCreator {
 		Edge edge;
 		for (int i = 0; i < edgeList.size(); i++) {
 			edge = edgeList.get(i);
-			gl.glVertex3fv(lightSource.asFloatArray(), 0);
+			gl.glVertex3fv(lightSource.toArray(null), 0);
 			gl.glVertex3f(edge.v0.x + occluderPosition.x, edge.v0.y
 					+ occluderPosition.y, edge.v0.z + occluderPosition.z);
 
-			gl.glVertex3fv(lightSource.asFloatArray(), 0);
+			gl.glVertex3fv(lightSource.toArray(null), 0);
 			gl.glVertex3f(edge.v1.x + occluderPosition.x, edge.v1.y
 					+ occluderPosition.y, edge.v1.z + occluderPosition.z);
 		}
@@ -151,52 +156,54 @@ public class VolumeShadowCreator {
 		Vector3f v0 = new Vector3f(), v1 = new Vector3f(), v2 = new Vector3f();
 		edgeList.addAll(edgeMap.values());
 		gl.glDisable(GL.GL_LIGHTING);
+		gl.glPushMatrix();
 		gl.glBegin(drawingMode);
 		for (int i = 0; i < edgeList.size(); i++) {
-			v0 = Vector3f.sub(edgeList.get(i).v0, lightSource);
+			v0 = edgeList.get(i).v0.subtract(lightSource);
 			v0.normalize();
 			//v0.scale(infinity);
-			v1 = Vector3f.sub(edgeList.get(i).v1, lightSource);
+			v1 = edgeList.get(i).v1.subtract(lightSource);
 			v1.normalize();
 			//v1.scale(infinity);
 
-			gl.glVertex3fv(edgeList.get(i).v1.asFloatArray(), 0);
-			gl.glVertex3fv(edgeList.get(i).v0.asFloatArray(), 0);
-			gl.glVertex3fv(v0.asFloatArray(), 0);
-			gl.glVertex3fv(v1.asFloatArray(), 0);
+			gl.glVertex3f(edgeList.get(i).v1.x + occluderPosition.x, edgeList.get(i).v1.y + occluderPosition.y, edgeList.get(i).v1.z + occluderPosition.z);
+			gl.glVertex3f(edgeList.get(i).v0.x + occluderPosition.x, edgeList.get(i).v0.y + occluderPosition.y, edgeList.get(i).v0.z + occluderPosition.z);
+			gl.glVertex3f(v0.x, v0.y, v0.z);
+			gl.glVertex3f(v1.x, v1.y, v1.z);
 		}
 		Triangle tri;
 		gl.glEnd();
+		gl.glPopMatrix();
 
-		// as the shadow volume is currently not closed, we draw the front cap
-		// the part of the model, that is faced towards the light, extrude it to
-		// infinity and draw it again
-		gl.glBegin(GL.GL_TRIANGLES);
-		for (int i = 0; i < frontCap.size(); i++) {
-			tri = frontCap.get(i);
-			// draw front cap
-			gl.glVertex3fv(tri.v0.asFloatArray(), 0);
-			gl.glVertex3fv(tri.v1.asFloatArray(), 0);
-			gl.glVertex3fv(tri.v2.asFloatArray(), 0);
-
-			// draw bac cap (extruded front cap)
-			v0 = Vector3f.sub(frontCap.get(i).v0, lightSource);
-			v1 = Vector3f.sub(frontCap.get(i).v1, lightSource);
-			v2 = Vector3f.sub(frontCap.get(i).v2, lightSource);
-			v0.normalize();
-			v1.normalize();
-			v2.normalize();
-			v0.scale(infinity);
-			v1.scale(infinity);
-			v2.scale(infinity);
-
-			// CW not CCW, as this is the projected back side
-			gl.glVertex3fv(v2.asFloatArray(), 0);
-			gl.glVertex3fv(v1.asFloatArray(), 0);
-			gl.glVertex3fv(v0.asFloatArray(), 0);
-
-		}
-		gl.glEnd();
+//		// as the shadow volume is currently not closed, we draw the front cap
+//		// the part of the model, that is faced towards the light, extrude it to
+//		// infinity and draw it again
+//		gl.glBegin(GL.GL_TRIANGLES);
+//		for (int i = 0; i < frontCap.size(); i++) {
+//			tri = frontCap.get(i);
+//			// draw front cap
+//			gl.glVertex3fv(tri.get(0).toArray(null), 0);
+//			gl.glVertex3fv(tri.get(1).toArray(null), 0);
+//			gl.glVertex3fv(tri.get(2).toArray(null), 0);
+//
+//			// draw back cap (extruded front cap)
+//			v0 = frontCap.get(i).get(0).subtract(lightSource);
+//			v1 = frontCap.get(i).get(1).subtract(lightSource);
+//			v2 = frontCap.get(i).get(2).subtract(lightSource);
+//			v0.normalize();
+//			v1.normalize();
+//			v2.normalize();
+//			v0.multLocal(infinity);
+//			v1.multLocal(infinity);
+//			v2.multLocal(infinity);
+//
+//			// CW not CCW, as this is the projected back side
+//			gl.glVertex3fv(v2.toArray(null), 0);
+//			gl.glVertex3fv(v1.toArray(null), 0);
+//			gl.glVertex3fv(v0.toArray(null), 0);
+//
+//		}
+//		gl.glEnd();
 		gl.glEnable(GL.GL_LIGHTING);
 	}
 

@@ -4,12 +4,12 @@ import exampleImplementation.math.Vector3f;
 
 /**
  * This class represents an edge between two vertices. It has a hash code and
- * the generall contract of this class is;
+ * the general contract of this class is;
  * edge0 == edge1 when
  * edge.v0 == edge0.v0 OR edge.v0 == edge0.v1
  * (same for edge0.v1)
  * 
- * @author Tim J�rgen
+ * @author Tim Jörgen
  */
 public class Edge {
 

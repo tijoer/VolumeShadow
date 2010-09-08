@@ -1,12 +1,11 @@
 package exampleImplementation;
 
 import javax.media.opengl.GL;
-
-import volumeshadow.Shadow.VolumeShadowCreator;
-
 import com.sun.opengl.util.GLUT;
 
 import exampleImplementation.math.Vector3f;
+
+import volumeshadow.Shadow.VolumeShadowCreator;
 
 public class ExampleScene {
 
@@ -43,14 +42,14 @@ public class ExampleScene {
 
 		Vector3f lightAmbient = new Vector3f(0.15f, 0.15f, 0.15f);
 		Vector3f lightDiffuse = new Vector3f(1.0f, 1.0f, 1.0f);
-		Vector3f lightPosition = new Vector3f(0.7f, 0.7f, 9.0f);
+		Vector3f lightPosition = new Vector3f(1.7f, 0.7f, 9.0f);
 
-		gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, lightAmbient.asFloatArray(),
+		gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, lightAmbient.toArray(null),
 				0);
-		gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, lightDiffuse.asFloatArray(),
+		gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, lightDiffuse.toArray(null),
 				0);
 		gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION,
-				lightPosition.asFloatArray(), 0);
+				lightPosition.toArray(null), 0);
 		gl.glEnable(GL.GL_LIGHT0);
 
 		gl.glPushMatrix();

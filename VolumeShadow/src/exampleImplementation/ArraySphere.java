@@ -7,8 +7,7 @@ import javax.media.opengl.GL;
 
 import com.sun.opengl.util.BufferUtil;
 
-import volumeshadow.Shadow.Triangle;
-
+import exampleImplementation.math.Triangle;
 import exampleImplementation.math.Vector3f;
 
 /**
@@ -106,7 +105,7 @@ public class ArraySphere {
             }
             
             Vector3f normale = new Vector3f();
-            normale = v0.vectorProduct(v1);
+            normale = v0.cross(v1);
             
             normalsList.add(normale);
         }
@@ -137,11 +136,11 @@ public class ArraySphere {
 		gl.glDisable(GL.GL_TEXTURE_2D);
         gl.glBegin(GL.GL_TRIANGLES);
         for(int i=0; i<trianglesList.size(); i++) {
-            trianglesList.get(i).calcNormal();
-            gl.glNormal3fv(trianglesList.get(i).triangleNormale.asFloatArray(), 0);
-            gl.glVertex3fv(trianglesList.get(i).v0.asFloatArray(), 0);
-            gl.glVertex3fv(trianglesList.get(i).v1.asFloatArray(), 0);
-            gl.glVertex3fv(trianglesList.get(i).v2.asFloatArray(), 0);
+            trianglesList.get(i).calculateNormal();
+            gl.glNormal3fv(trianglesList.get(i).getNormal().toArray(null), 0);
+            gl.glVertex3fv(trianglesList.get(i).get(0).toArray(null), 0);
+            gl.glVertex3fv(trianglesList.get(i).get(1).toArray(null), 0);
+            gl.glVertex3fv(trianglesList.get(i).get(2).toArray(null), 0);
         }
         gl.glEnd();
     }
