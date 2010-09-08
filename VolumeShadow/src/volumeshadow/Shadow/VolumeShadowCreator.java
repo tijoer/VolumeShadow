@@ -153,27 +153,32 @@ public class VolumeShadowCreator {
 	 */
 	private void drawShadowData(GL gl, int drawingMode) {
 		ArrayList<Edge> edgeList = new ArrayList<Edge>();
-		Vector3f v0 = new Vector3f(), v1 = new Vector3f(), v2 = new Vector3f();
 		edgeList.addAll(edgeMap.values());
-		gl.glDisable(GL.GL_LIGHTING);
 		gl.glPushMatrix();
-		gl.glBegin(drawingMode);
+		gl.glDisable(GL.GL_LIGHTING);
+		gl.glBegin(GL.GL_LINES);
+		gl.glDisable(GL.GL_TEXTURE_2D);
+		Edge edge;
+		Vector3f v0, v1, v2, v3;
 		for (int i = 0; i < edgeList.size(); i++) {
-			v0 = edgeList.get(i).v0.subtract(lightSource);
-			v0.normalize();
-			//v0.scale(infinity);
-			v1 = edgeList.get(i).v1.subtract(lightSource);
-			v1.normalize();
-			//v1.scale(infinity);
+			edge = edgeList.get(i);
+			v0 = new Vector3f(edge.v0.add(occluderPosition));
+			v1 = new Vector3f(edge.v1.add(occluderPosition));
+			
+			v2 = new Vector3f(v0.subtract(lightSource).add(v0));
+			v3 = new Vector3f(v1.subtract(lightSource).add(v1));
+			
+			gl.glColor3f(1.0f, 0.0f, 0.0f);
+			gl.glVertex3fv(v2.toArray(null), 0);
+			gl.glVertex3fv(v0.toArray(null), 0);
 
-			gl.glVertex3f(edgeList.get(i).v1.x + occluderPosition.x, edgeList.get(i).v1.y + occluderPosition.y, edgeList.get(i).v1.z + occluderPosition.z);
-			gl.glVertex3f(edgeList.get(i).v0.x + occluderPosition.x, edgeList.get(i).v0.y + occluderPosition.y, edgeList.get(i).v0.z + occluderPosition.z);
-			gl.glVertex3f(v0.x, v0.y, v0.z);
-			gl.glVertex3f(v1.x, v1.y, v1.z);
+			gl.glVertex3fv(v3.toArray(null), 0);
+			gl.glVertex3fv(v1.toArray(null), 0);
 		}
-		Triangle tri;
 		gl.glEnd();
+		gl.glEnable(GL.GL_LIGHTING);
 		gl.glPopMatrix();
+		gl.glColor3f(1.0f, 1.0f, 1.0f);
 
 //		// as the shadow volume is currently not closed, we draw the front cap
 //		// the part of the model, that is faced towards the light, extrude it to
