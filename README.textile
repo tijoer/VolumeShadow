@@ -24,5 +24,6 @@ With @svn checkout http://svn.github.com/iuiz/VolumeShadow.git@
 
 
 h4. Misc
+
 This uses math and vector classes from the JMonkeyEngine project. If you use this project you also use JMonkeyEngine technology and need to read their licence (Something like: free to use, but you must give credits to them).
 
