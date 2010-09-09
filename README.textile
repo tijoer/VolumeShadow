@@ -13,13 +13,13 @@ h2. Features
 * Still in development, so this is pre alpha.
 
 
-h3. Build
+h2. Build
 
 There is a Netbeans and an Eclipse project. You will have to install Jogl first, and add it to your classpath. See http://jogamp.org/jogl/www/.
 
 Maybee I will add an ANT or Maven build script in the future.
 
 
-h4. Misc
+h2. Misc
 This uses math and vector classes from the JMonkeyEngine project. If you use this project you also use JMonkeyEngine technology and need to read their licence (Something like: free to use, but you must give credits to them).
 
