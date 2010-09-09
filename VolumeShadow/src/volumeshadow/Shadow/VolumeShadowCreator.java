@@ -30,7 +30,7 @@ public class VolumeShadowCreator {
 	private HashMap<Edge, Edge> edgeMap;
 	private Vector3f lightSource;
 	private Vector3f occluderPosition;
-	private float infinity = 1000.0f;
+	private float infinity = 100.0f;
 	private ArrayList<Triangle> frontCap = new ArrayList<Triangle>();
 
 	/**
@@ -154,61 +154,61 @@ public class VolumeShadowCreator {
 	private void drawShadowData(GL gl, int drawingMode) {
 		ArrayList<Edge> edgeList = new ArrayList<Edge>();
 		edgeList.addAll(edgeMap.values());
-		gl.glPushMatrix();
-		gl.glDisable(GL.GL_LIGHTING);
-		gl.glBegin(GL.GL_LINES);
-		gl.glDisable(GL.GL_TEXTURE_2D);
-		Edge edge;
 		Vector3f v0, v1, v2, v3;
+		Vector3f bcv0, bcv1, bcv2;
+		
+		Edge edge;
+		
+		gl.glDisable(GL.GL_LIGHTING);
+		gl.glDisable(GL.GL_TEXTURE_2D);
+		gl.glBegin(drawingMode);
 		for (int i = 0; i < edgeList.size(); i++) {
 			edge = edgeList.get(i);
-			v0 = new Vector3f(edge.v0.add(occluderPosition));
-			v1 = new Vector3f(edge.v1.add(occluderPosition));
+			v0 = edge.v0.add(occluderPosition);
+			v1 = edge.v1.add(occluderPosition);
 			
-			v2 = new Vector3f(v0.subtract(lightSource).add(v0));
-			v3 = new Vector3f(v1.subtract(lightSource).add(v1));
+			v2 = new Vector3f(v0.add(v0.subtract(lightSource).normalizeLocal().multLocal(this.infinity)));
+			v3 = new Vector3f(v1.add(v1.subtract(lightSource).normalizeLocal().multLocal(this.infinity)));
 			
 			gl.glColor3f(1.0f, 0.0f, 0.0f);
-			gl.glVertex3fv(v2.toArray(null), 0);
 			gl.glVertex3fv(v0.toArray(null), 0);
+			gl.glVertex3fv(v2.toArray(null), 0);
 
 			gl.glVertex3fv(v3.toArray(null), 0);
 			gl.glVertex3fv(v1.toArray(null), 0);
 		}
 		gl.glEnd();
-		gl.glEnable(GL.GL_LIGHTING);
-		gl.glPopMatrix();
-		gl.glColor3f(1.0f, 1.0f, 1.0f);
 
-//		// as the shadow volume is currently not closed, we draw the front cap
-//		// the part of the model, that is faced towards the light, extrude it to
-//		// infinity and draw it again
-//		gl.glBegin(GL.GL_TRIANGLES);
-//		for (int i = 0; i < frontCap.size(); i++) {
-//			tri = frontCap.get(i);
-//			// draw front cap
-//			gl.glVertex3fv(tri.get(0).toArray(null), 0);
-//			gl.glVertex3fv(tri.get(1).toArray(null), 0);
-//			gl.glVertex3fv(tri.get(2).toArray(null), 0);
-//
-//			// draw back cap (extruded front cap)
-//			v0 = frontCap.get(i).get(0).subtract(lightSource);
-//			v1 = frontCap.get(i).get(1).subtract(lightSource);
-//			v2 = frontCap.get(i).get(2).subtract(lightSource);
-//			v0.normalize();
-//			v1.normalize();
-//			v2.normalize();
-//			v0.multLocal(infinity);
-//			v1.multLocal(infinity);
-//			v2.multLocal(infinity);
-//
-//			// CW not CCW, as this is the projected back side
-//			gl.glVertex3fv(v2.toArray(null), 0);
-//			gl.glVertex3fv(v1.toArray(null), 0);
-//			gl.glVertex3fv(v0.toArray(null), 0);
-//
-//		}
-//		gl.glEnd();
+		// as the shadow volume is currently not closed, we draw the front cap
+		// the part of the model, that is faced towards the light, extrude it to
+		// infinity and draw it again
+		gl.glColor3f(0.0f, 1.0f, 0.0f);
+		gl.glBegin(GL.GL_TRIANGLES);
+		for (int i = 0; i < frontCap.size(); i++) {
+			Triangle tri = frontCap.get(i);
+			v0 = tri.get(0).add(occluderPosition);
+			v1 = tri.get(1).add(occluderPosition);
+			v2 = tri.get(2).add(occluderPosition);
+			
+			// draw front cap
+			gl.glColor3f(0.0f, 1.0f, 0.0f);
+			gl.glVertex3fv(v0.toArray(null), 0);
+			gl.glVertex3fv(v1.toArray(null), 0);
+			gl.glVertex3fv(v2.toArray(null), 0);
+
+			// draw back cap (extruded front cap)
+			bcv0 = v0.add(v0.subtract(lightSource).normalizeLocal().multLocal(this.infinity));
+			bcv1 = v1.add(v1.subtract(lightSource).normalizeLocal().multLocal(this.infinity));
+			bcv2 = v2.add(v2.subtract(lightSource).normalizeLocal().multLocal(this.infinity));
+
+			// CW not CCW, as this is the projected back side
+			gl.glColor3f(0.0f, 0.0f, 1.0f);
+			gl.glVertex3fv(bcv2.toArray(null), 0);
+			gl.glVertex3fv(bcv1.toArray(null), 0);
+			gl.glVertex3fv(bcv0.toArray(null), 0);
+
+		}
+		gl.glEnd();
 		gl.glEnable(GL.GL_LIGHTING);
 	}
 

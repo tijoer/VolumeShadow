@@ -42,7 +42,7 @@ public class ExampleScene {
 
 		Vector3f lightAmbient = new Vector3f(0.15f, 0.15f, 0.15f);
 		Vector3f lightDiffuse = new Vector3f(1.0f, 1.0f, 1.0f);
-		Vector3f lightPosition = new Vector3f(1.7f, 0.7f, 9.0f);
+		Vector3f lightPosition = new Vector3f(2.7f, 0.7f, 9.0f);
 
 		gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, lightAmbient.toArray(null),
 				0);
