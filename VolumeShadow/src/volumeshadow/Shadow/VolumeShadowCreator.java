@@ -1,5 +1,6 @@
 package volumeshadow.Shadow;
 
+import exampleImplementation.math.Edge;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.media.opengl.GL;
