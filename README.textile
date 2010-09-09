@@ -3,7 +3,7 @@ h1. Overview
 This is a lib for OpenGl projects written in Java. 
 This project can create volumetric shadows for nearly all model data and scenes. Just pass your opengl context, a method to draw your scene (with different light settings) and your models (occluders). Voila: There is shadow.
 
-h2. Features
+h1. Features
 
 * Basic volumetric shadow.
 * Extrem easy to use.
@@ -13,7 +13,7 @@ h2. Features
 * Still in development, so this is pre alpha.
 
 
-h3. Checkout and Build
+h1. Checkout and Build
 
 There is a Netbeans and an Eclipse project. You will have to install Jogl first, and add it to your classpath. See the "JOGL Homepage":http://…http://jogamp.org/jogl/www/ for more informations.
 
@@ -23,7 +23,7 @@ If you don't know how to use GIT you can also use SVN to checkout this project.
 With @svn checkout http://svn.github.com/iuiz/VolumeShadow.git@
 
 
-h4. Misc
+h1. Misc
 
 This uses math and vector classes from the JMonkeyEngine project. If you use this project you also use JMonkeyEngine technology and need to read their licence (Something like: free to use, but you must give credits to them).
 
