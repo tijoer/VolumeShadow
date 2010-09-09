@@ -1,4 +1,4 @@
-h1. HBaseXplorer
+h1. Overview
 
 This is a lib for OpenGl projects written in Java. 
 This project can create volumetric shadows for nearly all model data and scenes. Just pass your opengl context, a method to draw your scene (with different light settings) and your models (occluders). Voila: There is shadow.
