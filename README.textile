@@ -1,0 +1,25 @@
+h1. HBaseXplorer
+
+This is a lib for OpenGl projects written in Java. 
+This project can create volumetric shadows for nearly all model data and scenes. Just pass your opengl context, a method to draw your scene (with different light settings) and your models (occluders). Voila: There is shadow.
+
+h2. Features
+
+* Basic volumetric shadow.
+* Extrem easy to use.
+* Z-Pass and Z-Fail will be supported.
+* Undestandable code
+* The code is extremly easy to reuse in different project.
+* Still in development, so this is pre alpha.
+
+
+h3. Build
+
+There is a Netbeans and an Eclipse project. You will have to install Jogl first, and add it to your classpath. See http://jogamp.org/jogl/www/.
+
+Maybee I will add an ANT or Maven build script in the future.
+
+
+h4. Misc
+This uses math and vector classes from the JMonkeyEngine project. If you use this project you also use JMonkeyEngine technology and need to read their licence (Something like: free to use, but you must give credits to them).
+
