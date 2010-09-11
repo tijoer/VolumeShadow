@@ -86,18 +86,20 @@ public class Main implements GLEventListener {
 		gl = gLAutoDrawable.getGL();
 
 		// Setup the drawing area and shading mode
-		gl.glDisable(GL.GL_CULL_FACE);
-		gl.glCullFace(GL.GL_BACK);
-		gl.glFrontFace(GL.GL_CCW);
-		gl.glShadeModel(GL.GL_SMOOTH);
-		gl.glEnable(GL.GL_DEPTH_TEST);
-		gl.glDepthFunc(GL.GL_LEQUAL);
-		gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
-		gl.glEnable(GL.GL_TEXTURE_2D);
-		gl.glEnable(GL.GL_LIGHTING);
-		gl.glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
-		gl.glClearDepth(1.0f);
-		gl.setSwapInterval(1);
+		gl.glEnable(GL.GL_CULL_FACE);
+        //gl.glDisable(GL.GL_CULL_FACE);
+        gl.glCullFace(GL.GL_BACK);
+        gl.glFrontFace(GL.GL_CCW);
+        gl.glShadeModel(GL.GL_SMOOTH);
+        gl.glClearColor(0.3f, 0.3f, 0.5f, 1.0f);
+        gl.glClearDepth(1.0f);
+        gl.glEnable(GL.GL_DEPTH_TEST);
+        gl.glDepthFunc(GL.GL_LEQUAL);
+        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
+        gl.glEnable(GL.GL_TEXTURE_2D);
+
+        gl.setSwapInterval(1);
+
 
 		exampleScene = new ExampleScene(gl);
 		this.input = new Input(gLAutoDrawable);	

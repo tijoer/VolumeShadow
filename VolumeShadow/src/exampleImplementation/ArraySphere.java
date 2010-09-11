@@ -119,20 +119,6 @@ public class ArraySphere {
     }
 
     public void render() {
-//        gl.glEnableClientState(GL.GL_VERTEX_ARRAY);
-//        gl.glEnableClientState(GL.GL_NORMAL_ARRAY);
-//        gl.glEnableClientState(GL.GL_TEXTURE_COORD_ARRAY);
-//
-//        gl.glVertexPointer(3, GL.GL_FLOAT, 0, vertices);
-//        gl.glNormalPointer(GL.GL_FLOAT, 0, normals);
-//        gl.glTexCoordPointer(2, GL.GL_FLOAT, 0, texcoords);
-//
-//        //anzahl der vertices, nicht anzahl der werte....
-//        gl.glDrawArrays(GL.GL_TRIANGLES, 0, valueCount / 3);
-//
-//        gl.glDisableClientState(GL.GL_VERTEX_ARRAY);
-//        gl.glDisableClientState(GL.GL_NORMAL_ARRAY);
-//        gl.glDisableClientState(GL.GL_TEXTURE_COORD_ARRAY);
 		gl.glDisable(GL.GL_TEXTURE_2D);
         gl.glBegin(GL.GL_TRIANGLES);
         for(int i=0; i<trianglesList.size(); i++) {

@@ -60,8 +60,8 @@ public class VolumeShadowCreator {
 			triangle = model.get(i);
 			triangle.calculateNormal();
 			edge0 = new Edge(triangle.get(0), triangle.get(1));
-			edge1 = new Edge(triangle.get(0), triangle.get(2));
-			edge2 = new Edge(triangle.get(1), triangle.get(2));
+			edge1 = new Edge(triangle.get(1), triangle.get(2));
+			edge2 = new Edge(triangle.get(2), triangle.get(0));
 			
 			
 			if (lightSource.dot(triangle.getNormal()) > 0) {
@@ -172,11 +172,12 @@ public class VolumeShadowCreator {
 			v3 = new Vector3f(v1.add(v1.subtract(lightSource).normalizeLocal().multLocal(this.infinity)));
 			
 			gl.glColor3f(1.0f, 0.0f, 0.0f);
-			gl.glVertex3fv(v0.toArray(null), 0);
-			gl.glVertex3fv(v2.toArray(null), 0);
-
-			gl.glVertex3fv(v3.toArray(null), 0);
+			
 			gl.glVertex3fv(v1.toArray(null), 0);
+			gl.glVertex3fv(v0.toArray(null), 0);
+			
+			gl.glVertex3fv(v2.toArray(null), 0);
+			gl.glVertex3fv(v3.toArray(null), 0);
 		}
 		gl.glEnd();
 
@@ -210,7 +211,6 @@ public class VolumeShadowCreator {
 
 		}
 		gl.glEnd();
-		gl.glEnable(GL.GL_LIGHTING);
 	}
 
 	/**
