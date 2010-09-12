@@ -1,90 +1,69 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-
-	<title>iuiz/VolumeShadow @ GitHub</title>
-	
-	<style type="text/css">
-		body {
-  		margin-top: 1.0em;
-  		background-color: #99f543;
-		  font-family: "Helvetica,Arial,FreeSans";
-  		color: #000000;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-		h1 { font-size: 3.8em; color: #660abc; margin-bottom: 3px; }
-		h1 .small { font-size: 0.4em; }
-		h1 a { text-decoration: none }
-		h2 { font-size: 1.5em; color: #660abc; }
-    h3 { text-align: center; color: #660abc; }
-    a { color: #660abc; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-		pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-	</style>
-	
+	<title>Volume Shadow</title>
+	<link rel="stylesheet" type="text/css" href="style.css"/>
+			<!--[if IE]>
+			<style type="text/css" media="screen">
+			#header ul.nav li.active {
+			margin:0;
+			padding: 0px 5px 0px 5px;
+			background:url(images/nav_corn_l.gif) no-repeat top left;
+			}
+			
+			#header ul.nav {
+			margin:0px 0 0 0;
+			padding:15px 0 0 0;
+			float:right;
+			}
+			</style>
+			<![endif]-->
+			
 </head>
-
 <body>
-  <a href="http://github.com/iuiz/VolumeShadow"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 
-  <div id="container">
-
-    <div class="download">
-      <a href="http://github.com/iuiz/VolumeShadow/zipball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/iuiz/VolumeShadow/tarball/master">
-        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
-    </div>
-
-    <h1><a href="http://github.com/iuiz/VolumeShadow">VolumeShadow</a>
-      <span class="small">by <a href="http://github.com/iuiz">iuiz</a></span></h1>
-
-    <div class="description">
-      This is a project that creates a shadow Volume for vertex data. Using Java and JOGL as OpenGl bindings. 
-    </div>
-
-    <p>This is a lib for OpenGl projects written in Java. 
-This project can create volumetric shadows for nearly all model data and scenes. Just pass your opengl context, a method to draw your scene (with different light settings) and your models (occluders). Voila: There is shadow.</p><h2>Dependencies</h2>
-<p>JOGL http://jogamp.org/jogl/www/</p>
-<h2>Install</h2>
-<p>There is a Netbeans and an Eclipse project. You will have to install Jogl first, and add it to your classpath. See the JOGL Homepage for more informations.
-
-Maybee I will add an ANT or Maven build script in the future.
-
-If you don’t know how to use GIT you can also use SVN to checkout this project. 
-With svn checkout http://svn.github.com/iuiz/VolumeShadow.git</p>
-<h2>Authors</h2>
-<p>iuiz (tim.joergen@uni-oldenburg.de)<br/><br/>      </p>
-<h2>Contact</h2>
-<p> (tim.joergen@uni-oldenburg.de)<br/>      </p>
+<div id="topLine">
+		<div id="header">
+		
+			<ul class="nav">
+			<li class="active"><a href="#">Home</a></li>
+			<li><a href="#">About</a></li>
+			<li><a href="#">Contact</a></li>
+			<li><a href="#">Github</a></li>
+			</ul>
+			
+			<h1><span>||</span>Volume<span>Shadow</span></h1>
+			
+		</div>
+</div>
 
 
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="http://github.com/iuiz/VolumeShadow/zipball/master">zip</a> or
-      <a href="http://github.com/iuiz/VolumeShadow/tarball/master">tar</a> formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/iuiz/VolumeShadow</pre>
-    </p>
+<div id="outerwarrper">
+	<div id="wrapper">
+		<div id="content">
+			<h2>Welcome</h2>
+			<p>This is the homepage of a free Java library for OpenGl projects. It will give you the ability to add shadows to your project in just a few minutes. As this project is still in (active) development there are currently not much informations on this homepage. Please be patient and come back later.</p>
+			
+			<h2>The project on Github</h2>
+			<p>The project is currently hosted on Github. Please follow this <a href="http://github.com/iuiz/VolumeShadow">link</a>.</p>
+		</div>
 
-    <div class="footer">
-      get the source code on GitHub : <a href="http://github.com/iuiz/VolumeShadow">iuiz/VolumeShadow</a>
-    </div>
+	
+		<div id="sidebar">
+			<h3>Get the source</h3>
+			<p>Choose your archive. </p>
+			<a href="http://github.com/iuiz/VolumeShadow/zipball/master"><img class="side_gallery" src="images/zip.png" alt="Zip DL"/></a>
+			<a href="http://github.com/iuiz/VolumeShadow/tarball/master"><img class="side_gallery" src="images/tar.png" alt="Tar DL"/></a>
+		</div>
 
-  </div>
+	
+	</div>
+</div>
 
-  
+
+<div id="footer">
+	<p>Design By:<a href="http://www.templatesforfree.net"> TemplatesForFree.net </a> <font size="-2">Link not working anymore.</font></p>
+</div>
+
 </body>
 </html>
