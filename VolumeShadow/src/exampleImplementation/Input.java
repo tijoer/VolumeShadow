@@ -20,8 +20,6 @@ public final class Input implements KeyListener, MouseListener,
 	private boolean keyUp;
 	private boolean keyDown;
 	private boolean dragging;
-	private boolean cameraMovement;
-	private GLAutoDrawable gLAutoDrawable;
 	private Thread camAnimator;
 	public float mouseRotX;
 	public float mouseRotY;
@@ -30,7 +28,6 @@ public final class Input implements KeyListener, MouseListener,
 
 	// public Input(Camera camera) {
 	public Input(GLAutoDrawable gLAutoDrawable) {
-		this.gLAutoDrawable = gLAutoDrawable;
 		gLAutoDrawable.addKeyListener(this);
 		gLAutoDrawable.addMouseListener(this);
 		gLAutoDrawable.addMouseMotionListener(this);
@@ -42,7 +39,6 @@ public final class Input implements KeyListener, MouseListener,
 		this.keyUp = false;
 		this.keyDown = false;
 		this.dragging = false;
-		this.cameraMovement = false;
 		this.mouseClickX = 0;
 		this.mouseClickY = 0;
 		this.camAnimator = new Thread(this);
@@ -147,7 +143,6 @@ public final class Input implements KeyListener, MouseListener,
 		this.mouseClickY = y;
 
 		this.dragging = false;
-		this.cameraMovement = false;
 	}
 
 	public void mousePressed(MouseEvent mouseEvent) {
@@ -175,9 +170,8 @@ public final class Input implements KeyListener, MouseListener,
 		if (dragging == false) {
 		}
 
-		// set to true, so that the camera movement doesnt trigger window events
+		// set to true, so that the camera movement doesn't trigger window events
 		this.dragging = true;
-		this.cameraMovement = true;
 		// Calculate mouse movements
 		if (x < this.mouseClickX) {
 			this.camera.turnLeft(dx);

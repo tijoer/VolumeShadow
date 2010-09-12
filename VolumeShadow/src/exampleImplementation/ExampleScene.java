@@ -19,7 +19,6 @@ import volumeshadow.Shadow.VolumeShadowCreator;
  * </pre>
  *  
  * @author Tim Jörgen
- * 
  */
 public class ExampleScene {
 

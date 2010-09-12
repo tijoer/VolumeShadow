@@ -9,21 +9,26 @@ import exampleImplementation.math.Triangle;
 import exampleImplementation.math.Vector3f;
 
 /**
- * This class does all the calculations that are needed for a shadow volume
- * based shadow. Note that the shadow volume is _closed_, so it can be used
- * either for z-pass or z-fail (or anything else).
+ * <h1>VolumeShadowCreator</h1>
+ * <p>
+ * This class does all the calculations and drawing that are needed for a shadow
+ * volume based shadow. Note that the shadow volume needs to be _closed_, so it
+ * can be used either for z-pass or z-fail (or anything else).
+ * </p>
  * 
  * <h3>Contract for the model data</h3>
  * <ul>
  * <li>every triangle shall only be inserted once</li>
- * <li>two vertices do not share the same position</li>
+ * <li>two triangles do not share the same position</li>
  * </ul>
  * <p>
  * If two vertices share the same position the result is undefined. If the
  * z-fail method is used the shadow will probably have some errors, if z-pass is
- * used it can still work, but most likely won't either.
+ * used it can still work, but most likely won't either. Errors will probably
+ * occur, when your camera enters the shadow volume. If you can prevent that you
+ * are good to go :).
  * </p>
- * 
+ *
  * @author Tim Jörgen
  */
 public class VolumeShadowCreator {
@@ -35,15 +40,11 @@ public class VolumeShadowCreator {
 	private Vector3f occluderPosition;
 	private float infinity = 100.0f;
 	private ArrayList<Triangle> frontCap = new ArrayList<Triangle>();
+	private float[] tmp = new float[3];
 
 	/**
 	 * Creates a new shadow processor.
-	 * 
-	 * @param lightSource
-	 *            the position of the light source
-	 * @param model
-	 *            the model data
-	 * @param occluderPosition
+	 * TODO Currently this has to be called every frame. This needs to be fixed an a future release.
 	 */
 	public VolumeShadowCreator(GL gl, ShadowScene shadowScene) {
 		this.gl = gl;
@@ -113,11 +114,11 @@ public class VolumeShadowCreator {
 		Edge edge;
 		for (int i = 0; i < edgeList.size(); i++) {
 			edge = edgeList.get(i);
-			gl.glVertex3fv(lightSource.toArray(null), 0);
+			gl.glVertex3fv(lightSource.toArray(tmp), 0);
 			gl.glVertex3f(edge.v0.x + occluderPosition.x, edge.v0.y
 					+ occluderPosition.y, edge.v0.z + occluderPosition.z);
 
-			gl.glVertex3fv(lightSource.toArray(null), 0);
+			gl.glVertex3fv(lightSource.toArray(tmp), 0);
 			gl.glVertex3f(edge.v1.x + occluderPosition.x, edge.v1.y
 					+ occluderPosition.y, edge.v1.z + occluderPosition.z);
 		}
@@ -128,7 +129,7 @@ public class VolumeShadowCreator {
 
 	/**
 	 * Draw not the shadow volume, but a wireframe of it
-	 * 
+	 * FIXME seems to be broken
 	 * @param gl
 	 *            the GL context
 	 */
@@ -180,11 +181,11 @@ public class VolumeShadowCreator {
 			
 			gl.glColor3f(1.0f, 0.0f, 0.0f);
 			
-			gl.glVertex3fv(v1.toArray(null), 0);
-			gl.glVertex3fv(v0.toArray(null), 0);
+			gl.glVertex3fv(v1.toArray(tmp), 0);
+			gl.glVertex3fv(v0.toArray(tmp), 0);
 			
-			gl.glVertex3fv(v2.toArray(null), 0);
-			gl.glVertex3fv(v3.toArray(null), 0);
+			gl.glVertex3fv(v2.toArray(tmp), 0);
+			gl.glVertex3fv(v3.toArray(tmp), 0);
 		}
 		gl.glEnd();
 
@@ -212,9 +213,9 @@ public class VolumeShadowCreator {
 
 			// CW not CCW, as this is the projected back side
 			gl.glColor3f(0.0f, 0.0f, 1.0f);
-			gl.glVertex3fv(bcv2.toArray(null), 0);
-			gl.glVertex3fv(bcv1.toArray(null), 0);
-			gl.glVertex3fv(bcv0.toArray(null), 0);
+			gl.glVertex3fv(bcv2.toArray(tmp), 0);
+			gl.glVertex3fv(bcv1.toArray(tmp), 0);
+			gl.glVertex3fv(bcv0.toArray(tmp), 0);
 
 		}
 		gl.glEnd();

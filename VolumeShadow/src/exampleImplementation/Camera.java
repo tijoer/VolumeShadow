@@ -1,7 +1,6 @@
 package exampleImplementation;
 
 import javax.media.opengl.GL;
-import javax.media.opengl.glu.GLU;
 
 import exampleImplementation.math.FastMath;
 import exampleImplementation.math.Vector3f;
@@ -95,9 +94,9 @@ public final class Camera {
 		Vector3f move = new Vector3f(0.0f, 0.0f, 0.0f);
 		float x, y, z;
 
-		x = (float) Math.sin((180.0f + this.xzAngle) * FastMath.DEG_TO_RAD);
-		y = -(float) Math.sin((180.0f + this.xyAngle) * FastMath.DEG_TO_RAD);
-		z = -(float) Math.cos((180.0f + this.xzAngle) * FastMath.DEG_TO_RAD);
+		x = (float) Math.sin((180.0f + Camera.xzAngle) * FastMath.DEG_TO_RAD);
+		y = -(float) Math.sin((180.0f + Camera.xyAngle) * FastMath.DEG_TO_RAD);
+		z = -(float) Math.cos((180.0f + Camera.xzAngle) * FastMath.DEG_TO_RAD);
 
 		move.x = x;
 		move.y = y;
@@ -112,9 +111,9 @@ public final class Camera {
 		Vector3f move = new Vector3f(0.0f, 0.0f, 0.0f);
 		float x, y, z;
 
-		x = (float) Math.sin((0.0f + this.xzAngle) * FastMath.DEG_TO_RAD);
-		y = -(float) Math.sin((0.0f + this.xyAngle) * FastMath.DEG_TO_RAD);
-		z = -(float) Math.cos((0.0f + this.xzAngle) * FastMath.DEG_TO_RAD);
+		x = (float) Math.sin((0.0f + Camera.xzAngle) * FastMath.DEG_TO_RAD);
+		y = -(float) Math.sin((0.0f + Camera.xyAngle) * FastMath.DEG_TO_RAD);
+		z = -(float) Math.cos((0.0f + Camera.xzAngle) * FastMath.DEG_TO_RAD);
 
 		move.x = x;
 		move.y = y;
@@ -136,22 +135,22 @@ public final class Camera {
 	}
 
 	void turnLeft(int dx) {
-		this.xzAngle -= 0.5f * dx;
+		Camera.xzAngle -= 0.5f * dx;
 		updateDirection();
 	}
 
 	void turnRight(int dx) {
-		this.xzAngle += 0.5f * dx;
+		Camera.xzAngle += 0.5f * dx;
 		updateDirection();
 	}
 
 	void turnUp(int dy) {
-		this.xyAngle -= 0.5f * dy;
+		Camera.xyAngle -= 0.5f * dy;
 		updateDirection();
 	}
 
 	void turnDown(int dy) {
-		this.xyAngle += 0.5f * dy;
+		Camera.xyAngle += 0.5f * dy;
 		updateDirection();
 	}
 
@@ -160,8 +159,8 @@ public final class Camera {
 		float x;
 		float z;
 
-		x = (float) Math.sin((90.0f + this.xzAngle) * FastMath.DEG_TO_RAD);
-		z = -(float) Math.cos((90.0f + this.xzAngle) * FastMath.DEG_TO_RAD);
+		x = (float) Math.sin((90.0f + Camera.xzAngle) * FastMath.DEG_TO_RAD);
+		z = -(float) Math.cos((90.0f + Camera.xzAngle) * FastMath.DEG_TO_RAD);
 
 		slide.x = x;
 		slide.z = z;
@@ -176,8 +175,8 @@ public final class Camera {
 		float x;
 		float z;
 
-		x = (float) Math.sin((270.0f + this.xzAngle) * FastMath.DEG_TO_RAD);
-		z = -(float) Math.cos((270.0f + this.xzAngle) * FastMath.DEG_TO_RAD);
+		x = (float) Math.sin((270.0f + Camera.xzAngle) * FastMath.DEG_TO_RAD);
+		z = -(float) Math.cos((270.0f + Camera.xzAngle) * FastMath.DEG_TO_RAD);
 
 		slide.x = x;
 		slide.z = z;
