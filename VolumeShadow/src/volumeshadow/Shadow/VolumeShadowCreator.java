@@ -193,10 +193,10 @@ public class VolumeShadowCreator {
 			v2 = tri.get(2).add(occluderPosition);
 			
 			// draw front cap
-			gl.glColor3f(0.0f, 1.0f, 0.0f);
-			gl.glVertex3fv(v0.toArray(null), 0);
-			gl.glVertex3fv(v1.toArray(null), 0);
-			gl.glVertex3fv(v2.toArray(null), 0);
+//			gl.glColor3f(0.0f, 1.0f, 0.0f);
+//			gl.glVertex3fv(v0.toArray(null), 0);
+//			gl.glVertex3fv(v1.toArray(null), 0);
+//			gl.glVertex3fv(v2.toArray(null), 0);
 
 			// draw back cap (extruded front cap)
 			bcv0 = v0.add(v0.subtract(lightSource).normalizeLocal().multLocal(this.infinity));
