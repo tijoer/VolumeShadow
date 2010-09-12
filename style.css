@@ -117,15 +117,26 @@ h3 {
 	float:left;
 }
 
-
-
-#content h2 {
+#content h2.short {
 	margin: 0 20px 0 20px;
 	padding: 20px 5px 0 5px;
 	border-bottom: 5px solid #8bbc70;
 }
 
-#content p {
+#content h2.long {
+	width: 600px;
+	margin: 0 20px 0 20px;
+	padding: 20px 5px 0 5px;
+	border-bottom: 5px solid #8bbc70;
+}
+
+#content p.long {
+	width: 600px;
+	margin: 0 20px 0 20px;
+	padding: 10px 5px 0 5px;
+}
+
+#content p.short {
 	margin: 0 20px 0 20px;
 	padding: 10px 5px 0 5px;
 }
