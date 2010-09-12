@@ -11,8 +11,6 @@ import com.sun.opengl.util.texture.TextureIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -204,7 +202,6 @@ public class Textures {
      * @return height in pixels, -1 on error
      */
     public int getTextureHeight(String id) {
-        Texture texture;
         for (int i = 0; i < textureList.size(); i++) {
             if (textureList.get(i).id.equals(id)) {
                 return this.textureList.get(i).texture.getHeight();
