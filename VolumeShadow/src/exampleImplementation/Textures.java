@@ -28,13 +28,13 @@ import java.util.logging.Logger;
  * at the source code, it is rather simple.
  * 
  * If you want, you can not simply pass a filename, but you can pass a 
- * bufferedImage as well. This comes in usefull for procedural created textures.
+ * bufferedImage as well. This comes in useful for procedural created textures.
  * 
  * The name for the texture has to be unique. 
  * 
  * This is a <b>singleton</b> class.
  * 
- * @author Tim J�rgen
+ * @author Tim Jörgen
  */
 public class Textures {
 
@@ -49,9 +49,7 @@ public class Textures {
     }
 
     /**
-     * Private. Use  getInstance instead.
-     * 
-     * @author Tim J�rgen
+     * Private. Use  getInstance instead. This is a singleton pattern.
      */
     private Textures() {
         this.textureList = new ArrayList<ManagedTexture>();
@@ -73,7 +71,6 @@ public class Textures {
      * 
      * @param id unique id to access the texture, after it is created
      * @param bufferedImage
-     * @author Tim J�rgen
      */
     public void load(String id, BufferedImage bufferedImage) {
         //check if texture already exists
@@ -97,7 +94,6 @@ public class Textures {
     /**
      * @param id eine beliebige id um wieder auf die textur zuzugreifen
      * @param filename der dateiname
-     * @author Tim J�rgen
      */
     public void load(String id, String filename) {
         //check if texture already exists
@@ -133,7 +129,6 @@ public class Textures {
      * Creates a new texture. 
      * 
      * @param id unique id to access the texture, after it is created
-     * @author Tim J�rgen
      */
     public void load(String id, int[] texture) {
         ByteBuffer tex = ByteBuffer.allocateDirect(texture.length * 4);
@@ -165,7 +160,6 @@ public class Textures {
      * be displayed (id and the code location, that called this method)
      * 
      * @param id the id of the texture, that should be activated
-     * @author Tim J�rgen
      */
     public void select(String id) {
         //look for the texture
@@ -193,7 +187,6 @@ public class Textures {
      * @param parameterName
      * @param params
      * @param offset
-     * @author Tim J�rgen
      */
     public void setTextureParameter(String id, int parameterName, float[] params, int offset) {
         for (int i = 0; i < textureList.size(); i++) {
@@ -204,11 +197,10 @@ public class Textures {
     }
 
     /**
-     * Returns the heigt of the Texture. If the texture was not found -1 will be
+     * Returns the height of the Texture. If the texture was not found -1 will be
      * returned.
      * 
      * @param id the id of the texture
-     * @author Tim J�rgen
      * @return height in pixels, -1 on error
      */
     public int getTextureHeight(String id) {

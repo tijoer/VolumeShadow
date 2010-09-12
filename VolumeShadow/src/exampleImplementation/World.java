@@ -1,14 +1,14 @@
 package exampleImplementation;
 
+import java.util.ArrayList;
 import javax.media.opengl.GL;
-
-import volumeshadow.Shadow.VolumeShadowCreator;
-
 import com.sun.opengl.util.GLUT;
 
+import volumeshadow.Shadow.ShadowScene;
+import exampleImplementation.math.Triangle;
 import exampleImplementation.math.Vector3f;
 
-public class World {
+public class World implements ShadowScene {
 	GL gl;
 	GLUT glut = new GLUT();
 	private Textures textures;
@@ -21,12 +21,10 @@ public class World {
 	 */
 	public ArraySphere occluder;
 	public Vector3f occluderPosition = new Vector3f(0.0f, 0.0f, 3.0f);
-	private Camera camera;
 	
 	World(GL gl) {
 		this.gl = gl;
 		this.textures = Textures.getInstance();
-		this.camera = Camera.getInstance(null, null, null);
 		textures.load("base_tex", "data/textures/rockwall_colormap.jpg");
 		this.occluder = new ArraySphere(gl, 0.3f, 4);
 	}
@@ -101,21 +99,23 @@ public class World {
 		gl.glVertex3f(-size, size, -size);
 		gl.glEnd();
 	}
-	
-	public void renderOccluder(float lightFactor) {
-        camera.rotateAccordingToCameraPosition();
-        camera.translateAccordingToCameraPosition();
-        
-		gl.glPushMatrix();
-		gl.glTranslatef(occluderPosition.x, occluderPosition.y,	occluderPosition.z);
-		occluder.render();
-		gl.glPopMatrix();
+
+	public Vector3f getLightPosition() {
+		return this.lightPosition;
 	}
-	
-	public void render(float lightFactor) {
-        camera.rotateAccordingToCameraPosition();
-        camera.translateAccordingToCameraPosition();
-        
+
+	@Override
+	public ArrayList<Triangle> getOccluderVertexData() {
+		return this.occluder.trianglesList;
+	}
+
+	@Override
+	public Vector3f getOccluderPosition() {
+		return this.occluderPosition;
+	}
+
+	@Override
+	public void renderWorld(float lightFactor) {
 		lightAmbient = new Vector3f(0.15f, 0.15f, 0.15f);
 		lightDiffuse = new Vector3f(lightFactor, lightFactor, lightFactor);
 		lightPosition = new Vector3f(2.7f, 0.7f, 9.0f);
@@ -141,8 +141,12 @@ public class World {
 		drawCube(1.5f);
 		gl.glPopMatrix();
 	}
-	
-	public Vector3f getLightPosition() {
-		return this.lightPosition;
+
+	@Override
+	public void renderOccluder(float lightFactor) {
+		gl.glPushMatrix();
+		gl.glTranslatef(occluderPosition.x, occluderPosition.y,	occluderPosition.z);
+		occluder.render();
+		gl.glPopMatrix();	
 	}
 }

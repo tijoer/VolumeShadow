@@ -29,10 +29,15 @@ public class Main implements GLEventListener {
 
 	public static void main(String[] args) {
 		Frame frame = new Frame("Volume Shadow");
+		// ------
+		// This needs to be done for the shadow volume creator. Without the stencil bit method it won't work
+		// ------
 		GLCapabilities capabilities = new GLCapabilities();
 		capabilities.setStencilBits(8);
 		GLCanvas canvas = new GLCanvas(capabilities);
-		// GLCanvas canvas = new GLCanvas();
+		// ------
+		// ------
+		// ------
 
 		canvas.addGLEventListener(new Main());
 		frame.add(canvas);

@@ -28,6 +28,8 @@ import exampleImplementation.math.Vector3f;
  */
 public class VolumeShadowCreator {
 
+	private GL gl;
+	private ShadowScene shadowScene;
 	private HashMap<Edge, Edge> edgeMap;
 	private Vector3f lightSource;
 	private Vector3f occluderPosition;
@@ -43,8 +45,13 @@ public class VolumeShadowCreator {
 	 *            the model data
 	 * @param occluderPosition
 	 */
-	public VolumeShadowCreator(Vector3f lightSource, ArrayList<Triangle> model,
-			Vector3f occluderPosition) {
+	public VolumeShadowCreator(GL gl, ShadowScene shadowScene) {
+		this.gl = gl;
+		this.shadowScene = shadowScene;
+		Vector3f lightSource = shadowScene.getLightPosition();
+		ArrayList<Triangle> model = shadowScene.getOccluderVertexData();
+		Vector3f occluderPosition = shadowScene.getOccluderPosition();
+		
 		this.lightSource = lightSource;
 		this.occluderPosition = occluderPosition;
 		edgeMap = new HashMap<Edge, Edge>(model.size() / 3); // model.size()/4 is a heuristic value based on guess
@@ -222,5 +229,55 @@ public class VolumeShadowCreator {
 	 */
 	public void setShadowVolumeLength(float infinity) {
 		this.infinity = infinity;
+	}
+
+	public void renderSceneWithShadow() {
+		shadowScene.renderWorld(1.0f);
+		shadowScene.renderOccluder(1.0f);
+        
+        gl.glClearStencil(0);
+        
+        gl.glDisable(GL.GL_CULL_FACE);
+        
+        gl.glColorMask(false, false, false, false);
+        gl.glDepthMask(false);
+        gl.glEnable(GL.GL_STENCIL_TEST);
+        gl.glClear(GL.GL_STENCIL_BUFFER_BIT);
+        gl.glDisable(GL.GL_LIGHTING);
+        gl.glStencilFunc(GL.GL_ALWAYS, 0, 0xFFFFFFF);
+        gl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_INCR);
+        
+        gl.glEnable(GL.GL_CULL_FACE);
+        gl.glFrontFace(GL.GL_CCW);
+
+        drawShadowVolume(gl);
+        
+        gl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_DECR);
+        gl.glFrontFace(GL.GL_CW);
+
+        drawShadowVolume(gl);
+        
+        gl.glFrontFace(GL.GL_CCW);
+        
+        gl.glDepthFunc(GL.GL_LESS);
+        gl.glColorMask(true, true, true, true);
+        
+        gl.glDepthMask(true);
+        gl.glStencilFunc(GL.GL_NOTEQUAL, 0, 0xFFFFFFFF);
+        gl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_KEEP);
+        
+        gl.glDisable(GL.GL_LIGHTING);
+        gl.glDisable(GL.GL_DEPTH_TEST);
+        
+        shadowScene.renderWorld(0.0001f);
+        gl.glCullFace(GL.GL_BACK);
+        gl.glFrontFace(GL.GL_CCW);
+        gl.glEnable(GL.GL_CULL_FACE);
+        shadowScene.renderOccluder(0.0001f);
+        gl.glEnable(GL.GL_DEPTH_TEST);
+        
+        //gl.glDepthMask(true);
+        gl.glDisable(GL.GL_STENCIL_TEST);
+        gl.glDisable(GL.GL_BLEND); 
 	}
 }
