@@ -3,7 +3,7 @@
 * {
 	margin:0;
 	padding:0;
-	}
+}
 
 body {
 	background-color:#ffffff;
@@ -11,20 +11,19 @@ body {
 	color:#555555;
 	text-align:left;
 }
+
 a {
 	color:#8bbc70;
 	text-decoration:none;
 	}
+
 a:hover {
 	color:#555555;
 	text-decoration:none;
 	}
+
 img, img a {
 	border:0;
-	}
-p {
-	line-height:1.7em;
-	margin-bottom:20px;
 }
 
 h1 {
@@ -45,24 +44,29 @@ h3 {
 	border-bottom:15px solid #DEEAFA;
 }
 
-#header{
+#header {
 	width:693px;
 	margin:10px auto 0px auto;
 	padding:10px;
-	}
+}
 	
-#header h1{
+#header h1 {
 	width:220px;
 	margin:25px 0 0 0;
 	background:#ffffff;
 	padding:5px 0px 5px 20px;
 }
 
-#header h1 span{
+#header h1 span {
 	color:#8bbc70;
 	font-size:110%;
 }
 
+#header h1 span.lastUpdate {
+	color:#555555;
+	font-size:11;
+	padding:0px 0px 5px 30px;
+}
 
 #header ul.nav {
 	margin:10px 0 0 0;
@@ -86,7 +90,7 @@ h3 {
 }
 
 
-#header ul.nav li.active a{
+#header ul.nav li.active a {
 	padding:5px 10px 0px 5px;
 	display:inline;
 	background:url(images/nav_corn_r.gif) no-repeat top right;
@@ -111,104 +115,54 @@ h3 {
 }
 
 /* Content Area */
-#content {
-	width:450px;
-	margin:10px 0 0 0px;
-	float:left;
-}
-
-#content h2.short {
+.firstHeading {
+	width:430;
+	line-height:1.7em;
+	margin-bottom:20px;
+	margin-right:20px;
 	margin: 0 20px 0 20px;
 	padding: 20px 5px 0 5px;
 	border-bottom: 5px solid #8bbc70;
 }
 
-#content h2.long {
-	width: 600px;
+.heading {
+	padding:100px;
+	line-height:1.7em;
+	margin-bottom:20px;
+	margin-right:20px;
 	margin: 0 20px 0 20px;
 	padding: 20px 5px 0 5px;
 	border-bottom: 5px solid #8bbc70;
 }
 
-#content p.long {
-	width: 600px;
-	margin: 0 20px 0 20px;
-	padding: 10px 5px 0 5px;
+p {
+	margin: 0px 20px 0px 20px;
+	padding: 10px 5px 0px 5px;
 }
 
-#content p.short {
-	margin: 0 20px 0 20px;
-	padding: 10px 5px 0 5px;
+p.content {
+	text-align:justify;
 }
 
-#content p img {
+
+p img {
 	float:left;
 	padding-right:15px
 }
 
-#content table {
-	width:400px;
-	margin: 0 20px 0 20px;
-	padding: 10px 5px 0 5px;
-}
-
-#content table td.row_headers {
-	background:#DEEAFA;
-	text-align:center;
-}
-
-#content table td {
-	padding: 1px 5px 1px 10px;
-	background:#E5EFE0;
-}
-
-#content form {
-width:450px; 
-padding:10px;  
-}
-
-#content form label { 
-	display:block; 
-	float:left; 
-	width:100px; 
-	text-align:right; 
-	padding-right:10px;
-	margin-left:-15px; 
-	margin-bottom:0.5em;
-}
-
-#content form input {
-	border:1px solid #fff;
-	background:#FFFFA0;
-	padding-left:0.5em; 
-	margin-bottom:0.6em;
-}
-
-#content form #send, form #button2 {
-	background:#FFFFA0;
-	padding-right:0.5em; 
-	cursor:pointer; 
-	width:200px;  
-	margin-left:125px;
-	font-weight:bold;
-	color:#555555;
-}
-
-#content form #send:hover, form #button2:hover {
-	background-position:center left; 
-	color:#8BBC70;
-	font-weight:bold;
-}
 
 /* Sidebar Area */
 
 #sidebar {
-	width:203px;
-	margin:50px 30px 0 0px;
-	background: url(images/bg-sidebar.gif) repeat top right;
+	position:relative;
+	margin:40px 20px 10px 10px;
 	border:1px solid #dfdfdf;
+	width:203px;
+	height:200px;
+	background: url(images/bg-sidebar.gif) repeat top right;
 	float:right;
 }
+
 
 #sidebar h3 {
 	padding:10px 10px 0px 10px;
@@ -228,55 +182,6 @@ padding:10px;
 	border:2px solid #dfdfdf;	
 }
 
-
-#sidebar ul.side {
-	padding:5px 10px 10px 30px;
-}
-
-#sidebar ul.side li {
-	padding: 1px 0 1px 0;
-	
-}
-
-#sidebar ul.side li a {
-	text-decoration:underline;
-	color:#555555;	
-}
-
-#sidebar ul.side li a:hover {
-	color:#8bbc70;	
-}
-
-#sidebar form .user_box {
-	margin:0px 10px 10px 10px;
-	width:100px;
-}
-
-#sidebar form .button {
-	margin:0px 0px 10px 0px;
-	background:url(images/top_group_bg.gif) repeat top left;
-}
-
-#sidebar_two {
-	width:203px;
-	margin:40px 30px 0 0px;
-	background:#ffffff;
-	float:right;
-}
-
-#sidebar_two h3 {
-	padding:0px 10px 0px 10px;
-	text-align:center;
-	border-bottom:2px solid #dfdfdf;	
-}
-
-#sidebar_two img {
-	width:90px;
-	margin:5px 0px 5px 5px;
-	float:left;
-	border:2px solid #dfdfdf;	
-}
-
 /* Footer Area */
 #footer {
 	clear:both;
@@ -291,4 +196,12 @@ padding:10px;
 	margin:0;
 	padding:0px;
 	line-height:1.3em;
+}
+
+.xhtmlButton {
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+	vertical-align: middle;
+	height:20px;
 }
