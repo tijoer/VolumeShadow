@@ -1,9 +1,11 @@
-package exampleImplementation;
+package org.volumeshadow.exampleImplementation;
 
 import javax.media.opengl.GL;
 
-import exampleImplementation.math.FastMath;
-import exampleImplementation.math.Vector3f;
+import org.volumeshadow.math.FastMath;
+import org.volumeshadow.math.Vector3f;
+
+
 
 /**
  * <h2>The Camera Class</h2>

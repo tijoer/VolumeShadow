@@ -1,4 +1,4 @@
-package exampleImplementation.math;
+package org.volumeshadow.math;
 
 /**
  * This class represents an edge between two vertices. It has a hash code and

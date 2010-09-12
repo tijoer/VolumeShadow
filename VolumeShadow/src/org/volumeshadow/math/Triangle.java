@@ -30,7 +30,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package exampleImplementation.math;
+package org.volumeshadow.math;
 
 import java.io.Serializable;
 

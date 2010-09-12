@@ -1,14 +1,16 @@
-package exampleImplementation;
+package org.volumeshadow.exampleImplementation;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
 import javax.media.opengl.GL;
 
+import org.volumeshadow.math.Triangle;
+import org.volumeshadow.math.Vector3f;
+
+
 import com.sun.opengl.util.BufferUtil;
 
-import exampleImplementation.math.Triangle;
-import exampleImplementation.math.Vector3f;
 
 /**
  * This is just a basic sphere.

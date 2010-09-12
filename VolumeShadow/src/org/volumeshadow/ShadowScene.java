@@ -1,9 +1,11 @@
-package volumeshadow.Shadow;
+package org.volumeshadow;
 
 import java.util.ArrayList;
 
-import exampleImplementation.math.Triangle;
-import exampleImplementation.math.Vector3f;
+import org.volumeshadow.math.Triangle;
+import org.volumeshadow.math.Vector3f;
+
+
 
 /**
  * <h1>ShadowScene</h1>

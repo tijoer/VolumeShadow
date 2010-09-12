@@ -1,12 +1,14 @@
-package exampleImplementation;
+package org.volumeshadow.exampleImplementation;
 
 import java.util.ArrayList;
 import javax.media.opengl.GL;
+
+import org.volumeshadow.ShadowScene;
+import org.volumeshadow.math.Triangle;
+import org.volumeshadow.math.Vector3f;
+
 import com.sun.opengl.util.GLUT;
 
-import volumeshadow.Shadow.ShadowScene;
-import exampleImplementation.math.Triangle;
-import exampleImplementation.math.Vector3f;
 
 /**
  * This is our example scene. You can do everything you want here, as long as

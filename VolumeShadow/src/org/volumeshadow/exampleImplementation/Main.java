@@ -1,4 +1,4 @@
-package exampleImplementation;
+package org.volumeshadow.exampleImplementation;
 
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;

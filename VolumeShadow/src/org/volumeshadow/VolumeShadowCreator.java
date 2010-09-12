@@ -1,12 +1,14 @@
-package volumeshadow.Shadow;
+package org.volumeshadow;
 
-import exampleImplementation.math.Edge;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.media.opengl.GL;
 
-import exampleImplementation.math.Triangle;
-import exampleImplementation.math.Vector3f;
+import org.volumeshadow.math.Edge;
+import org.volumeshadow.math.Triangle;
+import org.volumeshadow.math.Vector3f;
+
+
 
 /**
  * <h1>VolumeShadowCreator</h1>
@@ -105,7 +107,7 @@ public class VolumeShadowCreator {
 	 * 
 	 * @param gl
 	 */
-	public void drawLightToSilhouetteLines(GL gl) {
+	public void drawLightToSilhouetteLines() {
 		ArrayList<Edge> edgeList = new ArrayList<Edge>();
 		edgeList.addAll(edgeMap.values());
 		gl.glPushMatrix();
@@ -133,11 +135,11 @@ public class VolumeShadowCreator {
 	 * @param gl
 	 *            the GL context
 	 */
-	public void drawShadowLines(GL gl) {
+	public void drawShadowLines() {
 		int dawingMode = GL.GL_LINES;
 		gl.glColor3f(1.0f, 0.0f, 0.0f);
 		gl.glLineWidth(1.0f);
-		drawShadowData(gl, dawingMode);
+		drawShadowData(dawingMode);
 		gl.glLineWidth(1.0f);
 	}
 
@@ -147,9 +149,9 @@ public class VolumeShadowCreator {
 	 * @param gl
 	 *            the GL context
 	 */
-	public void drawShadowVolume(GL gl) {
+	public void drawShadowVolume() {
 		int dawingMode = GL.GL_QUADS;
-		drawShadowData(gl, dawingMode);
+		drawShadowData(dawingMode);
 	}
 
 	/**
@@ -160,7 +162,7 @@ public class VolumeShadowCreator {
 	 * @param drawingMode
 	 *            The OpenGl drawing Mode. Like GL_LINES or GL_QUADS...
 	 */
-	private void drawShadowData(GL gl, int drawingMode) {
+	private void drawShadowData(int drawingMode) {
 		ArrayList<Edge> edgeList = new ArrayList<Edge>();
 		edgeList.addAll(edgeMap.values());
 		Vector3f v0, v1, v2, v3;
@@ -251,12 +253,12 @@ public class VolumeShadowCreator {
         gl.glEnable(GL.GL_CULL_FACE);
         gl.glFrontFace(GL.GL_CCW);
 
-        drawShadowVolume(gl);
+        drawShadowVolume();
         
         gl.glStencilOp(GL.GL_KEEP, GL.GL_KEEP, GL.GL_DECR);
         gl.glFrontFace(GL.GL_CW);
 
-        drawShadowVolume(gl);
+        drawShadowVolume();
         
         gl.glFrontFace(GL.GL_CCW);
         

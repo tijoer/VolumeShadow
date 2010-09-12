@@ -1,10 +1,11 @@
-package exampleImplementation;
+package org.volumeshadow.exampleImplementation;
 
 import javax.media.opengl.GL;
 
-import exampleImplementation.math.Vector3f;
-import volumeshadow.Shadow.ShadowScene;
-import volumeshadow.Shadow.VolumeShadowCreator;
+import org.volumeshadow.ShadowScene;
+import org.volumeshadow.VolumeShadowCreator;
+import org.volumeshadow.math.Vector3f;
+
 
 /**
  * This is an example scene to demonstrate how the volume shadow creator works.
