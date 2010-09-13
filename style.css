@@ -138,44 +138,46 @@ h3 {
 p {
 	margin: 0px 20px 0px 20px;
 	padding: 10px 5px 0px 5px;
-}
-
-p.content {
 	text-align:justify;
 }
 
-
 p img {
 	float:left;
-	padding-right:15px
+	padding-right:15px;
+	padding-left:15px
 }
 
 
 /* Sidebar Area */
 
-#sidebar {
-	position:relative;
+.sidebar {
 	margin:40px 20px 10px 10px;
 	border:1px solid #dfdfdf;
 	width:203px;
-	height:200px;
 	background: url(images/bg-sidebar.gif) repeat top right;
 	float:right;
 }
 
 
-#sidebar h3 {
+.sidebar h3 {
 	padding:10px 10px 0px 10px;
 	text-align:center;
 	border-bottom:2px solid #dfdfdf;	
 }
 
-#sidebar p {
+.sidebar p {
 	margin:0 20px 0 0px;
-	padding:5px 10px 10px 10px;
+	padding:5px 0px 10px 10px;
+	text-align:justify;
 }
 
-#sidebar img {
+.sidebar ul {
+	padding-left:20px;
+	padding-bottom:10px;
+	text-align:justify;
+}
+
+.sidebar img {
 	width:90px;
 	margin:0px 0px 5px 5px;
 	float:left;
@@ -204,4 +206,21 @@ p img {
 	text-align:center;
 	vertical-align: middle;
 	height:20px;
+}
+
+
+code {
+	background-color: ghostWhite !important;
+	border: 1px solid #DEDEDE !important;
+	color: #444 !important;
+	font-size: 12px !important;
+	padding: 0px 0.2em !important;
+}
+
+.codebox {
+	width:630px;
+	height:150px;
+	margin-left:25px; 
+	margin-top:10px; 
+	margin-bottom:0.5em;
 }

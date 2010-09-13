@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+
+	<head>
+
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+		<title>jQuery Fancy Zoom plugin</title>		
+
+		<!-- required -->
+		<script type="text/javascript" src="jquery.js"></script>
+		<!-- optional -->
+		<script type="text/javascript" src="jquery.shadow.js"></script>
+		<script type="text/javascript" src="jquery.ifixpng.js"></script>
+
+		<script type="text/javascript" src="jquery.fancyzoom.min.js"></script>
+
+		<script type="text/javascript">
+			$(function(){
+				$('#demo > a:first').fancyzoom({Speed:400,showoverlay:false});
+				$('#demo > a:last').fancyzoom({Speed:400,showoverlay:false});
+				$('#nooverlay').fancyzoom({Speed:400,showoverlay:false});
+				$('img.fancyzoom').fancyzoom();
+			});
+		</script>
+		
+	   	<style type="text/css">
+	   		A IMG {border:0;}
+	   		A{text-decoration:none;color:#000;}
+	   		body{background:#CCC;}
+	   		#pageWrapper{
+	   			margin:0 auto;
+	   			width:1000px;
+	   			border:1px solid #000;
+	   			background:#FFF;
+	   			padding: 0px 20px 40px 20px;	
+	   		}
+	   		h1{text-align:right;font-size:24px;}
+	   		h2{font-size:16px;border-bottom:1px solid #CCC;margin-top:40px;}
+	   		h3{font-size:14px;border-bottom:1px solid #CCC;margin-left:40px;}
+	   		#demo A {
+	   			display:block;
+	   			float:left;
+	   			width:400px;
+	   			text-align:left;
+	   			text-decoration:none;
+	   			color:#000;
+	   			font-size:11px;
+	   		}
+	   		#demo{
+	   			padding-left:200px;
+	   		}
+	   		#demo  ul {text-align:left;color:#000;}
+	   		p.code{
+	   			margin-left:60px;
+	   		}
+	   		pre{
+	   			margin-left:60px;
+	   			background:#CCC;
+	   			padding:6px;
+	   		}
+	   	</style>
+	</head>
+
+	<body>
+	
+		<div id='pageWrapper'>
+			<h1>jQuery Fancy Zoom Plugin</h1>
+	
+<h2>Changelog</h2>
+<h3>October 2008: new version 1.4</h3>
+<ul>
+	<li>Correct the overlay bug in ie6</li>
+	<li>You can now apply the plugin to an image, no need more a link wrapper<br />
+	 $('img.fancyzoom').fancyzoom();
+	</li>
+</ul>
+
+<h3>11 April 2008 : version 1.1</h3>
+<ul>
+	<li>Correct a bug in the close button placement</li>
+	<li>Add a title option, read from the image alt</li>
+</ul>
+<h3>September 2009 : version 1.5</h3>
+<ul>
+	<li>Lot of improvment</li>
+	<li>Now image get out of its context</li>
+</ul>
+			<h2>What ?</h2>
+			<p>
+				This plugin is the jQuery version on the <a href='http://www.cabel.name/2008/02/fancyzoom-10.html' target='_blank'>fancy zoom effect</a>.
+				<br /> As describe on the fancy zoom web site, this effect is providing a smooth, clean, truly Mac-like effect, almost like it's a function of Safari itself (see the demo below).<br /><br />
+			
+			</p>
+			
+			<h2>How ?</h2>
+			<p>
+				As the well famous light box plugin you must encapsulate your thumb images with a link that point to the zoomed image:<br />
+			<h3>1- Add javascript inclusion in the header of your page</h3>	
+			<p class="code">
+				<pre>
+//required
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery.dimension.js&quot;&gt;&lt;/script&gt;
+
+//optional
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery.shadow.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery.ifixpng.js&quot;&gt;&lt;/script&gt;
+
+//the plugin it self
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery.fancyzoom.js&quot;&gt;&lt;/script&gt;
+				</pre>
+			</p>
+			
+			<h3>2- Add your images</h3>
+			<p class="code">
+			Add your images in the html page, but wrap it with a link to the zoomed version:
+			<pre>
+&lt;a href=&quot;image1.jpg&quot;&gt;&lt;img src=&quot;image1-small.jpg&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;			
+			</pre>
+			</p>
+			
+			<h3>Finally use the plugin</h3>
+			<p class="code">
+				After it, select the links and call the jQuery Fancy Zoom plugin. See some examples:				
+
+<pre>&lt;script type="text/javascript"&gt;
+$(function() {
+	//Set the default directory to find the images needed
+	//by the plugin (closebtn.png, blank.gif, loading images ....)
+	$.fn.fancyzoom.defaultsOptions.imgDir='../images/'; //very important must finish with a /
+
+	// Select all links in object with gallery ID using the defaults options
+	$('#gallery a').fancyzoom(); 
+
+	// Select all links with tozoom class, set the open animation time to 1000
+	$('a.tozoom').fancyzoom({Speed:1000});
+
+	// Select all links set the overlay opacity to 80%
+	$('a').fancyzoom({overlay:0.8});
+	
+	//new rev > 1.2
+	//apply fancyzoom effect on all image whose class is fancyzoom !!
+	$('img.fancyzoom').fancyzoom();
+
+
+});
+&lt;/script&gt;</pre>
+
+			</p>
+
+
+			<h2>Plugin in action</h2>
+			<p>
+				Click on the image to see the zoomed version.
+			</p>
+			<p>
+				<div id="demo">
+					<img class="fancyzoom" src="img/1.jpg" alt="Kopipi island" width="100" />
+					<ul>
+						<li>Image alone</li>
+						<li>default options</li>
+					</ul>
+					<a href="img/1.jpg" id="1"><img src="img/1-small.jpg" alt='An image zoomed !!'/><br /><ul>
+						<li>Animation Speed: 400</li>
+						<li>overlay false</li>
+					</ul></a>
+					<a href="img/2.jpg" id="nooverlay"><img src="img/2-small.jpg" />
+					<ul>
+						<li>No animation</li>
+						<li>Overlay 4/10</li>
+					</ul>
+					</a>
+
+					<a href='img/2.jpg' id="simplelink">A simple link.</a>
+				</div>
+			</p>
+			<p style='clear:both;margin-top:20px'><br /><br />
+				Images are zoomed from the place they are as in the mac osx dock.<br />
+				While loading the image, a png animation shows to the user that image is loading.
+			</p>
+			
+			<h2>Options available</h2>
+			<ul>
+				<li><strong>imgDir:</strong> The directory to find the images for the plugins (blank.gif, closebox.png ....)</li>
+				<li><strong>Speed:</strong> The Speed in miliseconds of the animation, if 0 no animation is displayed</li>
+				<li><strong>showoverlay:</strong> if false, do not show the overlay (true by default)</li>
+				<li><strong>overlayColor:</strong> The color to use for the overlay (default #OOO)</li>
+				<li><strong>overlay:</strong> the opacity value for the overlay (default 0.6)</li>
+				<li><strong>imagezindex:</strong> the zIndex of the image (default 100)</li>
+			</ul>
+			<ul>
+				<li>For msie, use the ifixpng plugin to allow the transparency of the close image, fancy zoom only use ifixpng
+				if it found it.					
+				</li>
+				<li>
+					The shadow plugin works only for non ie browser, add it in the header of your html page and fancy zoom will
+					display an overlay.
+				</li>
+			</ul>
+			
+			<h2>Compatibility</h2>
+			<p>
+				If you add the ifixpng, ie 6 and ie 7 are full compatible.<br />
+				But also safari 3 and firefox 2.
+			</p>
+			
+			<h2>Contact author</h2>
+			<p>
+				<ul>
+					<li>mvilaplanaarobasedfc-e.com</li>
+					<li><a href="http://www.dfc-e.com">http://www.dfc-e.com</a></li>
+				</ul>				
+			</p>
+		</div>
+	</body>
+
+</html>
