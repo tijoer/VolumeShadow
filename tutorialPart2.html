@@ -1,0 +1,211 @@
+<DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Volume Shadow</title>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="content-language" content="en"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta name="author" content="Tim Jörgen"/>
+    <meta name="publisher" content="Tim Jörgen"/>
+    <meta name="description" content="This is an Java Opengl lib to create volumetric shadows. You can add shadows to your scenes in a few minutes, with this library. "/>
+    <meta name="keywords" content="OpenGl, JOGL, Shadow, Volume, Volumetric, Shadow, Volumetric, Shadow, Java, Library, lib"/>
+    <meta name="page-topic" content="Forschung Technik"/>
+    <meta name="audience" content="Profis"/>
+    <meta name="robots" content="index, follow"/>
+    <meta name="revisit-after" content="1 days"/>
+	<script src="js/mouseover.js" type="text/javascript"></script> 
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery.dimension.js"></script>
+	<script type="text/javascript" src="js/jquery.shadow.js"></script>
+	<script type="text/javascript" src="js/jquery.ifixpng.js"></script>
+	<script type="text/javascript" src="js/jquery.fancyzoom.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="style.css"/>
+		<!--[if IE]>
+		<style type="text/css" media="screen">
+		#header ul.nav li.active {
+		margin:0;
+		padding: 0px 5px 0px 5px;
+		background:url(images/nav_corn_l.gif) no-repeat top left;
+		}
+		
+		#header ul.nav {
+		margin:0px 0 0 0;
+		padding:15px 0 0 0;
+		float:right;
+		}
+		</style>
+		<![endif]-->
+
+	<!-- This is the fancyzoom JQuery plugin -->
+	<script type="text/javascript">
+	$(function() {
+		$.fn.fancyzoom.defaultsOptions.imgDir='js/ressources/'; //very important must finish with a /
+		// Select all links in object with gallery ID using the defaults options
+		$('#gallery a').fancyzoom(); 
+		// Select all links with tozoom class, set the open animation time to 1000
+		$('a.tozoom').fancyzoom({Speed:1000});
+		// Select all links set the overlay opacity to 80%
+		$('a').fancyzoom({overlay:0.8});
+		//apply fancyzoom effect on all image whose class is fancyzoom !!
+		$('img.fancyzoom').fancyzoom();
+	});
+	</script>
+
+</head>
+<body>
+
+
+<a href="http://github.com/iuiz/VolumeShadow"><img style="position: absolute; top: 0; right: 0; border: 0;height:100px;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+<div id="topLine">
+		<div id="header">
+		
+			<ul class="nav">
+			<li><a href="index.html">Home</a></li>
+			<li class="active"><a href="tutorial.html">Tutorial</a></li>
+			<li><a href="contact.html">Contact</a></li>
+			<li><a href="http://github.com/iuiz/VolumeShadow">Github</a></li>
+			</ul>
+			
+			<h1><span>||</span>Volume<span>Shadow</span><br/><span class="lastUpdate">Last update: 12.09.2010</span></h1>
+			
+		</div>
+</div>
+
+
+<div id="outerwarrper">
+	<div id="wrapper">
+		<div class="sidebar">
+			<h3>Index</h3>
+			<a href="tutorial.html" class="inverted">Part 1</a>
+			<ul class="side">
+				<li><a href="tutorial.html">Introduction</a></li>
+				<li><a href="tutorial.html#notCover">What will this tutorial not cover</a></li>
+				<li><a href="tutorial.html#obtaining">Obtaining the library</a></li>
+				<li><a href="tutorial.html#setup">Setup your workspace</a></li>
+			</ul>
+			<a href="tutorialPart2.html" class="inverted">Part 2</a>
+			<ul class="side">
+				<li><a href="tutorialPart2.html">A basic scene</a></li>
+			</ul>
+		</div>
+		
+		<h2 class="firstHeading">Tutorial - part 2</h2>
+		<p>This part will now show you how to actually use the VolumeShadow lib.</p>
+		
+		<h3 class="firstHeading"><a name="aBasicScene"></a>A basic scene</h3>
+		<p>Lets create a scene that acually uses the lib. At create a new class called <code>World</code> in a separate file. This class will contain our world (as the name implies) with a room, a light and a 3D object that casts shadow on the walls. The class needs to implement <code>org.volumeshadow.ShadowScene</code> and a reference to the GL context. The context can be passed in the constructor.</p>
+		<textarea class="codebox" ROWS="39">
+package shadowTutorial;
+
+import java.util.ArrayList;
+import javax.media.opengl.GL;
+import org.volumeshadow.math.Triangle;
+import org.volumeshadow.math.Vector3f;
+
+public class World implements org.volumeshadow.ShadowScene {
+	
+	private GL gl;
+
+	public World(GL gl) {
+		this.gl = gl;
+	}
+
+	@Override
+	public ArrayList<Triangle> getOccluderVertexData() {
+		return null;
+	}
+
+	@Override
+	public Vector3f getOccluderPosition() {
+		return null;
+	}
+
+	@Override
+	public Vector3f getLightPosition() {
+		return null;
+	}
+
+	@Override
+	public void renderWorld(float lightFactor) {
+	}
+
+	@Override
+	public void renderOccluder(float lightFactor) {
+	}
+}
+			</textarea>
+		<p>Now we will draw a room in the <code>renderWorld</code> method. Add the folowing code to the method:</p>
+		<textarea class="codebox" ROWS="22">
+gl.glPushMatrix();				
+gl.glBegin(GL.GL_QUADS);
+gl.glColor3f(1.0f, 0.0f, 0.0f);
+gl.glVertex3f(-1.0f, -1.0f, -8.0f);
+gl.glVertex3f(1.0f, -1.0f, -8.0f);
+gl.glVertex3f(1.0f, 1.0f, -8.0f);
+gl.glVertex3f(-1.0f, 1.0f, -8.0f);
+
+gl.glColor3f(0.0f, 1.0f, 0.0f);
+gl.glVertex3f(-1.0f, -1.0f, -8.0f);
+gl.glVertex3f(-1.0f, -1.0f, -6.0f);
+gl.glVertex3f(1.0f, -1.0f, -6.0f);
+gl.glVertex3f(1.0f, -1.0f, -8.0f);
+
+gl.glColor3f(0.0f, 0.0f, 1.0f);
+gl.glVertex3f(1.0f, -1.0f, -8.0f);
+gl.glVertex3f(1.0f, -1.0f, -6.0f);
+gl.glVertex3f(1.0f, 1.0f, -6.0f);
+gl.glVertex3f(1.0f, 1.0f, -8.0f);
+gl.glEnd();
+gl.glPopMatrix();
+		</textarea>
+		<p>This is not the prettiest room we have ever seen, as it has only 2 walls (and the ground), but it will be enough for our purpose. We are not done. We still need to add a light and an occluder. To give the VolumeShadow lib the capability to calculate a shadow volume, we need to provide it with the vertex data. So we will not only draw a occluder, but also draw it from a data structure that holds the triangle data. So lets change the contructor that it looks like the following and change the <code>renderOccluder</code> method.</p>
+		<textarea class="codebox" ROWS="13">
+public void renderOccluder(float lightFactor) {
+	gl.glColor3f(1.0f, 1.0f, 0.0f);
+	gl.glBegin(GL.GL_TRIANGLES);
+	for (Iterator<Triangle> iterator = this.occluder.iterator(); iterator.hasNext();) {
+		Triangle tri = (Triangle) iterator.next();
+		gl.glVertex3f(tri.get(0).x, tri.get(0).y, tri.get(0).z);
+		gl.glVertex3f(tri.get(1).x, tri.get(1).y, tri.get(1).z);
+		gl.glVertex3f(tri.get(2).x, tri.get(2).y, tri.get(2).z);
+	}
+	gl.glEnd();
+}
+		</textarea>
+<p>Now back to the Main class. Apply the following changes so that our scene is drawn and have a first look at our scene.</p>
+
+		<textarea class="codebox" ROWS="19">
+World world;
+
+public void init(GLAutoDrawable gLAutoDrawable) {
+	...
+	world = new World(gl);
+}
+
+public void display(GLAutoDrawable arg0) {
+	gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+	gl.glLoadIdentity();
+	
+	gl.glRotatef(20.0f, 1.0f, 0.0f, 0.0f);
+	gl.glRotatef(40.0f, 0.0f, 1.0f, 0.0f);
+	gl.glTranslatef(5.0f, -3.0f, 0.0f);
+	
+	world.renderWorld(1.0f);
+	world.renderOccluder(1.0f);
+}
+		</textarea>
+		<p>This is just a basic scene. In part 3 of the tutorial we will add a light source and finaly draw the shadow.<a href="images/tutorial/basicScene.png"><img src="images/tutorial/basicScene.png" width="150" alt="This is how your folder should look like." style="float:left;"/> </a></p>
+	</div>
+</div>
+
+
+
+<div id="footer">
+	<p>Design By:<a href="http://www.templatesforfree.net" onmouseover="doTooltip(event,0)" onmouseout="hideTip()"><del>TemplatesForFree.net</del></a> (Link not working anymore.)</p>
+	<!--<p><a href="http://validator.w3.org/check?uri=referer" onmouseover="doTooltip(event,0)" onmouseout="hideTip()"><img class="xhtmlButton" src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Transitional"/></a></p>-->
+</div>
+
+<div id="tipDiv" style="position:absolute; visibility:hidden; z-index:100"></div>
+</body>
+</html>
