@@ -77,13 +77,16 @@
 	<div id="wrapper">
 		<div class="sidebar">
 			<h3>Index</h3>
-			<p>Choose which format you want. The archive contains the whole project.</p>
+			<p>Part 1</p>
 			<ul class="side">
 				<li><a href="#introduction">Introduction</a></li>
 				<li><a href="#notCover">What will this tutorial not cover</a></li>
 				<li><a href="#obtaining">Obtaining the library</a></li>
 				<li><a href="#setup">Setup your workspace</a></li>
-				<li><a href="#">Basic OpenGl Code</a></li>				
+			</ul>
+			<p>Part 2</p>
+			<ul class="side">
+				<li><a href="#intoTheLib">Into the lib</a></li>				
 			</ul>
 		</div>
 
@@ -93,18 +96,18 @@
 			<p>This is the tutorial that will show you how to work with the VolumeShadow library. It will lead you step by stop from obtaining the source to a fully functional scene with shadow. If you already have a working OpenGl project and know how to use librarys you can easily skip some sections. I describe how to create a new Eclipse project with JOGL, so that there is a common OpenGl application running. So you can be sure that if it won't work, the error was not caused by wrong project setup (this happens soooo many times). Also if you have some questions please feel free to <a href="contact.html">contact</a> me.</p>
 
 			<h3 class="firstHeading"><a name="notCover"></a>What will this tutorial not cover</h3>
-			<p>This tutorial will not show you how to setup JOGL. The JOGL library for compiling the example scene are included in the download, but you still need the native files for your system. You can get them at the official <a href="http://jogamp.org/jogl/www/">JOGL homepage</a>. But as this a library to include to your existing OpenGl applicatin, you have probably already installed JOGL.</p>
+			<p>This tutorial will not show you how to setup JOGL. The JOGL library for compiling the example scene are included in the download, but you still need the native files for your system. You can get them at the official <a href="http://jogamp.org/jogl/www/">JOGL homepage</a>. But as this a library to include to your existing OpenGl application, you have probably already installed JOGL.</p>
 			
 
 			<h3 class="heading"><a name="obtaining"></a>Obtaining the library</h3>
-			<p>The whole project is currently hostet at github. This gives us three differnt ways to obtain the library.</p>
-			<p>The recommended way to obtain the project is to clone the repository. To do this you will have to install <a href="http://git-scm.com/">GIT</a>. After you have done this, create a local directory and got into it. Run the following command from within a Terminal to clone the repository: <code>git clone http://github.com/iuiz/VolumeShadow.git .</code> (with the dot).</p>
+			<p>The whole project is currently hosted at github. This gives us three different ways to obtain the library.</p>
+			<p>The recommended way to obtain the project is to clone the repository. To do this you will have to install <a href="http://git-scm.com/">GIT</a>. After you have done this, create a local directory and got into it. Run the following command from within a terminal to clone the repository: <code>git clone http://github.com/iuiz/VolumeShadow.git .</code> (with the dot).</p>
 			<p><a href="images/tutorial/folder.png"><img src="images/tutorial/folder.png" width="150" alt="This is how your folder should look like."/></a>If you don't want to use GIT you can also use <a href="http://subversion.tigris.org/">SVN</a>. Create a local folder, switch into it and run the following command to checkout the latest version of the project with SVN: <code>svn checkout http://svn.github.com/iuiz/VolumeShadow.git</code></p>
 			<p>The last way to download the project is to use one of the two direct download links. You can choose between a <a href="http://github.com/iuiz/VolumeShadow/zipball/master">ZIP</a> or a <a href="http://github.com/iuiz/VolumeShadow/tarball/master">TAR</a> archive. Just extract the archive to a folder on your harddrive.</p>
 			
 
 			<h3 class="heading"><a name="setup"></a>Setup your workspace</h3>
-			<p><a href="images/tutorial/newProject.png"><img src="images/tutorial/newProject.png" width="150" alt="This is how your folder should look like." style="float:right;"/></a>There are already two project files. One for Eclipse, one for Netbeans. They will let you compile an example project, but this tutorial will show you how to create your own projcect in Eclipse.</p>
+			<p><a href="images/tutorial/newProject.png"><img src="images/tutorial/newProject.png" width="150" alt="This is how your folder should look like." style="float:right;"/></a>There are already two project files included. One for Eclipse, one for Netbeans. They will let you compile an example project, but this tutorial aims to show you how to integrate the VolumeShadow lib into your own project, so I will show you how to create your own projcect in Eclipse.</p>
 			<p>After you start Eclipse go to <code>File -> New -> JavaProject</code> and enter a Name for your project. I choose "ShadowTutorial" for my project. Look at the screenshot to see the other settings (click to enlarge it). Click finish to create your new project.</p>
 			<p>After you have done this, create a new JavaClass in the project (right click the project and select <code>New -> Class</code>, name it <code>Main</code> and put it into the package <code>shadowTutorial</code>. Pass the folowing code into the class:</p>
 <textarea class="codebox">
@@ -209,9 +212,15 @@ public class Main implements GLEventListener {
 	}
 }
 </textarea>
-	<p>This is the example OpenGl programm we are gonna use. It just creates an empty window with an OpenGl canvas. We still have to add the JOGl libs to the project. To do this rightclick on the project and select <code>Properties</code>. Then select <code>Java Build Path</code> and click on <code>Add External JARs...</code>. Now go to the lib directory in your VolumeShadow path (where you downloaded or extracted the lib) and select <code>gluegen-rt.jar</code> and <code>jogl.jar</code>. Afterwards click on OK.</p>
-<p>TODO complete me</p>
+			<p>This is the example OpenGl programm we are gonna use. It just creates an empty window with an OpenGl canvas. We still have to add the JOGl libs to the project. To do this rightclick on the project and select <code>Properties</code>. Then select <code>Java Build Path</code> and click on <code>Add External JARs...</code>. Now go to the lib directory in your VolumeShadow path (where you downloaded or extracted the lib) and select <code>gluegen-rt.jar</code> and <code>jogl.jar</code>. Afterwards click on OK.</p>
+			<p>Now you still need to add VolumeShadow lib. This is currently not deliverd as an jar, so you will have to select the <code>Source</code> tab and click on <code>Link Source...</code>. Select the <code>VolumeShadow/src/volumeshadow</code> directory and confirm the dialog.</p>
+			<p>You should now be able to compile the application and use the VolumeShadow lib.</p>
+
+			<h3 class="heading"><a name="intoTheLib"></a>Into the lib</h3>
+			<p>TODO complete me</p>
 	</div>
+
+
 </div>
 
 
