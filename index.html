@@ -5,7 +5,9 @@
 	<link rel="stylesheet" type="text/css" href="style.css"/>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="content-language" content="en"/>
+	<meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache"/>
+	<meta http-equiv="expires" content="0">
     <meta name="author" content="Tim Jörgen"/>
     <meta name="publisher" content="Tim Jörgen"/>
     <meta name="description" content="This is an Java Opengl lib to create volumetric shadows. You can add shadows to your scenes in a few minutes, with this library. "/>
@@ -18,26 +20,6 @@
 	<!-- JQuery is needed by several Javascript plugins -->
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7/jquery-ui.min.js"></script>
-
-	<!-- This is the fancyzoom JQuery plugin -->
-	<script type="text/javascript" src="js/jquery.dimension.js"></script>
-	<script type="text/javascript" src="js/jquery.shadow.js"></script>
-	<script type="text/javascript" src="js/jquery.ifixpng.js"></script>
-	<script type="text/javascript" src="js/jquery.fancyzoom.js"></script>
-	<script type="text/javascript">
-	$(function() {
-		$.fn.fancyzoom.defaultsOptions.imgDir='js/ressources/'; //very important must finish with a /
-		// Select all links in object with gallery ID using the defaults options
-		$('#gallery a').fancyzoom(); 
-		// Select all links with tozoom class, set the open animation time to 1000
-		$('a.tozoom').fancyzoom({Speed:1000});
-		// Select all links set the overlay opacity to 80%
-		$('a').fancyzoom({overlay:0.8});
-		//apply fancyzoom effect on all image whose class is fancyzoom !!
-		$('img.fancyzoom').fancyzoom();
-	});
-	</script>
-	<!-- End fancyzoom -->
 
 	<!-- This is the JQuery container plugin -->
 	<link rel="stylesheet" type="text/css" href="js/jquery.mb.containerPlus.2.5.1/css/mbContainer.css" title="style"  media="screen"/>
@@ -53,6 +35,30 @@
 	});
 	</script>
 	<!-- End of container plugin -->
+	
+	<!-- JQuery fancybox plugin -->
+	<script type="text/javascript" src="js/jquery.fancybox-1.3.1/fancybox/jquery.mousewheel-3.0.2.pack.js"></script> 
+	<script type="text/javascript" src="js/jquery.fancybox-1.3.1/fancybox/jquery.fancybox-1.3.1.js"></script> 
+	<link rel="stylesheet" type="text/css" href="js/jquery.fancybox-1.3.1/fancybox/jquery.fancybox-1.3.1.css" media="screen" /> 
+ 	<link rel="stylesheet" href="style.css" /> 
+	<script type="text/javascript"> 
+		$(document).ready(function() {
+			/*
+			*   Examples - images
+			*/
+ 
+			$("a#screenshot1").fancybox({
+				'titleShow'		: true,
+				'transitionIn'	: 'elastic',
+				'transitionOut'	: 'elastic',
+				'titlePosition'	: 'inside',
+				'width'				: '75%',
+				'height'			: '75%',
+				'autoScale'			: true
+			});
+		});
+	</script> 
+	<!-- End of fancybox plugin -->
 </head>
 
 <body>
@@ -61,8 +67,8 @@
 		<div id="header">
 		
 			<ul class="nav">
-			<li><a href="index.html">Home</a></li>
-			<li class="active"><a href="tutorial.html">Tutorial</a></li>
+			<li class="active"><a href="index.html">Home</a></li>
+			<li><a href="tutorial.html">Tutorial</a></li>
 			<li><a href="contact.html">Contact</a></li>
 			<li><a href="http://github.com/iuiz/VolumeShadow">Github</a></li>
 			</ul>
@@ -80,7 +86,7 @@
 			<h3>Get the source</h3>
 			<p>Choose which format you want. The archive contains the whole project.</p>
 
-			<a href="http://github.com/iuiz/VolumeShadow/zipball/master"><img class="side_gallery" src="images/zip.png" alt="Zip DL"/></a>
+			<a class="noZoom" href="http://github.com/iuiz/VolumeShadow/zipball/master"><img class="side_gallery" src="images/zip.png" alt="Zip DL"/></a>
 			<a href="http://github.com/iuiz/VolumeShadow/tarball/master"><img class="side_gallery" src="images/tar.png" alt="Tar DL"/></a>
 		</div>
 
@@ -93,7 +99,10 @@
 			<p class="content">The project is currently hosted on Github. Please follow this <a href="http://github.com/iuiz/VolumeShadow">link</a> to get to the repository, or use the Zip or Tar buttons on the right side to start your download. The project is currently hosted on Github.</p>
 
 			<h2 class="heading">Screenshot</h2>
-			<p class="content"><img src="images/screenshots/screenshot1.png" alt="screenshot"/> Here is a screenshot of a simple scene. A sphere is casting shadow on a brick wall. The lines are drawn from the light source to the silhouette of the sphere, which is then used to create a shadow volume, that is used to create the shadow effect.</p>
+			<p class="content">
+
+<a id="screenshot1" href="images/screenshots/screenshot1.png"><img alt="Screenshot" src="images/screenshots/screenshot1.png"/></a> 
+Here is a screenshot of a simple scene. A sphere is casting shadow on a brick wall. The lines are drawn from the light source to the silhouette of the sphere, which is then used to create a shadow volume, that is used to create the shadow effect.</p>
 			<p class="content">This scene is the example implementation of the library and is included in the download and in the repository.</p>
 			<p class="content">It is currently well documented and you should have no problems using it.</p>
 
