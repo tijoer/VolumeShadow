@@ -44,19 +44,21 @@ public interface ShadowScene {
 	/**
 	 * This renders your world WITHOUT the occluder.
 	 * 
-	 * @param lightFactor
+	 * @param renderWithLight
 	 *            The volume shadow creator will pass two different light
-	 *            settings. This is currently a float, in a future release this
-	 *            will probably be a boolean.
+	 *            settings. If it is set to true you should render your scene
+	 *            with light, if it is false, you should render your scene with
+	 *            light off.
 	 */
-	public void renderWorld(float lightFactor);
+	public void renderWorld(boolean renderWithLight);
 	
 	/**
 	 * This renders your occluder. 
-	 * @param lightFactor
+	 * @param renderWithLight
 	 *            The volume shadow creator will pass two different light
-	 *            settings. This is currently a float, in a future release this
-	 *            will probably be a boolean.
+	 *            settings. If it is set to true you should render your scene
+	 *            with light, if it is false, you should render your scene with
+	 *            light off.
 	 */
-	public void renderOccluder(float lightFactor);
+	public void renderOccluder(boolean renderWithLight);
 }

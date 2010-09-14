@@ -145,7 +145,13 @@ public class World implements ShadowScene {
 	 * separate this, so that self shadowing of the occluders works.
 	 */
 	@Override
-	public void renderWorld(float lightFactor) {
+	public void renderWorld(boolean renderWithLight) {
+		float lightFactor;
+		if(renderWithLight) {
+			lightFactor = 1.0f;
+		} else {
+			lightFactor = 0.0001f;
+		}
 		Vector3f lightAmbient = new Vector3f(0.15f, 0.15f, 0.15f); 
 		Vector3f lightDiffuse = new Vector3f(lightFactor, lightFactor, lightFactor); 
 
@@ -178,7 +184,7 @@ public class World implements ShadowScene {
 	 * This renders your occluders.
 	 */
 	@Override
-	public void renderOccluder(float lightFactor) {
+	public void renderOccluder(boolean renderWithLight) {
 		gl.glPushMatrix();
 		gl.glTranslatef(occluderPosition.x, occluderPosition.y,	occluderPosition.z);
 		occluder.render();

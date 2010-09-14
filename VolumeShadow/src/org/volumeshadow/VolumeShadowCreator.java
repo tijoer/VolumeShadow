@@ -235,8 +235,8 @@ public class VolumeShadowCreator {
 	}
 
 	public void renderSceneWithShadow() {
-		shadowScene.renderWorld(1.0f);
-		shadowScene.renderOccluder(1.0f);
+		shadowScene.renderWorld(true);
+		shadowScene.renderOccluder(true);
         
         gl.glClearStencil(0);
         
@@ -272,11 +272,11 @@ public class VolumeShadowCreator {
         gl.glDisable(GL.GL_LIGHTING);
         gl.glDisable(GL.GL_DEPTH_TEST);
         
-        shadowScene.renderWorld(0.0001f);
+        shadowScene.renderWorld(false);
         gl.glCullFace(GL.GL_BACK);
         gl.glFrontFace(GL.GL_CCW);
         gl.glEnable(GL.GL_CULL_FACE);
-        shadowScene.renderOccluder(0.0001f);
+        shadowScene.renderOccluder(false);
         gl.glEnable(GL.GL_DEPTH_TEST);
         
         //gl.glDepthMask(true);
