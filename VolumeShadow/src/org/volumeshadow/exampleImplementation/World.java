@@ -32,11 +32,11 @@ public class World implements ShadowScene {
 	 * gl.glTranslatef(...). You can also pass (0.0f, 0.0f, 0.0f) if you don't
 	 * translate your model.
 	 */
-	private Vector3f occluderPosition = new Vector3f(0.0f, 0.0f, 3.0f);
+	private Vector3f occluderPosition = new Vector3f(0.0f, 0.0f, -8.0f);
 	/**
 	 * This is the position of the light, that casts the shadow.
 	 */
-	private Vector3f lightPosition = new Vector3f(2.7f, 0.7f, 9.0f); 
+	private Vector3f lightPosition = new Vector3f(0.0f, 0.0f, 0.1f); 
 
 	World(GL gl) {
 		this.gl = gl;
@@ -171,6 +171,7 @@ public class World implements ShadowScene {
 		gl.glPopMatrix();
 
 		gl.glPushMatrix();
+		gl.glTranslatef(0, 0, -10);
 		//If you press 'q' Main.xrot will change. To show a bit of animation in the scene.
 		gl.glRotatef(Main.xrot, 1.0f, 0.0f, 0.0f);
 		gl.glRotatef(Main.yrot, 0.0f, 1.0f, 0.0f);
