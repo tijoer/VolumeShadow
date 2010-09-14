@@ -138,12 +138,12 @@
 .containerPlus.white .n	{ padding-top:10px; font-size:12px;-moz-user-select: none; -khtml-user-select: none}
 
 .containerPlus.white .o	{ background: url('../elements/white/o.png') top left repeat-y;}
-.containerPlus.white .e	{ background: url('../elements/white/e.png') top right repeat-y; margin-left: 21px;}
-.containerPlus.white .c { background: url('../elements/white/c.png'); margin-right: 25px; padding-top: 1px; padding-bottom: 1px; }
+.containerPlus.white .e	{ background: url('../elements/white/e.png') top right repeat-y; margin-left: 6px;}
+.containerPlus.white .c { background: url('../elements/white/c.png'); margin-right: 25px; padding-top: 1px; border-radius:1px;border:1px solid #EEE}
 .containerPlus.white .c .mbcontainercontent {color:#000;}
 .containerPlus.white .n	a{}
 .containerPlus.white .n	a:hover{ text-decoration:underline}
 
 .containerPlus.white .so	{ background: url('../elements/white/so.png') bottom left no-repeat;}
 .containerPlus.white .se	{ background: url('../elements/white/se.png') bottom right no-repeat; margin-left: 21px;}
-.containerPlus.white .s { background: url('../elements/white/s.png') bottom repeat-x; padding-top: 20px; margin-right: 25px;}
+.containerPlus.white .s { background: url('../elements/white/s.png') bottom repeat-x; padding-top: 9px; margin-right: 25px;}

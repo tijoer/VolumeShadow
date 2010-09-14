@@ -92,17 +92,23 @@
 			<a href="tutorialPart2.html" class="inverted">Part 2</a>
 			<ul class="side">
 				<li><a href="tutorialPart2.html">A basic scene</a></li>
+				<li><a href="tutorialPart2.html#addingAnOccluder">Adding an occluder</a></li>
+				<li><a href="tutorialPart2.html#addingALight">Adding a light</a></li>
+			</ul>
+			<a href="tutorialPart2.html" class="inverted">Part 3</a>
+			<ul class="side">
+				<li><a href="tutorialPart3.html">Using the library</a></li>
 			</ul>
 		</div>
 		
 		<h2 class="firstHeading">Tutorial - part 2</h2>
-		<p>This part will now show you how to actually use the VolumeShadow lib.</p>
+		<p>This part will now show you how to implement the VolumeShadow interface and draw a basic scene. Most of the code is OpenGl geometrie, so don't get a shock as this page is quite long.</p>
 		
 		<h3 class="firstHeading"><a name="aBasicScene"></a>A basic scene</h3>
-		<p>Lets create a scene that acually uses the lib. At create a new class called <code>World</code> in a separate file. This class will contain our world (as the name implies) with a room, a light and a 3D object that casts shadow on the walls. The class needs to implement <code>org.volumeshadow.ShadowScene</code> and a reference to the GL context. The context can be passed in the constructor.</p>
+		<p>Lets create a scene that acually uses a first part of the lib. Create a new class called <code>World</code> in a separate file. This class will contain our world (as the name implies) with a room, a light and a 3D object that casts shadow on the walls. The class needs to implement <code>org.volumeshadow.ShadowScene</code> and a needs to have a reference to the GL context. The context can be passed in the constructor and stored in a local field. Remember to add all the includes, that are needed by the interface and for the <code>GL</code> class.</p>
 		
-		<div id="tutPart2listing1" class="containerPlus resizable {buttons:'m', icon:'../../../../images/javaIcon.gif', skin:'white', height:'300', width:'650',closed:'false', rememberMe:'false'}" style="margin:25px 0px 0px 25px;"> 
-			<div class="no"><div class="ne"><div class="n">Listing 1</div></div> 
+		<div id="tutPart2listing1" class="containerPlus resizable {buttons:'m', icon:'../../../../images/javaIcon.gif', skin:'white', height:'200', width:'650',closed:'false', rememberMe:'false', minHeight:'100'}" style="margin:35px 0px 0px 25px;"> 
+			<div class="no"><div class="ne"><div class="n">Listing 1 - <span>Tipp: You can resize the listings on the bottom border.</span></div></div> 
 				<div class="o"><div class="e"><div class="c"> 
 				<div class="mbcontainercontent"> 
 <pre style="font-size:10px;">
@@ -137,11 +143,11 @@ public class World implements org.volumeshadow.ShadowScene {
 	}
 
 	@Override
-	public void renderWorld(float lightFactor) {
+	public void renderWorld(boolean renderWithLight) {
 	}
 
 	@Override
-	public void renderOccluder(float lightFactor) {
+	public void renderOccluder(boolean renderWithLight) {
 	}
 }
 </pre>
@@ -153,9 +159,99 @@ public class World implements org.volumeshadow.ShadowScene {
 			</div> 
 		</div> 
 
-<p>Now back to the Main class. Apply the following changes so that our scene is drawn and have a first look at our scene.</p>
-		<div id="tutPart2listing2" class="containerPlus resizable {buttons:'m', icon:'../../../../images/javaIcon.gif', skin:'white', height:'275', width:'650',closed:'false', rememberMe:'false'}" style="margin:25px 0px 0px 25px;"> 
+
+		<p>Now we will draw a room in the <code>renderWorld</code> method. Add the folowing code to the method:</p>
+<div id="tutPart2listing1" class="containerPlus resizable {buttons:'m', icon:'../../../../images/javaIcon.gif', skin:'white', height:'200', width:'650',closed:'false', rememberMe:'false', minHeight:'100'}" style="margin:30px 0px 0px 25px;"> 
 			<div class="no"><div class="ne"><div class="n">Listing 2</div></div> 
+				<div class="o"><div class="e"><div class="c"> 
+				<div class="mbcontainercontent"> 
+<pre style="font-size:10px;">
+gl.glPushMatrix();				
+gl.glBegin(GL.GL_QUADS);
+gl.glColor3f(1.0f, 0.0f, 0.0f);
+gl.glVertex3f(-1.0f, -1.0f, -8.0f);
+gl.glVertex3f(1.0f, -1.0f, -8.0f);
+gl.glVertex3f(1.0f, 1.0f, -8.0f);
+gl.glVertex3f(-1.0f, 1.0f, -8.0f);
+
+gl.glColor3f(0.0f, 1.0f, 0.0f);
+gl.glVertex3f(-1.0f, -1.0f, -8.0f);
+gl.glVertex3f(-1.0f, -1.0f, -6.0f);
+gl.glVertex3f(1.0f, -1.0f, -6.0f);
+gl.glVertex3f(1.0f, -1.0f, -8.0f);
+
+gl.glColor3f(0.0f, 0.0f, 1.0f);
+gl.glVertex3f(1.0f, -1.0f, -8.0f);
+gl.glVertex3f(1.0f, -1.0f, -6.0f);
+gl.glVertex3f(1.0f, 1.0f, -6.0f);
+gl.glVertex3f(1.0f, 1.0f, -8.0f);
+gl.glEnd();
+gl.glPopMatrix();
+</pre>
+				</div> 
+				</div></div></div> 
+				<div > 
+				<div class="so"><div class="se"><div class="s"> </div></div></div> 
+				</div> 
+			</div> 
+		</div> 
+
+		<p>This is not the prettiest room we have ever seen, as it has only 2 walls (and the ground), but it will be enough for our purpose.
+		
+		<h3 class="heading"><a name="addingAnOccluder"></a>Adding an occluder</h3>
+		<p>Let's add an occluder. To give the VolumeShadow lib the capability to calculate a shadow volume, we need to provide it with the vertex data. So we will not only draw a occluder, but also draw it from a data structure that holds the triangle data. So lets apply the following changes.</p>
+<div id="tutPart2listing1" class="containerPlus resizable {buttons:'m', icon:'../../../../images/javaIcon.gif', skin:'white', height:'200', width:'650',closed:'false', rememberMe:'false', minHeight:'100'}" style="margin:30px 0px 0px 25px;"> 
+			<div class="no"><div class="ne"><div class="n">Listing 3</div></div> 
+				<div class="o"><div class="e"><div class="c"> 
+				<div class="mbcontainercontent"> 
+<pre style="font-size:10px;">
+private Triangle tri;
+private ArrayList<Triangle> occluder;
+
+public World(GL gl) {
+	this.gl = gl;
+	tri = new Triangle(new Vector3f(-0.3f, -0.3f, -7.0f),
+				new Vector3f(0.1f, -0.4f, -6.0f), 
+				new Vector3f(0.2f, 0.4f, -7.0f));
+	occluder = new ArrayList<Triangle>();
+	occluder.add(tri);
+}
+
+@Override
+public ArrayList<Triangle> getOccluderVertexData() {
+	return this.occluder;
+}
+
+@Override
+public Vector3f getOccluderPosition() {
+	return new Vector3f(0.0f, 0.0f, 0.0f);
+}
+
+
+public void renderOccluder(boolean renderWithLight) {
+	gl.glColor3f(1.0f, 1.0f, 0.0f);
+	gl.glBegin(GL.GL_TRIANGLES);
+	for (Iterator<Triangle> iterator = this.occluder.iterator(); iterator.hasNext();) {
+		Triangle tri = (Triangle) iterator.next();
+		gl.glVertex3f(tri.get(0).x, tri.get(0).y, tri.get(0).z);
+		gl.glVertex3f(tri.get(1).x, tri.get(1).y, tri.get(1).z);
+		gl.glVertex3f(tri.get(2).x, tri.get(2).y, tri.get(2).z);
+	}
+	gl.glEnd();
+}
+</pre>
+				</div> 
+				</div></div></div> 
+				<div > 
+				<div class="so"><div class="se"><div class="s"> </div></div></div> 
+				</div> 
+			</div> 
+		</div> 
+		<p>Notice how we return a vector with <code>0.0f, 0.0f, 0.0f</code> in <code>getOccluderPosition</code>, as we don't do any tanslations in the <code>renderOccluder</code> method.</p>
+
+		<p>Now back to the Main class. Apply the following changes so that our scene is drawn and have a first look at our scene.</p>
+		<div id="tutPart2listing2" class="containerPlus resizable {buttons:'m', icon:'../../../../images/javaIcon.gif', skin:'white', height:'200', width:'650',closed:'false', rememberMe:'false', minHeight:'100'}" style="margin:25px 0px 0px 25px;"> 
+			<div class="no"><div class="ne"><div class="n">Listing 4</div></div> 
 				<div class="o"><div class="e"><div class="c"> 
 				<div class="mbcontainercontent"> 
 <pre style="font-size:10px;">
@@ -185,10 +281,96 @@ public void display(GLAutoDrawable arg0) {
 				</div> 
 			</div> 
 		</div> 
-		<p>This is just a basic scene. In part 3 of the tutorial we will add a light source and finaly draw the shadow.<a id="screenshot1" href="images/tutorial/basicScene.png"><img src="images/tutorial/basicScene.png" width="150" alt="This is how your folder should look like." style="float:left;"/> </a></p>
+		<p>Now here is our simple scene for now. We have a gound, two walls and a triangle in the middle, which will be our occluder.<center><a id="screenshot1" href="images/tutorial/basicScene.png"><img src="images/tutorial/basicScene.png" width="150" alt="A first look at our scene." style="float:middle;"/> </a></center>
+
+		<h3 class="heading"><a name="addingALight"></a>Adding a light</h3>
+		<p>Now we still need to add a ligth to our scene. However we won't use the OpenGl lighting functionality, our a shader, but just draw a sphere on the position where the light should be. You can use OpenGl lighting if you want, but in this tutorial we won't. The shadow will be created, because the scene is drawn two times. One time bright and one time dark. You can archive this, by toggling <code>GL.GL_LIGHTING</code>, but you can also achieve this with changing the colors. As this is a basic example scene without normals, we will just change the colors. But we will draw a sphere on the position of our shadow casting light, to better visualize what is happening.</p>
 
 
+		<div id="tutPart2listing1" class="containerPlus resizable {buttons:'m', icon:'../../../../images/javaIcon.gif', skin:'white', height:'200', width:'650',closed:'false', rememberMe:'false', minHeight:'100'}" style="margin:30px 0px 0px 25px;"> 
+			<div class="no"><div class="ne"><div class="n">Listing 5</div></div> 
+				<div class="o"><div class="e"><div class="c"> 
+				<div class="mbcontainercontent"> 
+<pre style="font-size:10px;">
+import com.sun.opengl.util.GLUT;
+....
+private GLUT glut = new GLUT();
+private Vector3f lightPosition = new Vector3f(1.0f, 1.0f, -4.0f);
 
+@Override
+public Vector3f getLightPosition() {
+	return this.lightPosition;
+}
+
+@Override
+public void renderWorld(boolean renderWithLight) {
+	gl.glPushMatrix();
+	gl.glTranslatef(lightPosition.x, lightPosition.y, lightPosition.z);
+	gl.glColor3f(1.0f, 0.3f, 0.5f);
+	glut.glutSolidSphere(0.1f, 20, 20);
+	gl.glPopMatrix();
+	... //the rest from render World, that we already coded
+</pre>
+				</div> 
+				</div></div></div> 
+				<div > 
+				<div class="so"><div class="se"><div class="s"> </div></div></div> 
+				</div> 
+			</div> 
+		</div> 
+		
+		<p>At last we add the ability to draw the scene either with or without light. Depending on <code>boolean renderWithLight</code>. We add a float to the <code>renderWorld</code> method and multiply all the color values with it. If the boolean is false, the float will be 0.3f, if the boolean is true the float is 1.0f. The final <code>renderWorld</code>method looks like this:</p>
+		<div id="tutPart2listing1" class="containerPlus resizable {buttons:'m', icon:'../../../../images/javaIcon.gif', skin:'white', height:'200', width:'650',closed:'false', rememberMe:'false', minHeight:'100'}" style="margin:30px 0px 0px 25px;"> 
+			<div class="no"><div class="ne"><div class="n">Listing 6</div></div> 
+				<div class="o"><div class="e"><div class="c"> 
+				<div class="mbcontainercontent"> 
+<pre style="font-size:10px;">
+	public void renderWorld(boolean renderWithLight) {
+		float lightFactor = 1.0f;
+		if(!renderWithLight) {
+			lightFactor = 0.3f;
+		}
+		
+		gl.glPushMatrix();
+		gl.glTranslatef(lightPosition.x, lightPosition.y, lightPosition.z);
+		gl.glColor3f(1.0f, 0.3f, 0.5f);
+		glut.glutSolidSphere(0.1f, 20, 20);
+		gl.glPopMatrix();
+		
+		gl.glPushMatrix();				
+		gl.glBegin(GL.GL_QUADS);
+		gl.glColor3f(1.0f*lightFactor, 0.0f, 0.0f);
+		gl.glVertex3f(-1.0f, -1.0f, -8.0f);
+		gl.glVertex3f(1.0f, -1.0f, -8.0f);
+		gl.glVertex3f(1.0f, 1.0f, -8.0f);
+		gl.glVertex3f(-1.0f, 1.0f, -8.0f);
+		
+		gl.glColor3f(0.0f, 1.0f*lightFactor, 0.0f);
+		gl.glVertex3f(-1.0f, -1.0f, -8.0f);
+		gl.glVertex3f(-1.0f, -1.0f, -6.0f);
+		gl.glVertex3f(1.0f, -1.0f, -6.0f);
+		gl.glVertex3f(1.0f, -1.0f, -8.0f);
+		
+		gl.glColor3f(0.0f, 0.0f, 1.0f*lightFactor);
+		gl.glVertex3f(1.0f, -1.0f, -8.0f);
+		gl.glVertex3f(1.0f, -1.0f, -6.0f);
+		gl.glVertex3f(1.0f, 1.0f, -6.0f);
+		gl.glVertex3f(1.0f, 1.0f, -8.0f);
+		gl.glEnd();
+		gl.glPopMatrix();
+	}
+	
+</pre>
+				</div> 
+				</div></div></div> 
+				<div > 
+				<div class="so"><div class="se"><div class="s"> </div></div></div> 
+				</div> 
+			</div> 
+		</div> 
+
+<p>This is our scene now. One time rendered with <code>true</code> and one time with <code>false</code>.<center><a id="screenshot1" href="images/tutorial/brightAndDark.png"><img src="images/tutorial/brightAndDark.png" width="150" alt="Our scene with both light settings." style="float:middle;"/> </a></center>
+<p>The next part will finaly display the shadow. <a href="tutorialPart3.html">Continue to part 3...</a></p>
 
 	</div>
 </div>

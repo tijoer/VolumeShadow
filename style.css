@@ -230,3 +230,9 @@ code {
 	margin-top:10px; 
 	margin-bottom:0.5em;
 }
+
+div .n span {
+	font-size:9px;
+	color:#AAA;
+}
+
