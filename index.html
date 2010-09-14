@@ -1,7 +1,8 @@
-<DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<title>Volume Shadow</title>
+	<link rel="stylesheet" type="text/css" href="style.css"/>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
     <meta http-equiv="content-language" content="en"/>
     <meta http-equiv="cache-control" content="no-cache"/>
@@ -13,53 +14,60 @@
     <meta name="audience" content="Profis"/>
     <meta name="robots" content="index, follow"/>
     <meta name="revisit-after" content="1 days"/>
-	<script src="mouseover.js" type="text/javascript"></script> 
+	
+	<!-- JQuery is needed by several Javascript plugins -->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7/jquery-ui.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="style.css"/>
-		<!--[if IE]>
-		<style type="text/css" media="screen">
-		#header ul.nav li.active {
-		margin:0;
-		padding: 0px 5px 0px 5px;
-		background:url(images/nav_corn_l.gif) no-repeat top left;
-		}
-		
-		#header ul.nav {
-		margin:0px 0 0 0;
-		padding:15px 0 0 0;
-		float:right;
-		}
-		</style>
-		<![endif]-->
-<script type="text/javascript">
-
-	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-18503435-1']);
-	  _gaq.push(['_trackPageview']);
-
-	  (function() {
-		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();
-
+	<!-- This is the fancyzoom JQuery plugin -->
+	<script type="text/javascript" src="js/jquery.dimension.js"></script>
+	<script type="text/javascript" src="js/jquery.shadow.js"></script>
+	<script type="text/javascript" src="js/jquery.ifixpng.js"></script>
+	<script type="text/javascript" src="js/jquery.fancyzoom.js"></script>
+	<script type="text/javascript">
+	$(function() {
+		$.fn.fancyzoom.defaultsOptions.imgDir='js/ressources/'; //very important must finish with a /
+		// Select all links in object with gallery ID using the defaults options
+		$('#gallery a').fancyzoom(); 
+		// Select all links with tozoom class, set the open animation time to 1000
+		$('a.tozoom').fancyzoom({Speed:1000});
+		// Select all links set the overlay opacity to 80%
+		$('a').fancyzoom({overlay:0.8});
+		//apply fancyzoom effect on all image whose class is fancyzoom !!
+		$('img.fancyzoom').fancyzoom();
+	});
 	</script>
+	<!-- End fancyzoom -->
 
+	<!-- This is the JQuery container plugin -->
+	<link rel="stylesheet" type="text/css" href="js/jquery.mb.containerPlus.2.5.1/css/mbContainer.css" title="style"  media="screen"/>
+	<script type="text/javascript" src="js/jquery.mb.containerPlus.2.5.1/inc/mbContainer.js"></script>
+	<script type="text/javascript" src="js/jquery.mb.containerPlus.2.5.1/inc/jquery.metadata.js"></script>
+	<script type="text/javascript">
+	$(function(){
+	  $(".containerPlus").buildContainers({
+		containment:"document",
+		elementsPath:"js/jquery.mb.containerPlus.2.5.1/elements/",
+		mantainOnWindow:false
+	  });
+	});
+	</script>
+	<!-- End of container plugin -->
 </head>
-<body>
 
+<body>
 <a href="http://github.com/iuiz/VolumeShadow"><img style="position: absolute; top: 0; right: 0; border: 0;height:100px;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 <div id="topLine">
 		<div id="header">
 		
 			<ul class="nav">
-			<li class="active"><a href="index.html">Home</a></li>
-			<li><a href="tutorial.html">Tutorial</a></li>
+			<li><a href="index.html">Home</a></li>
+			<li class="active"><a href="tutorial.html">Tutorial</a></li>
 			<li><a href="contact.html">Contact</a></li>
 			<li><a href="http://github.com/iuiz/VolumeShadow">Github</a></li>
 			</ul>
 			
-			<h1><span>||</span>Volume<span>Shadow</span><br/><span class="lastUpdate">Last update: 12.09.2010</span></h1>
+			<h1><span>||</span>Volume<span>Shadow</span></h1>
 			
 		</div>
 </div>

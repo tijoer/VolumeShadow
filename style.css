@@ -57,15 +57,9 @@ h3 {
 	padding:5px 0px 5px 20px;
 }
 
-#header h1 span {
+.greenHeader {
 	color:#8bbc70;
 	font-size:110%;
-}
-
-#header h1 span.lastUpdate {
-	color:#555555;
-	font-size:11;
-	padding:0px 0px 5px 30px;
 }
 
 #header ul.nav {
@@ -116,7 +110,7 @@ h3 {
 
 /* Content Area */
 .firstHeading {
-	width:430;
+	width:430px;
 	line-height:1.7em;
 	margin-bottom:20px;
 	margin-right:20px;
