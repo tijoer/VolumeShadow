@@ -38,6 +38,7 @@ public class VolumeShadowCreator {
 	private GL gl;
 	private ShadowScene shadowScene;
 	private HashMap<Edge, Edge> edgeMap;
+	private ArrayList<Triangle> model;
 	private Vector3f lightSource;
 	private Vector3f occluderPosition;
 	private float infinity = 100.0f;
@@ -46,17 +47,20 @@ public class VolumeShadowCreator {
 
 	/**
 	 * Creates a new shadow processor.
-	 * TODO Currently this has to be called every frame. This needs to be fixed an a future release.
 	 */
 	public VolumeShadowCreator(GL gl, ShadowScene shadowScene) {
 		this.gl = gl;
 		this.shadowScene = shadowScene;
 		Vector3f lightSource = shadowScene.getLightPosition();
-		ArrayList<Triangle> model = shadowScene.getOccluderVertexData();
+		model = shadowScene.getOccluderVertexData();
 		Vector3f occluderPosition = shadowScene.getOccluderPosition();
-		
 		this.lightSource = lightSource;
 		this.occluderPosition = occluderPosition;
+		findEdges();
+	}
+	
+	static boolean once = true;
+	public void findEdges() {
 		edgeMap = new HashMap<Edge, Edge>(model.size() / 3); // model.size()/4 is a heuristic value based on guess
 		Triangle triangle;
 
@@ -72,9 +76,9 @@ public class VolumeShadowCreator {
 			edge0 = new Edge(triangle.get(0), triangle.get(1));
 			edge1 = new Edge(triangle.get(1), triangle.get(2));
 			edge2 = new Edge(triangle.get(2), triangle.get(0));
-			
-			
-			if (lightSource.dot(triangle.getNormal()) > 0) {
+
+			System.out.println(lightSource.add(occluderPosition).x + " " + lightSource.add(occluderPosition).y + " " + lightSource.add(occluderPosition).z );
+			if (lightSource.add(occluderPosition).dot(triangle.getNormal()) > 0) {
 				numOfEdges += 3;
 				frontCap.add(triangle);
 				if (edgeMap.containsKey(edge0)) {
@@ -99,6 +103,7 @@ public class VolumeShadowCreator {
 				}
 			}
 		}
+		
 	}
 
 	/**
@@ -183,11 +188,10 @@ public class VolumeShadowCreator {
 			
 			gl.glColor3f(1.0f, 0.0f, 0.0f);
 			
-			gl.glVertex3fv(v1.toArray(tmp), 0);
-			gl.glVertex3fv(v0.toArray(tmp), 0);
-			
-			gl.glVertex3fv(v2.toArray(tmp), 0);
 			gl.glVertex3fv(v3.toArray(tmp), 0);
+			gl.glVertex3fv(v2.toArray(tmp), 0);
+			gl.glVertex3fv(v0.toArray(tmp), 0);
+			gl.glVertex3fv(v1.toArray(tmp), 0);
 		}
 		gl.glEnd();
 
@@ -218,7 +222,6 @@ public class VolumeShadowCreator {
 			gl.glVertex3fv(bcv2.toArray(tmp), 0);
 			gl.glVertex3fv(bcv1.toArray(tmp), 0);
 			gl.glVertex3fv(bcv0.toArray(tmp), 0);
-
 		}
 		gl.glEnd();
 	}

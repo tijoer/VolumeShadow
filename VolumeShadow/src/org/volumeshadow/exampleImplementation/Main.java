@@ -102,7 +102,7 @@ public class Main implements GLEventListener {
         gl.glDepthFunc(GL.GL_LEQUAL);
         gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
         gl.glEnable(GL.GL_TEXTURE_2D);
-
+        
         gl.setSwapInterval(1);
 
 

@@ -32,7 +32,7 @@ public class World implements ShadowScene {
 	 * gl.glTranslatef(...). You can also pass (0.0f, 0.0f, 0.0f) if you don't
 	 * translate your model.
 	 */
-	private Vector3f occluderPosition = new Vector3f(0.0f, 0.0f, -8.0f);
+	private Vector3f occluderPosition = new Vector3f(0.0f, -0.5f, -5.0f);
 	/**
 	 * This is the position of the light, that casts the shadow.
 	 */
@@ -42,7 +42,7 @@ public class World implements ShadowScene {
 		this.gl = gl;
 		this.textures = Textures.getInstance();
 		textures.load("base_tex", "data/textures/rockwall_colormap.jpg");
-		this.occluder = new ArraySphere(gl, 0.3f, 4);
+		this.occluder = new ArraySphere(gl, 0.3f, 2);
 	}
 
 	public void drawCube(float size) {
@@ -146,26 +146,20 @@ public class World implements ShadowScene {
 	 */
 	@Override
 	public void renderWorld(boolean renderWithLight) {
+		gl.glDisable(GL.GL_LIGHTING);
+		
 		float lightFactor;
 		if(renderWithLight) {
-			lightFactor = 1.0f;
+			lightFactor = 0.7f;
 		} else {
-			lightFactor = 0.0001f;
+			lightFactor = 0.3f;
 		}
-		Vector3f lightAmbient = new Vector3f(0.15f, 0.15f, 0.15f); 
-		Vector3f lightDiffuse = new Vector3f(lightFactor, lightFactor, lightFactor); 
-
-		gl.glLightfv(GL.GL_LIGHT0, GL.GL_AMBIENT, lightAmbient.toArray(null), 0);
-		gl.glLightfv(GL.GL_LIGHT0, GL.GL_DIFFUSE, lightDiffuse.toArray(null), 0);
-		gl.glLightfv(GL.GL_LIGHT0, GL.GL_POSITION, lightPosition.toArray(null),	0);
-		gl.glEnable(GL.GL_LIGHT0);
 		
 		// notice how the translation to draw the sphere at the light position
 		// is done between a matrix push and pop
 		gl.glPushMatrix();
 		gl.glDisable(GL.GL_TEXTURE_2D);
-		gl.glDisable(GL.GL_LIGHTING);
-		gl.glColor3f(lightDiffuse.x, lightDiffuse.y, lightDiffuse.z);
+		gl.glColor3f(lightFactor, lightFactor, lightFactor);
 		gl.glTranslatef(lightPosition.x, lightPosition.y, lightPosition.z);
 		glut.glutSolidSphere(0.03f, 10, 10);
 		gl.glPopMatrix();
@@ -176,13 +170,12 @@ public class World implements ShadowScene {
 		gl.glRotatef(Main.xrot, 1.0f, 0.0f, 0.0f);
 		gl.glRotatef(Main.yrot, 0.0f, 1.0f, 0.0f);
 		gl.glEnable(GL.GL_TEXTURE_2D);
-		gl.glEnable(GL.GL_LIGHTING);
 		drawCube(1.5f);
 		gl.glPopMatrix();
 	}
 
 	/**
-	 * This renders your occluders.
+	 * This renders the occluder.
 	 */
 	@Override
 	public void renderOccluder(boolean renderWithLight) {

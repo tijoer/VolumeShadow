@@ -36,7 +36,7 @@ public class ExampleScene {
 	public ExampleScene(GL gl) {
 		this.gl = gl;
 		//you don't have to look at the camera code
-		this.camera = Camera.getInstance(gl, new Vector3f(0, 0, 10), new Vector3f(0, 0, 1));
+		this.camera = Camera.getInstance(gl, new Vector3f(0f, 5f, 10f), new Vector3f(0f, 0f, 1f));
 		this.shadowScene = new World(gl);
 	}
 
