@@ -77,7 +77,6 @@ public class VolumeShadowCreator {
 			edge1 = new Edge(triangle.get(1), triangle.get(2));
 			edge2 = new Edge(triangle.get(2), triangle.get(0));
 
-			System.out.println(lightSource.add(occluderPosition).x + " " + lightSource.add(occluderPosition).y + " " + lightSource.add(occluderPosition).z );
 			if (lightSource.add(occluderPosition).dot(triangle.getNormal()) > 0) {
 				numOfEdges += 3;
 				frontCap.add(triangle);
