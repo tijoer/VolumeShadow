@@ -95,22 +95,289 @@
 				<li><a href="tutorialPart2.html#addingAnOccluder">Adding an occluder</a></li>
 				<li><a href="tutorialPart2.html#addingALight">Adding a light</a></li>
 			</ul>
-			<a href="tutorialPart2.html" class="inverted">Part 3</a>
+			<a href="tutorialPart3.html" class="inverted">Part 3</a>
 			<ul class="side">
 				<li><a href="tutorialPart3.html">Using the library</a></li>
 			</ul>
 		</div>
 		
-		
 		<h2 class="firstHeading">Tutorial - part 3</h2>
 		<p>Welcome to part 3 of the tutorial. The first two parts where just basic OpenGl stuff and have probably shown you nothing new. You have created an OpenGl window and rendered a basic scene, without any fancy extras. This part will now show you how to use the lib.</p>
 
 		<h3 class="firstHeading"></a>Using the library</h3>
-		<p>We have now fully implemented the <code>org.volumeshadow.ShadowScene</code> interface and can new use the lib to draw our scene with shadow.</p>
-		<p>TODO complete me</p>
+		<p>As we have fully implemented the <code>org.volumeshadow.ShadowScene</code> interface and we can now use the lib to draw our scene with shadow. To do this we need to go back to our <code>Main</code> class and change the <code>display</code> method. Just replace it with the following code and compile and start your program.</p>
+
+		<div id="tutPart3listing1" class="containerPlus resizable {buttons:'m', icon:'../../../../images/javaIcon.gif', skin:'white', height:'200', width:'650',closed:'false', rememberMe:'false', minHeight:'100'}" style="margin:30px 0px 0px 25px;"> 
+			<div class="no"><div class="ne"><div class="n">Listing 1</div></div> 
+				<div class="o"><div class="e"><div class="c"> 
+				<div class="mbcontainercontent"> 
+<pre style="font-size:10px;">
+	public void display(GLAutoDrawable arg0) {
+		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+		gl.glLoadIdentity();
+		
+		gl.glRotatef(20.0f, 1.0f, 0.0f, 0.0f);
+		gl.glRotatef(40.0f, 0.0f, 1.0f, 0.0f);
+		gl.glTranslatef(5.0f, -3.0f, 0.0f);
+		
+		VolumeShadowCreator volumeShadowCreator = new VolumeShadowCreator(gl, this.world);
+		volumeShadowCreator.renderSceneWithShadow();
+	}
+	
+</pre>
+				</div> 
+				</div></div></div> 
+				<div > 
+				<div class="so"><div class="se"><div class="s"> </div></div></div> 
+				</div> 
+			</div> 
+		</div> 
+
+		<p>And thats it. You have now created your first shadow. Your scene should now look like the sceenshot. You can now start using the library in your own projects.<center><a id="screenshot1" href="images/tutorial/sceneWithShadow.png"><img src="images/tutorial/sceneWithShadow.png" width="150" alt="The final scene with shadow." style="float:middle;margin-top:10px;"/></a></center>
+
+		<div id="Main.java" class="containerPlus draggable resizable {buttons:'i', icon:'../../../../images/javaFile.png', skin:'black', height:'800', width:'650',dock:'dock', rememberMe:'false', minHeight:'100', iconized:'true'}" style="position:fixed;top:10%; left:33%"> 
+			<div class="no"><div class="ne"><div class="n">Main.java</div></div> 
+				<div class="o"><div class="e"><div class="c"> 
+				<div class="mbcontainercontent"> 
+<pre style="font-size:10px;">
+package shadowTutorial;
+
+import java.awt.Frame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.media.opengl.GL;
+import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GLCanvas;
+import javax.media.opengl.GLCapabilities;
+import javax.media.opengl.GLEventListener;
+import javax.media.opengl.glu.GLU;
+
+import org.volumeshadow.ShadowScene;
+import org.volumeshadow.VolumeShadowCreator;
+
+import com.sun.opengl.util.Animator;
+import com.sun.opengl.util.GLUT;
+
+public class Main implements GLEventListener {
+	
+	GL gl;
+	GLU glu = new GLU();
+	GLUT glut = new GLUT();
+	World world;
+	
+	public static void main(String[] args) {
+		Frame frame = new Frame("Volume Shadow");
+		GLCapabilities capabilities = new GLCapabilities();
+		capabilities.setStencilBits(8);
+		GLCanvas canvas = new GLCanvas(capabilities);
+		
+		canvas.addGLEventListener(new Main());
+		frame.add(canvas);
+		frame.setSize(500, 400);
+		final Animator animator = new Animator(canvas);
+		frame.addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// Run this on another thread than the AWT event queue to
+				// make sure the call to Animator.stop() completes before
+				// exiting
+				new Thread(new Runnable() {
+
+					public void run() {
+						animator.stop();
+						System.exit(0);
+					}
+				}).start();
+			}
+		});
+		// Center frame
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+		animator.start();
+	}
+	
+	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
+			int height) {
+		GL gl = drawable.getGL();
+
+		if (height <= 0) { // avoid a divide by zero error
+			height = 1;
+		}
+		final float h = (float) width / (float) height;
+		gl.glViewport(0, 0, width, height);
+		gl.glMatrixMode(GL.GL_PROJECTION);
+		gl.glLoadIdentity();
+		glu.gluPerspective(45.0f, h, 0.1f, 5000.0);
+		gl.glMatrixMode(GL.GL_MODELVIEW);
+		gl.glLoadIdentity();
+	}
+	
+	public void displayChanged(GLAutoDrawable drawable, boolean modeChanged,
+			boolean deviceChanged) {
+		System.out.println("display changed");
+	}
+	
+	public void init(GLAutoDrawable gLAutoDrawable) {
+		this.gl = gLAutoDrawable.getGL();
+		gl = gLAutoDrawable.getGL();
+		
+		// Setup the drawing area and shading mode
+		gl.glEnable(GL.GL_CULL_FACE);
+        //gl.glDisable(GL.GL_CULL_FACE);
+        gl.glCullFace(GL.GL_BACK);
+        gl.glFrontFace(GL.GL_CCW);
+        gl.glShadeModel(GL.GL_SMOOTH);
+        gl.glClearColor(0.3f, 0.3f, 0.5f, 1.0f);
+        gl.glClearDepth(1.0f);
+        gl.glEnable(GL.GL_DEPTH_TEST);
+        gl.glDepthFunc(GL.GL_LEQUAL);
+        gl.glHint(GL.GL_PERSPECTIVE_CORRECTION_HINT, GL.GL_NICEST);
+        gl.glEnable(GL.GL_TEXTURE_2D);
+        
+        gl.setSwapInterval(1);
+        world = new World(gl);
+	}
+	
+	@Override
+	public void display(GLAutoDrawable arg0) {
+		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
+		gl.glLoadIdentity();
+		
+		gl.glRotatef(20.0f, 1.0f, 0.0f, 0.0f);
+		gl.glRotatef(40.0f, 0.0f, 1.0f, 0.0f);
+		gl.glTranslatef(5.0f, -3.0f, 0.0f);
+		
+		VolumeShadowCreator volumeShadowCreator = new VolumeShadowCreator(gl, this.world);
+		volumeShadowCreator.renderSceneWithShadow();
+	}
+}
+
+</pre>
+				</div> 
+				</div></div></div> 
+				<div > 
+				<div class="so"><div class="se"><div class="s"> </div></div></div> 
+				</div> 
+			</div> 
+		</div> 	
 		
 
+		<div id="World.java" class="containerPlus draggable resizable {buttons:'i', icon:'../../../../images/javaFile.png', skin:'black', height:'800', width:'650',dock:'dock', rememberMe:'false', minHeight:'100', iconized:'true'}" style="position:fixed;top:10%; left:33%"> 
+			<div class="no"><div class="ne"><div class="n">World.java</div></div> 
+				<div class="o"><div class="e"><div class="c"> 
+				<div class="mbcontainercontent"> 
+<pre style="font-size:10px;">
+package shadowTutorial;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import javax.media.opengl.GL;
+
+import org.volumeshadow.exampleImplementation.ArraySphere;
+import org.volumeshadow.math.Triangle;
+import org.volumeshadow.math.Vector3f;
+
+import com.sun.opengl.util.GLUT;
+
+public class World implements org.volumeshadow.ShadowScene {
+	
+	private GL gl;
+	private Triangle tri;
+	private ArrayList<Triangle> occluder;
+	
+	public World(GL gl) {
+		this.gl = gl;
+		tri = new Triangle(new Vector3f(-0.3f, -0.3f, -7.0f),
+					new Vector3f(0.1f, -0.4f, -6.0f), 
+					new Vector3f(0.2f, 0.4f, -7.0f));
+		occluder = new ArrayList();
+		occluder.add(tri);
+	}
+	
+	@Override
+	public ArrayList<Triangle> getOccluderVertexData() {
+		return this.occluder;
+	}
+	
+	private Vector3f occluderPosition = new Vector3f(0.0f, 0.0f, 0.0f);
+	@Override
+	public Vector3f getOccluderPosition() {
+		return this.occluderPosition;
+	}
+	
+	private GLUT glut = new GLUT();
+	private Vector3f lightPosition = new Vector3f(-1.0f, 0.0f, -4.0f);
+	
+	@Override
+	public Vector3f getLightPosition() {
+		return this.lightPosition;
+	}
+	
+	@Override
+	public void renderWorld(boolean renderWithLight) {
+		float lightFactor = 1.0f;
+		if(!renderWithLight) {
+			lightFactor = 0.3f;
+		}
+		
+		gl.glPushMatrix();
+		gl.glTranslatef(lightPosition.x, lightPosition.y, lightPosition.z);
+		gl.glColor3f(1.0f, 0.3f, 0.5f);
+		glut.glutSolidSphere(0.1f, 20, 20);
+		gl.glPopMatrix();
+		
+		gl.glPushMatrix();				
+		gl.glBegin(GL.GL_QUADS);
+		gl.glColor3f(1.0f*lightFactor, 0.0f, 0.0f);
+		gl.glVertex3f(-1.0f, -1.0f, -8.0f);
+		gl.glVertex3f(1.0f, -1.0f, -8.0f);
+		gl.glVertex3f(1.0f, 1.0f, -8.0f);
+		gl.glVertex3f(-1.0f, 1.0f, -8.0f);
+		
+		gl.glColor3f(0.0f, 1.0f*lightFactor, 0.0f);
+		gl.glVertex3f(-1.0f, -1.0f, -8.0f);
+		gl.glVertex3f(-1.0f, -1.0f, -6.0f);
+		gl.glVertex3f(1.0f, -1.0f, -6.0f);
+		gl.glVertex3f(1.0f, -1.0f, -8.0f);
+		
+		gl.glColor3f(0.0f, 0.0f, 1.0f*lightFactor);
+		gl.glVertex3f(1.0f, -1.0f, -8.0f);
+		gl.glVertex3f(1.0f, -1.0f, -6.0f);
+		gl.glVertex3f(1.0f, 1.0f, -6.0f);
+		gl.glVertex3f(1.0f, 1.0f, -8.0f);
+		gl.glEnd();
+		gl.glPopMatrix();
+	}
+	
+	@Override
+	public void renderOccluder(boolean renderWithLight) {
+		gl.glPushMatrix();
+		gl.glTranslatef(occluderPosition.x, occluderPosition.y,	occluderPosition.z);
+		gl.glColor3f(1.0f, 1.0f, 0.0f);
+		gl.glBegin(GL.GL_TRIANGLES);
+		for (Iterator<Triangle> iterator = this.occluder.iterator(); iterator.hasNext();) {
+			Triangle tri = (Triangle) iterator.next();
+			gl.glVertex3f(tri.get(0).x, tri.get(0).y, tri.get(0).z);
+			gl.glVertex3f(tri.get(1).x, tri.get(1).y, tri.get(1).z);
+			gl.glVertex3f(tri.get(2).x, tri.get(2).y, tri.get(2).z);
+		}
+		gl.glEnd();
+		gl.glPopMatrix();
+	}
+}
+</pre>
+				</div> 
+				</div></div></div> 
+				<div > 
+				<div class="so"><div class="se"><div class="s"> </div></div></div> 
+				</div> 
+			</div> 
+		</div> 	
+
+		<p>Get the source of the tutorial: <div id="dock"></div> </p>
 
 
 	</div>

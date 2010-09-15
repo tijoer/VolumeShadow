@@ -95,7 +95,7 @@
 				<li><a href="tutorialPart2.html#addingAnOccluder">Adding an occluder</a></li>
 				<li><a href="tutorialPart2.html#addingALight">Adding a light</a></li>
 			</ul>
-			<a href="tutorialPart2.html" class="inverted">Part 3</a>
+			<a href="tutorialPart3.html" class="inverted">Part 3</a>
 			<ul class="side">
 				<li><a href="tutorialPart3.html">Using the library</a></li>
 			</ul>
@@ -295,7 +295,7 @@ public void display(GLAutoDrawable arg0) {
 import com.sun.opengl.util.GLUT;
 ....
 private GLUT glut = new GLUT();
-private Vector3f lightPosition = new Vector3f(1.0f, 1.0f, -4.0f);
+private Vector3f lightPosition = new Vector3f(-1.0f, 0.0f, -4.0f);
 
 @Override
 public Vector3f getLightPosition() {
