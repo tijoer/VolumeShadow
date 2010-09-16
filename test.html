@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Volume Shadow</title>
+	<link rel="stylesheet" type="text/css" href="style.css"/>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="content-language" content="en"/>
+	<meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache"/>
+	<meta http-equiv="expires" content="0">
+    <meta name="author" content="Tim Jörgen"/>
+    <meta name="publisher" content="Tim Jörgen"/>
+    <meta name="description" content="This is an Java Opengl lib to create volumetric shadows. You can add shadows to your scenes in a few minutes, with this library. "/>
+    <meta name="keywords" content="OpenGl, JOGL, Shadow, Volume, Volumetric, Shadow, Volumetric, Shadow, Java, Library, lib"/>
+    <meta name="page-topic" content="Forschung Technik"/>
+    <meta name="audience" content="Profis"/>
+    <meta name="robots" content="index, follow"/>
+    <meta name="revisit-after" content="1 days"/>
+	
+	<!-- JQuery is needed by several Javascript plugins -->
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7/jquery-ui.min.js"></script>
+
+	<!-- This is the JQuery container plugin -->
+	<link rel="stylesheet" type="text/css" href="js/jquery.mb.containerPlus.2.5.1/css/mbContainer.css" title="style"  media="screen"/>
+	<script type="text/javascript" src="js/jquery.mb.containerPlus.2.5.1/inc/mbContainer.js"></script>
+	<script type="text/javascript" src="js/jquery.mb.containerPlus.2.5.1/inc/jquery.metadata.js"></script>
+	<script type="text/javascript">
+	$(function(){
+	  $(".containerPlus").buildContainers({
+		containment:"document",
+		elementsPath:"js/jquery.mb.containerPlus.2.5.1/elements/",
+		mantainOnWindow:false
+	  });
+	});
+	</script>
+	<!-- End of container plugin -->
+	
+	<!-- JQuery fancybox plugin -->
+	<script type="text/javascript" src="js/jquery.fancybox-1.3.1/fancybox/jquery.mousewheel-3.0.2.pack.js"></script> 
+	<script type="text/javascript" src="js/jquery.fancybox-1.3.1/fancybox/jquery.fancybox-1.3.1.js"></script> 
+	<link rel="stylesheet" type="text/css" href="js/jquery.fancybox-1.3.1/fancybox/jquery.fancybox-1.3.1.css" media="screen" /> 
+ 	<link rel="stylesheet" href="style.css" /> 
+	<script type="text/javascript"> 
+		$(document).ready(function() {
+			/*
+			*   Examples - images
+			*/
+ 
+			$("a#screenshot1").fancybox({
+				'titleShow'		: true,
+				'transitionIn'	: 'elastic',
+				'transitionOut'	: 'elastic',
+				'titlePosition'	: 'inside',
+				'width'				: '75%',
+				'height'			: '75%',
+				'autoScale'			: true
+			});
+		});
+	</script> 
+	<!-- End of fancybox plugin -->
+
+	<script type="text/javascript">
+	$(function(){
+		$("#test").load("google.de");
+	});
+	</script>
+</head>
+
+<body onload="foo();">
+<a href="http://github.com/iuiz/VolumeShadow"><img style="position: absolute; top: 0; right: 0; border: 0;height:100px;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+<div id="topLine">
+		<div id="header">
+		
+			<ul class="nav">
+			<li class="active"><a href="index.html">Home</a></li>
+			<li><a href="tutorial.html">Tutorial</a></li>
+			<li><a href="contact.html">Contact</a></li>
+			<li><a href="http://github.com/iuiz/VolumeShadow">Github</a></li>
+			</ul>
+			
+			<h1><span class="greenHeader">||</span>Volume<span class="greenHeader">Shadow</span></h1>
+			
+		</div>
+</div>
+
+
+<div id="outerwarrper">
+	<div id="wrapper">
+	
+		<div class="sidebar">
+			<h3>Get the source</h3>
+			<p>Choose which format you want. The archive contains the whole project.</p>
+
+			<a class="noZoom" href="http://github.com/iuiz/VolumeShadow/zipball/master"><img class="side_gallery" src="images/zip.png" alt="Zip DL"/></a>
+			<a href="http://github.com/iuiz/VolumeShadow/tarball/master"><img class="side_gallery" src="images/tar.png" alt="Tar DL"/></a>
+		</div>
+
+
+
+			<h2 class="firstHeading">Welcome</h2>
+			<p class="content">This is the homepage of a free Java library for OpenGl projects. It will give you the ability to add shadows to your project in just a few minutes. As this project is in active development and has currently reached Alpha stadium.</p>
+			
+			<h2 class="firstHeading">Get the Library</h2>
+			<p class="content">The project is currently hosted on Github. Please follow this <a href="http://github.com/iuiz/VolumeShadow">link</a> to get to the repository, or use the Zip or Tar buttons on the right side to start your download. The project is currently hosted on Github.</p>
+
+			<h2 class="heading">Screenshot</h2>
+			<p class="content"><a id="screenshot1" href="images/screenshots/screenshot1.png"><img alt="A simple scene with Shadow" src="images/screenshots/screenshot1.png"/></a> Here is a screenshot of a simple scene. A sphere is casting shadow on a brick wall. The lines are drawn from the light source to the silhouette of the sphere, which is then used to create a shadow volume, that is used to create the shadow effect.</p>
+			<p class="content">This scene is the example implementation of the library and is included in the download and in the repository.</p>
+			<p class="content">It is currently well documented and you should have no problems using it.</p>
+
+			<h2 class="heading">Tutorial</h2>
+			<p class="content">A <a href="tutorial.html">tutorial</a> how to use the lib will follow in the next few days.</p>
+
+			<div id="test">asdf</p>
+	</div>
+</div>
+
+
+<div id="footer">
+	<p>Design By:<a href="http://www.templatesforfree.net" onmouseover="doTooltip(event,0)" onmouseout="hideTip()"><del>TemplatesForFree.net</del></a> (Link not working anymore.)</p>
+	<!--<p><a href="http://validator.w3.org/check?uri=referer" onmouseover="doTooltip(event,0)" onmouseout="hideTip()"><img class="xhtmlButton" src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0 Transitional"/></a></p>-->
+</div>
+
+<div id="tipDiv" style="position:absolute; visibility:hidden; z-index:100"></div>
+</body>
+</html>
