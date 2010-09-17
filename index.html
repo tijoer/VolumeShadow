@@ -59,9 +59,21 @@
 		});
 	</script> 
 	<!-- End of fancybox plugin -->
+
+	<!-- loading of data from external url -->
+	<!-- thanks to the xdomain script we can load other domains... js security is so low these days. -->
+	<script type="text/javascript" src="js/jquery.xdomainajax.js"></script> 
+	<script type="text/javascript">
+	$(function(){
+		var $tds = $("#date").load("http://github.com/iuiz/VolumeShadow/commits/master #commit abbr:first");
+		$tds.css("margin", "0px 0px 0px 10px");
+	});
+	</script>
+	<!-- end of loading of date from external url -->
+
 </head>
 
-<body>
+<body onload="foo();">
 <a href="http://github.com/iuiz/VolumeShadow"><img style="position: absolute; top: 0; right: 0; border: 0;height:100px;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 <div id="topLine">
 		<div id="header">
@@ -84,13 +96,11 @@
 	
 		<div class="sidebar">
 			<h3>Get the source</h3>
+			<p>Last Update: <div id="date"></div></p>
 			<p>Choose which format you want. The archive contains the whole project.</p>
-
 			<a class="noZoom" href="http://github.com/iuiz/VolumeShadow/zipball/master"><img class="side_gallery" src="images/zip.png" alt="Zip DL"/></a>
 			<a href="http://github.com/iuiz/VolumeShadow/tarball/master"><img class="side_gallery" src="images/tar.png" alt="Tar DL"/></a>
 		</div>
-
-
 
 			<h2 class="firstHeading">Welcome</h2>
 			<p class="content">This is the homepage of a free Java library for OpenGl projects. It will give you the ability to add shadows to your project in just a few minutes. As this project is in active development and has currently reached Alpha stadium.</p>
